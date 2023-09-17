@@ -191,9 +191,14 @@ do_brew_stuff() {
     fi
 
     info "\nUpdating brew casks"
-    brew cu --all
-    info "\nUpdating other brew stuff"
+    brew cu --cleanup
+    success "Done updating brew casks"
+    info "\nUpdating packages not in your Brewfiles..."
     brew upgrade
+    success "Done updating packages"
+    info "\nCleaning up..."
+    brew cleanup
+    success "Done cleaning up"
 }
 
 do_aws_stuff() {

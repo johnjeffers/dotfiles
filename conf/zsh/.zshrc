@@ -25,7 +25,7 @@ export PATH
 
 # k8s aliases
 alias watch="watch "
-alias kgn="kubectl get nodes -L node-group-name | sort -k6"
+alias kgn="kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone | sort -k6"
 alias kns="kubens"
 # AWS aliases
 SSO_PROFILE=airdna-dev
