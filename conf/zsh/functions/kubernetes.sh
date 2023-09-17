@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+# Grep for nodes, show the header, sort by zone.
+kgngrep() {
+    if [[ $# -eq 0 ]]; then
+        echo "grep pattern is required"
+        return
+    fi
+
+    nodes="$(kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone)"
+    echo "${nodes}" | head -n1
+    echo "${nodes}" | grep -i "${1}" | sort -k7
+}
+
 # Deletes empty namespaces.
 # Requires one arg, which is the prefix start string.
 kns-cleanup() {
