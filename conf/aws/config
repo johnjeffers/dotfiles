@@ -1,74 +1,74 @@
 [default]
-region = us-east-1
+region = us-west-2
 cli_pager = 
 
-[sso-session airdna]
-sso_start_url = https://airdna.awsapps.com/start
-sso_region = us-east-1
+[sso-session fusionauth]
+sso_start_url = https://fusionauth.awsapps.com/start
+sso_region = us-west-2
 sso_registration_scopes = sso:account:access
 
-[profile airdna-dev]
-sso_session = airdna
-sso_account_id = 442893755979
-sso_role_name = techops
+[profile fusionauth-dev]
+sso_session = fusionauth
+sso_account_id = 172023253951
+sso_role_name = engineering
 region = us-east-1
-cli_pager = 
+cli_pager =
 
-[profile airdna-prod]
-sso_session = airdna
-sso_account_id = 391313676783
-sso_role_name = techops
+[profile fusionauth-prod]
+sso_session = fusionauth
+sso_account_id = 121700706967
+sso_role_name = engineering
 region = us-east-1
-cli_pager = 
+cli_pager =
 
-[profile airdna-svc]
-sso_session = airdna
-sso_account_id = 537022569116
-sso_role_name = techops
+[profile fusionauth-svc]
+sso_session = fusionauth
+sso_account_id = 752443094709
+sso_role_name = engineering
 region = us-east-1
-cli_pager = 
+cli_pager =
 
-[profile arrivalist]
-sso_session = airdna
-sso_account_id = 851165831466
-sso_role_name = arrivalist-engineering
+[profile fusionauth-master]
+sso_session = fusionauth
+sso_account_id = 523108845632
+sso_role_name = engineering
 region = us-east-1
-cli_pager = 
+cli_pager =
 
 
 # ADMIN PROFILES
 
-[profile airdna-dev-admin]
-sso_session = airdna
-sso_account_id = 442893755979
+[profile fusionauth-dev-admin]
+sso_session = fusionauth
+sso_account_id = 172023253951
 sso_role_name = administrators
 region = us-east-1
-cli_pager = 
+cli_pager =
 
-[profile airdna-prod-admin]
-sso_session = airdna
-sso_account_id = 391313676783
+[profile fusionauth-prod-admin]
+sso_session = fusionauth
+sso_account_id = 121700706967
 sso_role_name = administrators
 region = us-east-1
-cli_pager = 
+cli_pager =
 
-[profile airdna-svc-admin]
-sso_session = airdna
-sso_account_id = 537022569116
+[profile fusionauth-svc-admin]
+sso_session = fusionauth
+sso_account_id = 752443094709
 sso_role_name = administrators
 region = us-east-1
-cli_pager = 
+cli_pager =
 
-[profile airdna-sandbox]
-sso_session = airdna
-sso_account_id = 679855187763
+[profile fusionauth-master-admin]
+sso_session = fusionauth
+sso_account_id = 523108845632
 sso_role_name = administrators
 region = us-east-1
-cli_pager = 
+cli_pager =
 
-[profile arrivalist-admin]
-sso_session = airdna
-sso_account_id = 851165831466
+[profile fusionauth-sandbox]
+sso_session = fusionauth
+sso_account_id = 011271748719
 sso_role_name = administrators
 region = us-east-1
-cli_pager = 
+cli_pager =
