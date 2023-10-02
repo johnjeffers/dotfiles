@@ -11,21 +11,21 @@ sso_registration_scopes = sso:account:access
 sso_session = fusionauth
 sso_account_id = 172023253951
 sso_role_name = engineering
-region = us-east-1
+region = us-west-2
 cli_pager =
 
 [profile fusionauth-prod]
 sso_session = fusionauth
 sso_account_id = 121700706967
 sso_role_name = engineering
-region = us-east-1
+region = us-west-2
 cli_pager =
 
 [profile fusionauth-svc]
 sso_session = fusionauth
 sso_account_id = 752443094709
 sso_role_name = engineering
-region = us-east-1
+region = us-west-2
 cli_pager =
 
 # ADMIN PROFILES
@@ -34,33 +34,33 @@ cli_pager =
 sso_session = fusionauth
 sso_account_id = 172023253951
 sso_role_name = administrators
-region = us-east-1
+region = us-west-2
 cli_pager =
 
 [profile fusionauth-prod-admin]
 sso_session = fusionauth
 sso_account_id = 121700706967
 sso_role_name = administrators
-region = us-east-1
+region = us-west-2
 cli_pager =
 
 [profile fusionauth-svc-admin]
 sso_session = fusionauth
 sso_account_id = 752443094709
 sso_role_name = administrators
-region = us-east-1
+region = us-west-2
 cli_pager =
 
 [profile fusionauth-master]
 sso_session = fusionauth
 sso_account_id = 523108845632
 sso_role_name = administrators
-region = us-east-1
+region = us-west-2
 cli_pager =
 
 [profile fusionauth-sandbox]
 sso_session = fusionauth
 sso_account_id = 011271748719
 sso_role_name = administrators
-region = us-east-1
+region = us-west-2
 cli_pager =
