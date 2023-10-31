@@ -3,7 +3,6 @@
 
 tap "aws/tap"
 
-brew 'argocd'
 brew 'awscli'
 brew 'eks-node-viewer'
 brew 'helm'
