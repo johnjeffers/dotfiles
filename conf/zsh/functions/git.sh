@@ -13,6 +13,11 @@ git-pull-dirs() {
         # Strip the .git directory from the path.
         d="${p%\/.git}"
 
+        # Skip terraform modules
+        if [[ $p == *"terraform"* ]]; then
+            continue
+        fi
+
         echo ""
         echo "checking ${d#"$startdir"}..."
 
