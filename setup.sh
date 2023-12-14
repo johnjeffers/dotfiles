@@ -43,10 +43,11 @@ create_db() {
             work_email TEXT,
             company TEXT,
             brew_home TEXT,
-            brew_work TEXT);"
+            brew_work TEXT,
+            brew_java TEXT);"
     sqlite3 "${db}" "
-        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_home, brew_work)
-        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N');"
+        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_home, brew_work, brew_java)
+        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N', 'N');"
 }
 
 # Load user data from the DB
@@ -58,6 +59,7 @@ load_data() {
     COMPANY="$(sqlite3 "${db}"    "SELECT company FROM userdata WHERE id = 1;")"
     BREW_HOME="$(sqlite3 "${db}"  "SELECT brew_home FROM userdata WHERE id = 1;")"
     BREW_WORK="$(sqlite3 "${db}"  "SELECT brew_work FROM userdata WHERE id = 1;")"
+    BREW_JAVA="$(sqlite3 "${db}"  "SELECT brew_java FROM userdata WHERE id = 1;")"
 }
 
 # Prompt to update user data.
@@ -92,6 +94,10 @@ update_data() {
     read -r -p "Install Brewfile.work (${BREW_WORK}): " input
     BREW_WORK=$(echo "${input:-$BREW_WORK}" | awk '{print toupper($0)}')
 
+    info "\nDo you want to install the components in Brewfile.java?"
+    read -r -p "Install Brewfile.java (${BREW_JAVA}): " input
+    BREW_JAVA=$(echo "${input:-$BREW_JAVA}" | awk '{print toupper($0)}')
+
     # Update the DB with the data we just collected.
     sqlite3 "${db}" "
         UPDATE userdata SET
@@ -101,7 +107,8 @@ update_data() {
             work_email = '${WORK_EMAIL}',
             company = '${COMPANY}',
             brew_home = '${BREW_HOME}',
-            brew_work = '${BREW_WORK}'
+            brew_work = '${BREW_WORK}',
+            brew_java = '${BREW_JAVA}'
         WHERE id = 1;"
 }
 
@@ -114,6 +121,7 @@ show_data() {
     echo -e "${C_GRAY}Company:    ${C_YELLOW}${COMPANY}${C_RESET}"
     echo -e "${C_GRAY}Install Brewfile.home: ${C_YELLOW}${BREW_HOME}${C_RESET}"
     echo -e "${C_GRAY}Install Brewfile.work: ${C_YELLOW}${BREW_WORK}${C_RESET}"
+    echo -e "${C_GRAY}Install Brewfile.java: ${C_YELLOW}${BREW_JAVA}${C_RESET}"
     echo -e "\n${C_GRAY}If this looks wrong, run ${C_YELLOW}setup.sh -u${C_GRAY} to update.${C_RESET}"
 }
 
@@ -188,6 +196,10 @@ do_brew_stuff() {
     if [[ "${BREW_WORK}" == 'Y' ]]; then
         info "\nInstalling Brewfile.work"
         brew bundle "${v}" --file "${my_dir}/brew/Brewfile.work"
+    fi
+    if [[ "${BREW_JAVA}" == 'Y' ]]; then
+        info "\nInstalling Brewfile.java"
+        brew bundle "${v}" --file "${my_dir}/brew/Brewfile.java"
     fi
 
     info "\nUpdating brew casks"
