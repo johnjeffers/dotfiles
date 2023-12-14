@@ -2,6 +2,7 @@
 # so I might not always need it.
 
 tap "aws/tap"
+tap "homebrew/cask-versions"
 
 brew 'awscli'
 brew 'eks-node-viewer'
@@ -10,6 +11,7 @@ brew 'hey'
 brew 'kubernetes-cli'
 brew 'kube-ps1'
 brew 'kubectx'
+brew 'maven'
 brew 'postgresql@15'
 brew 'redis'
 brew 'stern'
@@ -18,3 +20,4 @@ brew 'velero'
 
 cask 'coscreen'
 cask 'infra'
+cask 'temurin17'
