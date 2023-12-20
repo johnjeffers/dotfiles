@@ -4,7 +4,9 @@
 docker-purge() {
     docker container prune -f
     docker image prune -f -a
+    docker volume prune -f -a
     docker builder prune -f
+    docker system prune -f
 }
 
 # Gets a list of tags from Docker Hub
