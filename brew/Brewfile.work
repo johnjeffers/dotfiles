@@ -1,20 +1,23 @@
-# Stuff I want installed everywhere, but is for work
-# so I might not always need it.
+# Stuff I need to install for work.
 
 tap "aws/tap"
 
 brew 'awscli'
 brew 'eks-node-viewer'
+brew 'go'
+brew 'goreleaser'
 brew 'helm'
 brew 'hey'
-brew 'kubernetes-cli'
-brew 'kube-ps1'
+brew 'httpie'
 brew 'kubectx'
 brew 'postgresql@15'
 # brew 'redis'
+brew 'shellcheck'
 brew 'stern'
+brew 'tig'
 # brew 'trivy'
 # brew 'velero'
 
 # cask 'coscreen'
+cask 'docker'
 cask 'infra'
