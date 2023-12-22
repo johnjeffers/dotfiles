@@ -3,25 +3,19 @@
 tap "buo/cask-upgrade"
 
 brew 'git'
-brew 'httpie'
 brew 'jq'
+brew 'kube-ps1'
+brew 'kubernetes-cli'
 brew 'mas'
 brew 'python@3.11'
-brew 'shellcheck'
 brew 'telnet'
 brew 'the_silver_searcher'
-brew 'tig'
 brew 'watch'
 brew 'wget'
-
-# go
-brew 'go'
-brew 'goreleaser'
 
 # apps
 cask '1password'
 cask 'beyond-compare'
-cask 'docker'
 cask 'firefox'
 cask 'google-chrome'
 cask 'iterm2'
