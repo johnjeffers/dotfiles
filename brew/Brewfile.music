@@ -1,0 +1,4 @@
+cask 'ilok-license-manager'
+cask 'waves-central'
+
+mas 'Logic Pro', id: 634148309

@@ -43,11 +43,12 @@ create_db() {
             work_email TEXT,
             company TEXT,
             brew_home TEXT,
+            brew_music TEXT,
             brew_work TEXT,
             brew_java TEXT);"
     sqlite3 "${db}" "
-        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_home, brew_work, brew_java)
-        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N', 'N');"
+        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_home, brew_music, brew_work, brew_java)
+        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N', 'N', 'N');"
 }
 
 # Load user data from the DB
@@ -58,6 +59,7 @@ load_data() {
     WORK_EMAIL="$(sqlite3 "${db}" "SELECT work_email FROM userdata WHERE id = 1;")"
     COMPANY="$(sqlite3 "${db}"    "SELECT company FROM userdata WHERE id = 1;")"
     BREW_HOME="$(sqlite3 "${db}"  "SELECT brew_home FROM userdata WHERE id = 1;")"
+    BREW_MUSIC="$(sqlite3 "${db}"  "SELECT brew_music FROM userdata WHERE id = 1;")"
     BREW_WORK="$(sqlite3 "${db}"  "SELECT brew_work FROM userdata WHERE id = 1;")"
     BREW_JAVA="$(sqlite3 "${db}"  "SELECT brew_java FROM userdata WHERE id = 1;")"
 }
@@ -90,6 +92,10 @@ update_data() {
     read -r -p "Install Brewfile.home (${BREW_HOME}): " input
     BREW_HOME=$(echo "${input:-$BREW_HOME}" | awk '{print toupper($0)}')
 
+    info "\nDo you want to install the components in Brewfile.music?"
+    read -r -p "Install Brewfile.music (${BREW_MUSIC}): " input
+    BREW_MUSIC=$(echo "${input:-$BREW_MUSIC}" | awk '{print toupper($0)}')
+
     info "\nDo you want to install the components in Brewfile.work?"
     read -r -p "Install Brewfile.work (${BREW_WORK}): " input
     BREW_WORK=$(echo "${input:-$BREW_WORK}" | awk '{print toupper($0)}')
@@ -107,6 +113,7 @@ update_data() {
             work_email = '${WORK_EMAIL}',
             company = '${COMPANY}',
             brew_home = '${BREW_HOME}',
+            brew_music = '${BREW_MUSIC}',
             brew_work = '${BREW_WORK}',
             brew_java = '${BREW_JAVA}'
         WHERE id = 1;"
@@ -120,6 +127,7 @@ show_data() {
     echo -e "${C_GRAY}Work Email: ${C_YELLOW}${WORK_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Company:    ${C_YELLOW}${COMPANY}${C_RESET}"
     echo -e "${C_GRAY}Install Brewfile.home: ${C_YELLOW}${BREW_HOME}${C_RESET}"
+    echo -e "${C_GRAY}Install Brewfile.music: ${C_YELLOW}${BREW_MUSIC}${C_RESET}"
     echo -e "${C_GRAY}Install Brewfile.work: ${C_YELLOW}${BREW_WORK}${C_RESET}"
     echo -e "${C_GRAY}Install Brewfile.java: ${C_YELLOW}${BREW_JAVA}${C_RESET}"
     echo -e "\n${C_GRAY}If this looks wrong, run ${C_YELLOW}setup.sh -u${C_GRAY} to update.${C_RESET}"
@@ -192,6 +200,10 @@ do_brew_stuff() {
     if [[ "${BREW_HOME}" == 'Y' ]]; then
         info "\nInstalling Brewfile.home"
         brew bundle "${v}" --file "${my_dir}/brew/Brewfile.home"
+    fi
+    if [[ "${BREW_MUSIC}" == 'Y' ]]; then
+        info "\nInstalling Brewfile.music"
+        brew bundle "${v}" --file "${my_dir}/brew/Brewfile.music"
     fi
     if [[ "${BREW_WORK}" == 'Y' ]]; then
         info "\nInstalling Brewfile.work"
