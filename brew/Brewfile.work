@@ -16,6 +16,7 @@ brew 'tig'
 # brew 'trivy'
 # brew 'velero'
 
+cask 'azure-data-studio'
 # cask 'coscreen'
 cask 'docker'
 cask 'infra'
