@@ -34,7 +34,7 @@ alias nodeview-dev="AWS_PROFILE=fusionauth-dev-admin eks-node-viewer --kubeconfi
 alias nodeview-prod="AWS_PROFILE=fusionauth-prod-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-prod-us-east-1 --extra-labels node-group-name --resources cpu,memory"
 alias nodeview-svc="AWS_PROFILE=fusionauth-svc-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-svc-us-west-2 --extra-labels node-group-name --resources cpu,memory"
 alias swup='$HOME/git/personal/dotfiles/setup.sh'
-alias t="terraform"
+alias tf="terraform"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/john/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/john/google-cloud-sdk/path.zsh.inc'; fi
