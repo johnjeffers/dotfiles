@@ -10,55 +10,57 @@ $git_status\
 $aws\
 $kubernetes
 $status\
-$character
-"""
+$character"""
 
-palette = 'mine'
+palette = 'me'
 
-[palettes.mine]
-p-std = '75'          # standard blue
-p-warn = '214'        # pay-attention orange
-p-symbol = '32'       # slightly darker blue
-p-symbol-warn = '202' # slightly darker orange
-p-dir = '32'          # directories
-p-user = '240'        # standard user
-p-root = '214'        # root user
+[palettes.me]
+std = '75'       # standard blue
+ok = '82'        # A-OK green
+warn = '214'     # pay-attention orange
+sym = '32'       # slightly darker blue
+sym-warn = '202' # slightly darker orange
+dir = '32'       # directories
+user = '240'     # standard user
+root = '214'     # root user
 
 [username]
 format = '[$user]($style) '
-style_user = 'p-std'
-style_root = 'p-warn'
+style_user = 'std'
+style_root = 'warn'
 show_always = false
 
 [directory]
-style = 'p-dir'
+style = 'dir'
 truncation_length = 4
 truncation_symbol = '.../'
 truncate_to_repo = false
 
 [git_branch]
-format = '[$symbol$branch(:$remote_branch)]($style) '
-style = 'p-std'
-symbol = ''
+format = '[\($symbol$branch(:$remote_branch)]($style) '
+style = 'std'
+symbol = '[](sym)'
 
 [git_status]
-format = '([$all_status$ahead_behind]($style))'
-ahead      = '[↑](p-warn) '
-behind     = '[↓](p-warn) '
-deleted    = '[✖](p-warn) '
-modified   = '[✗](p-warn) '
-renamed    = '[➜](p-warn) '
-staged     = '[✚](p-std) '
-untracked  = '[◼](p-warn) '
-up_to_date = '[✔︎](p-std) '
-# stashed = '[✭](cyan) '
-# conflicted = '[═](yellow) '
-# diverged = '⇕ '
+format = '([$ahead_behind$stashed$staged$modified$renamed$deleted$untracked$conflicted[\)](std)]($style)) '
+# $ahead_behind
+up_to_date = '[◉](ok)'
+ahead      = '[⇡](warn)'
+behind     = '[⇣](warn)'
+diverged   = '[∆](warn)'
+# other statuses
+stashed    = '[$](ok)'
+staged     = '[+](std)'
+modified   = '[m](warn)'
+renamed    = '[r](warn)'
+deleted    = '[x](warn)'
+untracked  = '[?](warn)'
+conflicted = '[=](warn)'
 
 [aws]
-format = '[\[$symbol ($profile)/($region)($duration)\]]($style) '
-style = 'p-std'
-symbol = '[aws](p-symbol)'
+format = '[\[$symbol($profile)/($region)($duration)\]]($style) '
+style = 'std'
+symbol = '[](sym)'
 expiration_symbol = '✗'
 [aws.profile_aliases]
 fusionauth-dev = 'dev'
@@ -69,23 +71,23 @@ fusionauth-svc-admin = 'svc-admin'
 
 [kubernetes]
 disabled = false
-format = '[\[$symbol $context/$namespace\]]($style) '
-style = 'p-std'
-symbol = '[k8s](p-symbol)'
+format = '[\[$symbol$context:$namespace\]]($style) '
+style = 'std'
+symbol = '[](sym)'
 # docker-desktop = 'docker'
 [[kubernetes.contexts]]
 context_pattern = 'docker-desktop'
 context_alias = 'local'
 [[kubernetes.contexts]]
 context_pattern = '.*prod.*'
-style = 'p-warn'
-symbol = '[k8s](p-symbol-warn)'
+style = 'warn'
+symbol = '[k8s](sym-warn)'
 
 [status]
 disabled = false
 format = '[$status]($style) '
-style = 'p-warn'
+style = 'warn'
 
 [character]
-error_symbol = '[»](p-warn)'
-success_symbol = '[»](p-std)'
+error_symbol = '[»](warn)'
+success_symbol = '[»](std)'
