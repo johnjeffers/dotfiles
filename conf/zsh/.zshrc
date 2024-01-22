@@ -1,14 +1,6 @@
-# oh-my-zsh
-export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="my"
-plugins=(docker git kubectl)
-
 # brew shell completion -- must be called before oh-my-zsh
 # https://docs.brew.sh/Shell-Completion
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
-source $ZSH/oh-my-zsh.sh
-source /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh
 
 # Path additions
 # Sublime Text
@@ -36,8 +28,14 @@ alias nodeview-svc="AWS_PROFILE=fusionauth-svc-admin eks-node-viewer --kubeconfi
 alias swup='$HOME/git/personal/dotfiles/setup.sh'
 alias tf="terraform"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/john/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/john/google-cloud-sdk/path.zsh.inc'; fi
+# oh-my-zsh
+# Theme is disabled because of Starship
+export ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="my"
+plugins=(docker git kubectl)
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/john/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/john/google-cloud-sdk/completion.zsh.inc'; fi
+source /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh
+source $ZSH/oh-my-zsh.sh
+
+# Starship
+# eval "$(starship init zsh)"

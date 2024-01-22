@@ -1,0 +1,91 @@
+format = """
+$username\
+$sudo\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$aws\
+$kubernetes
+$status\
+$character
+"""
+
+palette = 'mine'
+
+[palettes.mine]
+p-std = '75'          # standard blue
+p-warn = '214'        # pay-attention orange
+p-symbol = '32'       # slightly darker blue
+p-symbol-warn = '202' # slightly darker orange
+p-dir = '32'          # directories
+p-user = '240'        # standard user
+p-root = '214'        # root user
+
+[username]
+format = '[$user]($style) '
+style_user = 'p-std'
+style_root = 'p-warn'
+show_always = false
+
+[directory]
+style = 'p-dir'
+truncation_length = 4
+truncation_symbol = '.../'
+truncate_to_repo = false
+
+[git_branch]
+format = '[\($symbol$branch(:$remote_branch)]($style) '
+style = 'p-std'
+symbol = ''
+
+[git_status]
+format = '([$all_status$ahead_behind[\)](p-std) ]($style))'
+modified = '[✗](p-warn) '
+untracked = '[◼](p-warn) '
+staged = '[✚](p-std) '
+up_to_date = '[✔︎](p-std) '
+# ahead = '[⬆](bold purple) '
+# behind = '[⬇](bold purple) '
+# deleted = '[✖](red) '
+# renamed = '[➜](purple) '
+# stashed = '[✭](cyan) '
+# conflicted = '[═](yellow) '
+# diverged = '⇕ '
+
+[aws]
+format = '[\[$symbol ($profile)/($region)($duration)\]]($style) '
+style = 'p-std'
+symbol = '[aws](p-symbol)'
+expiration_symbol = '✗'
+[aws.profile_aliases]
+fusionauth-dev = 'dev'
+fusionauth-dev-admin = 'dev-admin'
+fusionauth-prod = 'prod'
+fusionauth-prod-admin = 'prod-admin'
+fusionauth-svc-admin = 'svc-admin'
+
+[kubernetes]
+disabled = false
+format = '[\[$symbol $context/$namespace\]]($style) '
+style = 'p-std'
+symbol = '[k8s](p-symbol)'
+# docker-desktop = 'docker'
+[[kubernetes.contexts]]
+context_pattern = 'docker-desktop'
+context_alias = 'local'
+[[kubernetes.contexts]]
+context_pattern = '.*prod.*'
+style = 'p-warn'
+symbol = '[k8s](p-symbol-warn)'
+
+[status]
+disabled = false
+format = '[$status]($style) '
+style = 'p-warn'
+
+[character]
+error_symbol = '[»](p-warn)'
+success_symbol = '[»](p-std)'
