@@ -2,8 +2,6 @@
 
 Just some stuff to save me setup time when configuring a new mac.
 
-## Caveats
-
 > [!WARNING]
 > **This is highly customized for me.** It might be a good place to get ideas for your own scripts, though.<br><br>**This is not going to be right for you as-is.** The software and config files it installs are unlikely to be what you want or need, unless you work at the same company as me. And even then, it won't be exactly right.<br><br>**This has only been tested on MacOS.** Some of this will probably work on Linux or Windows, but I don't know.
 
