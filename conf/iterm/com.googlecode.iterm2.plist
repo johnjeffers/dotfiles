@@ -217,6 +217,8 @@
 				<key>Red Component</key>
 				<real>1</real>
 			</dict>
+			<key>Brighten Bold Text</key>
+			<true/>
 			<key>Character Encoding</key>
 			<integer>4</integer>
 			<key>Close Sessions On End</key>
@@ -255,6 +257,8 @@
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
 			<true/>
+			<key>Draw Powerline Glyphs</key>
+			<false/>
 			<key>Flashing Bell</key>
 			<false/>
 			<key>Foreground Color</key>
@@ -469,19 +473,19 @@
 				</dict>
 			</dict>
 			<key>Minimum Contrast</key>
-			<real>0.37705201740506328</real>
+			<real>0.0</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
 			<string>Default</string>
 			<key>Non Ascii Font</key>
-			<string>Monaco 12</string>
+			<string>MonacoNF 12</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
 			<string>Monaco 12</string>
 			<key>Only The Default BG Color Uses Transparency</key>
-			<false/>
+			<true/>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -531,7 +535,7 @@
 			<key>Thin Strokes</key>
 			<integer>0</integer>
 			<key>Transparency</key>
-			<real>0.10000000000000001</real>
+			<real>0.10414727393617021</real>
 			<key>Unlimited Scrollback</key>
 			<false/>
 			<key>Use Bold Font</key>
@@ -543,7 +547,7 @@
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Use Non-ASCII Font</key>
-			<false/>
+			<true/>
 			<key>Vertical Spacing</key>
 			<real>1</real>
 			<key>Visual Bell</key>

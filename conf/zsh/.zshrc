@@ -30,10 +30,10 @@ alias tf="terraform"
 
 # oh-my-zsh
 # Theme is disabled because of Starship
-export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME=""
+ZSH_DISABLE_COMPFIX=true
+export ZSH=$HOME/.oh-my-zsh
 plugins=(docker git kubectl)
-# source /opt/homebrew/opt/kube-ps1/share/kube-ps1.sh
 source $ZSH/oh-my-zsh.sh
 
 # Starship
