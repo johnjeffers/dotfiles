@@ -175,6 +175,15 @@ do_zsh_stuff() {
 }
 
 do_starship_stuff() {
+    # Install fonts used by iTerm2/Starship.
+    fonts="MonacoNerdFont-Regular.ttf MonacoNerdFontMono-Regular.ttf"
+    for font in $fonts; do
+        if ! file_exists "${HOME}/Library/Fonts/${font}"; then
+            info "Installing font ${font}..."
+            cp "${my_dir}/fonts/${font}" "${HOME}/Library/Fonts"
+        fi
+    done
+
     local cfg=${HOME}/.config/starship.toml
     # Backup the existing config if necessary.
     if file_exists "${cfg}" && ! is_symlink "${cfg}"; then
@@ -236,6 +245,7 @@ do_brew_stuff() {
     brew upgrade
     success "Done updating packages"
     info "\nCleaning up..."
+    brew autoremove
     brew cleanup
     success "Done cleaning up"
 }

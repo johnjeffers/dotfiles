@@ -66,7 +66,7 @@ The script will create symlinks to dotfiles that configure various programs. Cur
 * `~/.zshrc`
 * `~/.zshenv`
 * `~/.aws/config`
-* oh-my-zsh theme
+* `~/.config/starship.toml`
 
 If the files being replaced already exist, the script will make a backup.
 
@@ -79,8 +79,15 @@ If the files being replaced already exist, the script will make a backup.
 
 After config files are created, the script installs the software in the Brewfiles.
 
-The Brewfiles are split into `base`, `home`, and `work`. The `base` Brewfile is always installed, while the others are conditional based on answers to the setup questions.
+The Brewfiles are split into `base`, `home`, `work`, and `music`. The `base` Brewfile is always installed, while the others are conditional based on answers to the setup questions.
 
 ### Software Updates
 
-A nice side-effect of using `brew` to install everything is that you can use this script to update software. Just re-run the script and everything that was installed with `brew` will be updated.
+One of the aliases in the `.zshrc` file allows you to easily rerun this script from any directory.
+```
+alias swup='$HOME/git/personal/dotfiles/setup.sh'
+```
+So, just run `swup` to update everything that was installed with the script.
+
+> [!NOTE]
+> One exception to the _"update all the things via script"_ dream is software that was installed via `brew cask`. Cask updates have been sketchy in my experience, and I had enough issues with it to give up on it. So those apps should be updated via their normal (usually in-app) update methods.<br><br>If you'd like to try letting the casks update themselves, find the `brew cu --cleanup` line in the script and change it to `brew cu --all`.
