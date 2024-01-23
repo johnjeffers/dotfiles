@@ -174,20 +174,35 @@ do_zsh_stuff() {
     success "Configured zsh"
 }
 
-do_omz_stuff() {
-    local theme=${HOME}/.oh-my-zsh/themes/my.zsh-theme
-    # Backup the existing theme if necessary.
-    if file_exists "${theme}" && ! is_symlink "${theme}"; then
-        backup_file "${theme}"
+do_starship_stuff() {
+    local cfg=${HOME}/.config/starship.toml
+    # Backup the existing config if necessary.
+    if file_exists "${cfg}" && ! is_symlink "${cfg}"; then
+        backup_file "${cfg}"
     fi
     # Create symlink to our theme.
-    if ! file_exists "${theme}"; then
-        info "Creating symlink for oh-my-zsh theme"
-        ln -s -f "${my_dir}/conf/zsh/my.zsh-theme" "${theme}"
+    if ! file_exists "${cfg}"; then
+        info "Creating symlink for starship config"
+        ln -s -f "${my_dir}/conf/starship/starship.toml" "${cfg}"
     fi
 
-    success "Configured oh-my-zsh"
+    success "Configured starship"
 }
+
+# do_omz_stuff() {
+#     local theme=${HOME}/.oh-my-zsh/themes/my.zsh-theme
+#     # Backup the existing theme if necessary.
+#     if file_exists "${theme}" && ! is_symlink "${theme}"; then
+#         backup_file "${theme}"
+#     fi
+#     # Create symlink to our theme.
+#     if ! file_exists "${theme}"; then
+#         info "Creating symlink for oh-my-zsh theme"
+#         ln -s -f "${my_dir}/conf/zsh/my.zsh-theme" "${theme}"
+#     fi
+
+#     success "Configured oh-my-zsh"
+# }
 
 do_brew_stuff() {
     local v=""
@@ -351,7 +366,9 @@ main() {
     echo ""
     do_bash_stuff
     do_zsh_stuff
-    do_omz_stuff
+    do_starship_stuff
+    # do_omz_stuff - removed, using starship instead of my OMZ theme
+
     # Install apps
     echo ""
     do_brew_stuff

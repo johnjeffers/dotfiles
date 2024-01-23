@@ -2,10 +2,9 @@ tap "buo/cask-upgrade"
 
 brew 'git'
 brew 'jq'
-brew 'kube-ps1'
-brew 'kubernetes-cli'
 brew 'mas'
 brew 'python@3.11'
+brew 'starship'
 brew 'telnet'
 brew 'the_silver_searcher'
 brew 'watch'
