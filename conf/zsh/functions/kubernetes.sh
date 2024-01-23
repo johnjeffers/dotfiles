@@ -1,5 +1,29 @@
 #!/usr/bin/env bash
 
+# Parse the files in ~/.kube and select a kubeconfig to activate.
+kset() {
+    files=()
+    PS3="Select kubeconfig: "
+    while IFS=' ' read -r line; do files+=("$line"); done < <(find "${HOME}/.kube" -maxdepth 1 -type f -exec basename {} \; | sort)
+    select file in "${files[@]}"; do
+        [ "$file" ] &&
+        {
+            KUBECONFIG="${HOME}/.kube/${file}"
+            export KUBECONFIG
+            break
+        }
+        {
+            echo "Invalid option!"
+            break
+        }
+    done
+}
+
+# unset the KUBECONFIG env var
+kunset() {
+    unset KUBECONFIG
+}
+
 # Grep for nodes, show the header, sort by zone.
 kgngrep() {
     if [[ $# -eq 0 ]]; then
