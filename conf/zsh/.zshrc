@@ -1,7 +1,3 @@
-# brew shell completion -- must be called before oh-my-zsh
-# https://docs.brew.sh/Shell-Completion
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
 # Path additions
 # Sublime Text
 path+=("/Applications/Sublime Text.app/Contents/SharedSupport/bin")
@@ -28,7 +24,11 @@ alias nodeview-svc="AWS_PROFILE=fusionauth-svc-admin eks-node-viewer --kubeconfi
 alias swup='$HOME/git/personal/dotfiles/setup.sh'
 alias tf="terraform"
 
-# oh-my-zsh
+# brew shell completion -- must be called before oh-my-zsh
+# https://docs.brew.sh/Shell-Completion
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+# oh-my-zsh - https://ohmyz.sh/
 # Theme is disabled because of Starship
 ZSH_THEME=""
 ZSH_DISABLE_COMPFIX=true
@@ -36,5 +36,8 @@ export ZSH=$HOME/.oh-my-zsh
 plugins=(docker git kubectl)
 source $ZSH/oh-my-zsh.sh
 
-# Starship
+# zsh autosuggestions - https://github.com/zsh-users/zsh-autosuggestions
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Starship - https://starship.rs
 eval "$(starship init zsh)"
