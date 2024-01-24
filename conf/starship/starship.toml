@@ -3,6 +3,7 @@ format = """
 $os\
 $shell\
 $username\
+$sudo\
 [](bg:dir-bg fg:base-bg)\
 $directory\
 [](bg:git-bg fg:dir-bg)\
@@ -12,6 +13,8 @@ $git_status\
 $aws\
 [](bg:k8s-bg fg:aws-bg)\
 $kubernetes\
+$terraform\
+$python\
 [](fg:k8s-bg)
 $status\
 $character
@@ -50,10 +53,16 @@ style_user = 'bg:base-bg fg:base-fg'
 style_root = 'bg:base-bg fg:warn'
 show_always = true
 
+[sudo]
+disabled = false
+format = '[$symbol]($style)'
+style = 'bg:base-bg fg:warn'
+symbol = '! '
+
 [directory]
 format = "[   $path ]($style)"
 style = 'bg:dir-bg fg:base-fg'
-truncation_length = 4
+truncation_length = 3
 truncation_symbol = '…/'
 truncate_to_repo = false
 
@@ -104,6 +113,15 @@ context_pattern = '.*prod.*'
 style = 'bg:k8s-bg fg:warn'
 symbol = '[ ⎈ ](bg:k8s-bg fg:warn)'
 
+[terraform]
+format = '[$symbol$workspace ]($style)'
+style = 'bg:k8s-bg fg:base-fg'
+symbol = ' 󱁢 '
+
+[python]
+format = '[ ${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+style = 'bg:k8s-bg fg:base-fg'
+symbol = ' '
 
 ### Line 2 configs
 

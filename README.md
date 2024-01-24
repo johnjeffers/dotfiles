@@ -3,7 +3,7 @@
 Just some stuff to save me setup time when configuring a new mac.
 
 > [!WARNING]
-> **This is highly customized for me.** It might be a good place to get ideas for your own scripts, though.<br><br>**This is not going to be right for you as-is.** The software and config files it installs are unlikely to be what you want or need, unless you work at the same company as me. And even then, it won't be exactly right.<br><br>**This has only been tested on MacOS.** Some of this will probably work on Linux or Windows, but I don't know.
+> **This is written for my personal needs.** The software and config files it installs are unlikely to be exactly what you want or need. It might be a good place to get ideas for your own setup scripts, though.<br><br>**This has only been tested on MacOS.** Some of this might work on Linux or Windows, but I don't know.
 
 ## Prerequisites
 
@@ -19,13 +19,13 @@ Just some stuff to save me setup time when configuring a new mac.
     ```
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     ```
-1. Log in to the Mac App Store. This is needed because some software is installed with [brew mas](https://formulae.brew.sh/formula/mas).
+1. Log in to the Mac App Store. This is required because some software is installed with [brew mas](https://formulae.brew.sh/formula/mas).
 
 ## Instructions
 
 Run `./setup.sh`
 
-On the initial run, you'll be asked some setup questions. The answers will be saved in a sqlite database for future runs.
+On the initial run, you'll be asked some setup questions. The answers are saved in a sqlite database for future runs.
 
 💾 To update saved user data, run `./setup.sh -u`
 
@@ -57,13 +57,13 @@ The work-specific `.gitconfig` uses my work email, so commits to repos in that d
 
 The script will create symlinks to dotfiles that configure various programs. Currently, this includes:
 
-* `~/.bashrc`
-* `~/.zshrc`
-* `~/.zshenv`
 * `~/.aws/config`
 * `~/.config/starship.toml`
+* `~/.bashrc`
+* `~/.zprofile`
+* `~/.zshrc`
 
-If the files being replaced already exist, the script will make a backup.
+If any of these files already exist, the script will make a backup.
 
 ### Other Configuration
 
@@ -74,15 +74,15 @@ If the files being replaced already exist, the script will make a backup.
 
 After config files are created, the script installs the software in the Brewfiles.
 
-The Brewfiles are split into `base`, `home`, `work`, and `music`. The `base` Brewfile is always installed, while the others are conditional based on answers to the setup questions.
+The Brewfiles are split into `base`, `home`, `work`, and `music`. The `base` Brewfile is always installed, while the others are conditional based on answers to the setup script questions.
 
-### Software Updates
+## Software Updates
 
-One of the aliases in the `.zshrc` file allows you to easily rerun this script from any directory.
+One of the aliases in the `.zshrc` file allows you to run the setup script from any directory.
 ```
 alias swup='$HOME/git/personal/dotfiles/setup.sh'
 ```
-So, just run `swup` to update everything that was installed with the script.
+Run `swup` regularly to update everything that was installed by the script.
 
 > [!NOTE]
-> One exception to the _"update all the things via script"_ dream is software that was installed via `brew cask`. Cask updates have been sketchy in my experience, and I had enough issues with it to give up on it. So those apps should be updated via their normal (usually in-app) update methods.<br><br>If you'd like to try letting the casks update themselves, find the `brew cu --cleanup` line in the script and change it to `brew cu --all`.
+> One exception to the _"update all the things via script"_ dream is software that was installed via `brew cask`. Cask updates have problematic in my experience, and I had enough issues to give up on it. Apps installed by cask should be updated via their standard (usually in-app) update methods.<br><br>If you'd like to try letting cask update the apps, find the `brew cu --cleanup` line in the script and change it to `brew cu --all`.
