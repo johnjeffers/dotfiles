@@ -1,4 +1,6 @@
-# Path additions
+# shellcheck disable=1091,2034,2148,2154
+
+### Path additions
 # Sublime Text
 path+=("/Applications/Sublime Text.app/Contents/SharedSupport/bin")
 # Go
@@ -8,10 +10,10 @@ path+=("$HOME/go/bin")
 path+=("$HOME/venvs/python3/bin")
 path+=("/opt/homebrew/opt/postgresql@15/bin")
 
+### Aliases
 # k8s aliases
 alias kgn="kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone | sort -k6"
 alias kns="kubens"
-
 # AWS aliases
 alias ssologin='aws sso login --profile ${SSO_PROFILE:-fusionauth-dev}'
 alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-dev} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'
@@ -20,31 +22,68 @@ alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-d
 alias nodeview-dev="AWS_PROFILE=fusionauth-dev-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-dev-us-west-2 --extra-labels node-group-name --resources cpu,memory"
 alias nodeview-prod="AWS_PROFILE=fusionauth-prod-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-prod-us-east-1 --extra-labels node-group-name --resources cpu,memory"
 alias nodeview-svc="AWS_PROFILE=fusionauth-svc-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-svc-us-west-2 --extra-labels node-group-name --resources cpu,memory"
-
 # Other aliases
 alias c="clear"
 alias swup='$HOME/git/personal/dotfiles/setup.sh'
 alias tf="terraform"
 alias watch="watch "
 
-# brew shell completion -- must be called before oh-my-zsh
+### brew shell completion -- must be called before oh-my-zsh
 # https://docs.brew.sh/Shell-Completion
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
-# oh-my-zsh - https://ohmyz.sh/
+### oh-my-zsh - https://ohmyz.sh/
 # Theme is disabled because of Starship
 ZSH_THEME=""
 ZSH_DISABLE_COMPFIX=true
 export ZSH=$HOME/.oh-my-zsh
 plugins=(docker git kubectl)
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
 
-# Starship - https://starship.rs
+### Starship - https://starship.rs
 eval "$(starship init zsh)"
 
-# zsh plugins
+### zsh plugins
 # zsh-autosuggestions - https://github.com/zsh-users/zsh-autosuggestions
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # zsh-syntax-highlighting - https://github.com/zsh-users/zsh-syntax-highlighting
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+### Customize the zsh syntax highlighter to make it less obnoxious
+# no color
+ZSH_HIGHLIGHT_STYLES[assign]=none
+ZSH_HIGHLIGHT_STYLES[default]=none
+ZSH_HIGHLIGHT_STYLES[hashed-command]=none
+ZSH_HIGHLIGHT_STYLES[path]=none
+ZSH_HIGHLIGHT_STYLES[precommand]=none
+# blue
+ZSH_HIGHLIGHT_STYLES[alias]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[builtin]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[command]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[function]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[global-alias]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[globbing]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=#80a2cd
+ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=#80a2cd
+# green
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=112
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=112
+# orange
+ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=214
+ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=214
+ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=214
+ZSH_HIGHLIGHT_STYLES[command-substituion]=fg=214
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=214
+ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=214
+ZSH_HIGHLIGHT_STYLES[redirection]=fg=214
+# red
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=red
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]=fg=red
+ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=red
+ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]=fg=red
+ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]=fg=red
+ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]=fg=red
+ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red
