@@ -1,5 +1,6 @@
 tap "buo/cask-upgrade"
 
+brew 'bash'
 brew 'git'
 brew 'jq'
 brew 'mas'

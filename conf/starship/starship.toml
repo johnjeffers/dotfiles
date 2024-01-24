@@ -1,8 +1,9 @@
 format = """
-[](fg:user-bg)\
+[](fg:base-bg)\
 $os\
+$shell\
 $username\
-[](bg:dir-bg fg:user-bg)\
+[](bg:dir-bg fg:base-bg)\
 $directory\
 [](bg:git-bg fg:dir-bg)\
 $git_branch\
@@ -16,69 +17,72 @@ $status\
 $character
 """
 
-palette = 'me'
+palette = 'blues'
 
-[palettes.me]
-std = '75'       # standard blue
-ok = '82'        # A-OK green
-warn = '214'     # pay-attention orange
-user-bg = '#2f2f42'
-user-fg = '#e0e1dd'
-dir-bg = '#12293f'
-dir-fg = '#e0e1dd'
-git-bg = '#273654'
-git-fg = '#e0e1dd'
-aws-bg = '#33465c'
-aws-fg = '#e0e1dd'
-k8s-bg = '#4f637d'
-k8s-fg = '#e0e1dd'
+[palettes.blues]
+warn    = '214'
+base-fg = '#e0e1dd'
+base-bg = '#2f2f42'
+dir-bg  = '#12293f'
+git-bg  = '#273654'
+aws-bg  = '#33465c'
+k8s-bg  = '#4f637d'
+
+
+### Line 1 configs
 
 [os]
 disabled = false
-style = 'bg:user-bg fg:user-fg'
+style = 'bg:base-bg fg:base-fg'
 [os.symbols]
 Macos = ' '
 
+[shell]
+disabled = false
+format = '[$indicator]($style)'
+style = 'bg:base-bg fg:warn'
+zsh_indicator = ''
+bash_indicator = 'bash '
+
 [username]
 format = '[$user ]($style)'
-style_user = 'bg:user-bg fg:user-fg'
-style_root = 'bg:user-bg fg:warn'
+style_user = 'bg:base-bg fg:base-fg'
+style_root = 'bg:base-bg fg:warn'
 show_always = true
 
 [directory]
 format = "[   $path ]($style)"
-style = 'bg:dir-bg fg:dir-fg'
+style = 'bg:dir-bg fg:base-fg'
 truncation_length = 4
 truncation_symbol = '…/'
 truncate_to_repo = false
 
 [git_branch]
 format = '[ $symbol $branch ]($style)'
-style = 'bg:git-bg fg:git-fg'
-symbol = '[](bg:git-bg fg:git-fg)'
+style = 'bg:git-bg fg:base-fg'
+symbol = '[](bg:git-bg fg:base-fg)'
 
 [git_status]
 format = '[$ahead_behind $stashed$staged$modified$renamed$deleted$untracked$conflicted]($style)'
-# format = '[$all_status$ahead_behind ]($style)'
-style ='bg:git-bg fg:git-fg'
-# $ahead_behind
-up_to_date = '[•](bg:git-bg fg:git-fg)'
+style ='bg:git-bg fg:base-fg'
+# $ahead_behind status
+up_to_date = '[•](bg:git-bg fg:base-fg)'
 ahead      = '[󰶼](bg:git-bg fg:warn)'
 behind     = '[󰶹](bg:git-bg fg:warn)'
 diverged   = '[✘](bg:git-bg fg:warn)'
-# other statuses
-stashed    = '[$$count ](bg:git-bg git-fg)'
-staged     = '[s$count ](bg:git-bg git-fg)'
+# other status
+stashed    = '[*$count ](bg:git-bg base-fg)'
+staged     = '[s$count ](bg:git-bg base-fg)'
 modified   = '[m$count ](bg:git-bg warn)'
 renamed    = '[r$count ](bg:git-bg warn)'
 deleted    = '[d$count ](bg:git-bg warn)'
 untracked  = '[u$count ](bg:git-bg warn)'
-# conflicted = '[=](warn)'
+conflicted = '[=$count ](bg:git-bg warn)'
 
 [aws]
 format = '[$symbol($profile)/($region) ]($style)'
-style = 'bg:aws-bg fg:aws-fg'
-symbol = '[   ](bg:aws-bg fg:aws-fg)'
+style = 'bg:aws-bg fg:base-fg'
+symbol = '[   ](bg:aws-bg fg:base-fg)'
 [aws.profile_aliases]
 fusionauth-dev = 'dev'
 fusionauth-dev-admin = 'dev-admin'
@@ -89,8 +93,8 @@ fusionauth-svc-admin = 'svc-admin'
 [kubernetes]
 disabled = false
 format = '[$symbol$context:$namespace ]($style)'
-style = 'bg:k8s-bg fg:k8s-fg'
-symbol = '[ ⎈ ](bg:k8s-bg fg:k8s-fg)'
+style = 'bg:k8s-bg fg:base-fg'
+symbol = '[ ⎈ ](bg:k8s-bg fg:base-fg)'
 # docker-desktop = 'docker'
 [[kubernetes.contexts]]
 context_pattern = 'docker-desktop'
@@ -100,6 +104,9 @@ context_pattern = '.*prod.*'
 style = 'bg:k8s-bg fg:warn'
 symbol = '[ ⎈ ](bg:k8s-bg fg:warn)'
 
+
+### Line 2 configs
+
 [status]
 disabled = false
 format = '[$status]($style) '
@@ -107,4 +114,4 @@ style = 'warn'
 
 [character]
 error_symbol = '[»](warn)'
-success_symbol = '[»](k8s-bg)'
+success_symbol = '[»](base-fg)'
