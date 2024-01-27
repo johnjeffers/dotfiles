@@ -8,23 +8,25 @@ my_dir=$(cd -- "$(dirname "$0")" >/dev/null 2>&1; pwd -P)
 cd "${my_dir}"
 
 help() {
-    printf "usage: setup.sh [-huv]\n\n"
+    printf "usage: setup.sh [-huvd]\n\n"
     printf "    -h  show this help\n"
     printf "    -u  update user data\n"
-    printf "    -v  verbose output\n"
+    printf "    -v  enable verbose output\n"
+    printf "    -d  enable debug output (set -xv)\n\n"
+    printf "Run 'setup.sh -vd' for maximum verbosity.\n"
     exit
 }
 
 validate_prereqs() {
     # Make sure brew is installed.
-    if ! brew --version &> /dev/null; then
+    if command_missing brew; then
         error "\nCannot find brew!"
         info "https://brew.sh for install instructions.\n"
         exit 1
     fi
 
     # Make sure oh-my-zsh is installed.
-    if ! dir_exists "${HOME}/.oh-my-zsh"; then
+    if dir_missing "${HOME}/.oh-my-zsh"; then
         error "\nCannot find oh-my-zsh!"
         info "https://ohmyz.sh for install instructions.\n"
         exit 1
@@ -136,11 +138,11 @@ show_data() {
 do_bash_stuff() {
     local bashrc=${HOME}/.bashrc
     # Backup the existing .bashrc if necessary.
-    if file_exists "${bashrc}" && ! is_symlink "${bashrc}"; then
+    if file_exists "${bashrc}" && not_symlink "${bashrc}"; then
         backup_file "${bashrc}"
     fi
     # Create symlink to our .bashrc file.
-    if ! file_exists "${bashrc}"; then
+    if file_missing "${bashrc}"; then
         info "Creating symlink for ~/.bashrc"
         ln -s -f "${my_dir}/conf/bash/.bashrc" "${bashrc}"
     fi
@@ -151,22 +153,22 @@ do_bash_stuff() {
 do_zsh_stuff() {
     local zshrc=${HOME}/.zshrc
     # Backup the existing .zshrc if necessary.
-    if file_exists "${zshrc}" && ! is_symlink "${zshrc}"; then
+    if file_exists "${zshrc}" && not_symlink "${zshrc}"; then
         backup_file "${zshrc}"
     fi
     # Create symlink to our .zshrc file.
-    if ! file_exists "${zshrc}"; then
+    if file_missing "${zshrc}"; then
         info "Creating symlink for ~/.zshrc"
         ln -s -f "${my_dir}/conf/zsh/.zshrc" "${zshrc}"
     fi
 
     local zprofile=${HOME}/.zprofile
     # Backup the existing .zprofile if necessary.
-    if file_exists "${zprofile}" && ! is_symlink "${zprofile}"; then
+    if file_exists "${zprofile}" && not_symlink "${zprofile}"; then
         backup_file "${zprofile}"
     fi
     # Create symlink to our .zprofile file.
-    if ! file_exists "${zprofile}"; then
+    if file_missing "${zprofile}"; then
         info "Creating symlink for ~/.zprofile"
         ln -s -f "${my_dir}/conf/zsh/.zprofile" "${zprofile}"
     fi
@@ -178,7 +180,7 @@ do_starship_stuff() {
     # Install fonts used by iTerm2/Starship.
     fonts="MonacoNerdFont-Regular.ttf MonacoNerdFontMono-Regular.ttf"
     for font in $fonts; do
-        if ! file_exists "${HOME}/Library/Fonts/${font}"; then
+        if file_missing "${HOME}/Library/Fonts/${font}"; then
             info "Installing font ${font}..."
             cp "${my_dir}/fonts/${font}" "${HOME}/Library/Fonts"
         fi
@@ -186,11 +188,11 @@ do_starship_stuff() {
 
     local cfg=${HOME}/.config/starship.toml
     # Backup the existing config if necessary.
-    if file_exists "${cfg}" && ! is_symlink "${cfg}"; then
+    if file_exists "${cfg}" && not_symlink "${cfg}"; then
         backup_file "${cfg}"
     fi
     # Create symlink to our theme.
-    if ! file_exists "${cfg}"; then
+    if file_missing "${cfg}"; then
         info "Creating symlink for starship config"
         ln -s -f "${my_dir}/conf/starship/starship.toml" "${cfg}"
     fi
@@ -205,7 +207,7 @@ do_starship_stuff() {
 #         backup_file "${theme}"
 #     fi
 #     # Create symlink to our theme.
-#     if ! file_exists "${theme}"; then
+#     if file_missing "${theme}"; then
 #         info "Creating symlink for oh-my-zsh theme"
 #         ln -s -f "${my_dir}/conf/zsh/my.zsh-theme" "${theme}"
 #     fi
@@ -239,7 +241,7 @@ do_brew_stuff() {
     fi
 
     info "\nUpdating brew casks"
-    brew cu --cleanup
+    brew cu --include-mas --cleanup
     success "Done updating brew casks"
     info "\nUpdating packages not in your Brewfiles..."
     brew upgrade
@@ -253,7 +255,7 @@ do_brew_stuff() {
 do_aws_stuff() {
     local awsdir=${HOME}/.aws
     # Create ~/.aws if it doesn't exist.
-    if ! dir_exists "${awsdir}"; then
+    if dir_missing "${awsdir}"; then
         info "Creating directory ${awsdir}"
         mkdir -p "${awsdir}"
     fi
@@ -261,7 +263,7 @@ do_aws_stuff() {
     # Create hard link to our config.
     # Uses a hard link instead of a symlink so it can be used in a docker volume mount.
     local awscfg=${awsdir}/config
-    if ! file_exists "${awscfg}"; then
+    if file_missing "${awscfg}"; then
         info "Creating hard link for ~/.aws/config"
         ln -f "${my_dir}/conf/aws/config" "${awscfg}"
     fi
@@ -274,17 +276,17 @@ do_git_stuff() {
 
     # Create the git repo directories if they don't exist.
     local personal="${git_root}/personal"
-    if ! dir_exists "${personal}"; then
+    if dir_missing "${personal}"; then
         info "Creating ${personal}"
         mkdir -p "${personal}"
     fi
     local public="${git_root}/public"
-    if ! dir_exists "${public}"; then
+    if dir_missing "${public}"; then
         info "Creating ${public}"
         mkdir -p "${public}"
     fi
     WORK_GIT="${git_root}/${COMPANY}"
-    if ! dir_exists "${WORK_GIT}"; then
+    if dir_missing "${WORK_GIT}"; then
         info "Creating ${WORK_GIT}"
         mkdir -p "${WORK_GIT}"
     fi
@@ -310,8 +312,8 @@ do_iterm_stuff() {
 
 do_python_stuff() {
     # Create a python3 venv
-    if python3 --version &> /dev/null; then
-        if ! dir_exists "${HOME}/venvs/python3"; then
+    if command_exists python3; then
+        if dir_missing "${HOME}/venvs/python3"; then
             info "Creating python virtual env"
             mkdir -p "${HOME}/venvs/python3"
             python3 -m venv "${HOME}/venvs/python3"
@@ -347,20 +349,26 @@ main() {
     # Preference args defaults.
     update=false   # update user data
     verbose=false  # verbosity
+    debug=false    # set -xv
 
     # Parse arguments.
-    while getopts huv flag; do
+    while getopts huvd flag; do
         case "${flag}" in
             u) update=true;;
             v) verbose=true;;
+            d) debug=true;;
             h|*) help;;
         esac
     done
 
+    if [[ ${debug} = true ]]; then
+        set -xv
+    fi
+
     validate_prereqs
 
     # Create the database if necessary.
-    if ! file_exists "${db}"; then
+    if file_missing "${db}"; then
         create_db
         # If we have to create the database, prompt the user to update.
         update=true
