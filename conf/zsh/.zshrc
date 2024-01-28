@@ -1,32 +1,5 @@
+#!/usr/bin/env zsh
 # shellcheck disable=1091,2034,2148,2154
-
-### Path additions
-# Sublime Text
-path+=("/Applications/Sublime Text.app/Contents/SharedSupport/bin")
-# Go
-export GOPATH=$HOME/go
-path+=("$HOME/go/bin")
-# Python
-path+=("$HOME/venvs/python3/bin")
-path+=("/opt/homebrew/opt/postgresql@15/bin")
-
-### Aliases
-# k8s aliases
-alias kgn="kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone | sort -k6"
-alias kns="kubens"
-# AWS aliases
-alias ssologin='aws sso login --profile ${SSO_PROFILE:-fusionauth-dev}'
-alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-dev} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'
-# alias npmlogin='aws codeartifact login --profile $SSO_PROFILE --tool npm --repository npm --domain fusionauth-svc --domain-owner 752443094709'
-# alias pypilogin='aws codeartifact login --profile $SSO_PROFILE --tool pip --repository pypi --domain fusionauth-svc --domain-owner 752443094709'
-alias nodeview-dev="AWS_PROFILE=fusionauth-dev-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-dev-us-west-2 --extra-labels node-group-name --resources cpu,memory"
-alias nodeview-prod="AWS_PROFILE=fusionauth-prod-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-prod-us-east-1 --extra-labels node-group-name --resources cpu,memory"
-alias nodeview-svc="AWS_PROFILE=fusionauth-svc-admin eks-node-viewer --kubeconfig ~/.kube/fusionauth-svc-us-west-2 --extra-labels node-group-name --resources cpu,memory"
-# Other aliases
-alias c="clear"
-alias swup='$HOME/git/personal/dotfiles/setup.sh'
-alias tf="terraform"
-alias watch="watch "
 
 ### brew shell completion -- must be called before oh-my-zsh
 # https://docs.brew.sh/Shell-Completion
@@ -40,7 +13,6 @@ export ZSH=$HOME/.oh-my-zsh
 plugins=(docker git kubectl)
 source "$ZSH/oh-my-zsh.sh"
 
-
 ### Starship - https://starship.rs
 eval "$(starship init zsh)"
 
@@ -50,40 +22,15 @@ source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # zsh-syntax-highlighting - https://github.com/zsh-users/zsh-syntax-highlighting
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-### Customize the zsh syntax highlighter to make it less obnoxious
-# no color
-ZSH_HIGHLIGHT_STYLES[assign]=none
-ZSH_HIGHLIGHT_STYLES[default]=none
-ZSH_HIGHLIGHT_STYLES[hashed-command]=none
-ZSH_HIGHLIGHT_STYLES[path]=none
-ZSH_HIGHLIGHT_STYLES[precommand]=none
-# blue
-ZSH_HIGHLIGHT_STYLES[alias]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[builtin]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[command]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[function]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[global-alias]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[globbing]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=#80a2cd
-ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=#80a2cd
-# green
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=112
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=112
-# orange
-ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=214
-ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=214
-ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=214
-ZSH_HIGHLIGHT_STYLES[command-substituion]=fg=214
-ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=214
-ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=214
-ZSH_HIGHLIGHT_STYLES[redirection]=fg=214
-# red
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=red
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument-unclosed]=fg=red
-ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=red
-ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument-unclosed]=fg=red
-ZSH_HIGHLIGHT_STYLES[double-quoted-argument-unclosed]=fg=red
-ZSH_HIGHLIGHT_STYLES[single-quoted-argument-unclosed]=fg=red
-ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red
+### My sourced configs
+my_dir="$(dirname "$(readlink -f .zshrc)")"
+configs="${my_dir}/configs"
+source "${configs}/paths.sh"
+source "${configs}/aliases.sh"
+source "${configs}/zsh-syntax-highlighting.sh"
+
+# Leaving this around so I don't have to figure it out again.
+# Parse all files in a directory.
+# while IFS= read -r -d '' file; do
+# 	echo "${file}"
+# done < <(find "${configs}" -type f -print0)
