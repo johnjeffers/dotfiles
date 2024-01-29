@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
+# shellcheck disable=2154
 
 # Parse the files in ~/.kube and select a kubeconfig to activate.
 kset() {
@@ -19,15 +20,17 @@ kset() {
     done
 }
 
-# unset the KUBECONFIG env var
+
+# Unset the KUBECONFIG env var.
 kunset() {
     unset KUBECONFIG
 }
 
+
 # Grep for nodes, show the header, sort by zone.
-kgngrep() {
+nodegrep() {
     if [[ $# -eq 0 ]]; then
-        echo "grep pattern is required"
+        echo "usage: ${funcstack} [pattern]"
         return
     fi
 
@@ -36,11 +39,13 @@ kgngrep() {
     echo "${nodes}" | grep -i "${1}" | sort -k7
 }
 
+
 # Deletes empty namespaces.
 # Requires one arg, which is the prefix start string.
 kns-cleanup() {
     if [[ $# -eq 0 ]]; then
-        echo "namespace prefix filter is required"
+        echo -e "Deletes empty namespaces starting with [prefix].\n"
+        echo "usage: ${funcstack} [prefix]"
         return
     fi
 
@@ -59,4 +64,17 @@ kns-cleanup() {
             fi
         done
     fi
+}
+
+
+# eks-node-viewer helper.
+nodeview() {
+    # $1 = env $2 = region
+    if [[ $# -lt 2 ]]; then
+        echo -e "eks-node-viewer helper. Invokes eks-node-viewer with some preconfigured params useful to me.\n"
+        echo "usage: ${funcstack} [env=dev|prod|svc] [region]"
+        return
+    fi
+
+    AWS_PROFILE="fusionauth-${1}-admin" eks-node-viewer --kubeconfig "${HOME}/.kube/fusionauth-${1}-${2}" --extra-labels node-group-name --resources cpu,memory
 }

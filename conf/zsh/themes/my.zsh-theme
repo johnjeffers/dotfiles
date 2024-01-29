@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# shellcheck disable=2016,2034,2154
 
 # Color vars
 # NOTE: run spectrum_ls to see all color options
