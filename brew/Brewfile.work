@@ -1,4 +1,5 @@
 tap "aws/tap"
+tap "hashicorp/tap"
 
 brew 'awscli'
 brew 'eks-node-viewer'
@@ -12,6 +13,7 @@ brew 'kubernetes-cli'
 brew 'postgresql@15'
 # brew 'redis'
 brew 'stern'
+brew 'terraform'
 brew 'tig'
 # brew 'trivy'
 # brew 'velero'
