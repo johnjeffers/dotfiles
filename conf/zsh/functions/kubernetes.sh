@@ -27,6 +27,20 @@ kunset() {
 }
 
 
+# Use EC2 connect to SSH to an EKS node.
+nodessh() {
+    if ! [[ $# -eq 2 ]]; then
+        echo "usage: ${funcstack} [aws-profile-name] [node-name]"
+        return
+    fi
+
+    aws ec2-instance-connect ssh \
+    --profile "${1}" \
+    --connection-type direct \
+    --instance-id "$(kubectl get no "${2}" -o jsonpath='{.spec.providerID}' | cut -d '/' -f 5)"
+}
+
+
 # Grep for nodes, show the header, sort by zone.
 nodegrep() {
     if [[ $# -eq 0 ]]; then
