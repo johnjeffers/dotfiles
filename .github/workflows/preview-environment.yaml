@@ -1,0 +1,127 @@
+---
+name: preview-environment
+
+env:
+  WORKDIR: ./helm
+  NS_PREFIX: fa-pre
+  DOMAIN: dev.us-west-2.fusionauth.co
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        required: true
+        type: choice
+        options:
+          - deploy
+          - upgrade
+          - delete
+      replicas:
+        required: true
+        type: number
+        description: Number of pods to run. 1 is sufficient unless you are testing FusionAuth clusters.
+        default: 1
+      repo:
+        required: true
+        type: string
+        description: Name of the repo to pull the image from. The default value is our ECR repo, and is usually the right choice.
+        default: 752443094709.dkr.ecr.us-west-2.amazonaws.com/fusionauth-int
+      tag:
+        required: true
+        type: string
+        description: The image tag to deploy.
+      namespace:
+        required: true
+        type: string
+        description: >-
+          This is the namespace we'll deploy to. It will be automatically created if it doesn't exist.
+          Whatever you enter here will be prepended with "fa-pre-". This will also be used to create
+          your host URL. For example, if you enter "test123", your namespace will be "fa-pre-test123",
+          and your host URL will be https://fa-pre-test123.dev.us-west-2.fusionauth.co. NOTE: Any
+          non-alphanumeric chars will be converted to dashes!
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: fusionauth-standard
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: aws-auth
+        uses: fusionauth/fusionauth-actions/aws-auth@v1
+        with:
+          aws-region: us-west-2
+          environment: dev
+          kubeconfig: true
+
+      # Lowercase the given namespace and convert any non-alphanum chars to dashes.
+      - name: sanitize namespace
+        run: |
+          sanitized="$NS_PREFIX-$(echo "${{ github.event.inputs.namespace }}" | \
+            tr "[:upper:]" "[:lower:]" | \
+            sed -e 's/[^[:alnum:]]/-/g')"
+          echo "Sanitized namespace is ${sanitized}"
+          echo "NAMESPACE=${sanitized}" >> $GITHUB_ENV
+
+      # Deploy the chart.
+      - name: deploy helm chart
+        if: github.event.inputs.command == 'deploy'
+        uses: fusionauth/fusionauth-actions/helm-chart@v1
+        with:
+          command: deploy
+          workdir: ${{ env.WORKDIR }}
+          chart-name: fusionauth
+          chart-namespace: ${{ env.NAMESPACE }}
+          chart-values: values.yaml
+          chart-overrides: >-
+            --set deployment.replicas=${{ github.event.inputs.replicas }}
+            --set deployment.image.tag=${{ github.event.inputs.tag }}
+            --set ingress.hostname=${{ env.NAMESPACE }}
+
+      - name: deploy message
+        if: github.event.inputs.command == 'deploy'
+        run: |
+          echo """
+          Your deployment appears to have been successful.
+
+          It will take some time for it to be available. 10-15 minutes is not uncommon.
+          When it's ready, you'll be able to reach it here:
+
+          https://${{ env.NAMESPACE }}.${{ env.DOMAIN }}
+          """
+
+      # If we've been asked to upgrade or delete, make sure the namespace exists.
+      - name: namespace check
+        if: contains(fromJSON('["upgrade","delete"]'), github.event.inputs.command)
+        run: |
+          if kubectl get namespace ${NAMESPACE} > /dev/null; then
+            echo "NS_CHECK=true" >> $GITHUB_ENV
+          else
+            echo "Namespace ${NAMESPACE} does not exist, nothing to do."
+          fi
+
+      # Upgrade the chart if we passed the namespace check.
+      - name: upgrade helm chart
+        if: (github.event.inputs.command == 'upgrade' && env.NS_CHECK)
+        uses: fusionauth/fusionauth-actions/helm-chart@v1
+        with:
+          command: deploy
+          workdir: ${{ env.WORKDIR }}
+          chart-name: fusionauth
+          chart-namespace: ${{ env.NAMESPACE }}
+          chart-values: values.yaml
+          chart-overrides: >-
+            --set deployment.replicas=${{ github.event.inputs.replicas }}
+            --set deployment.image.tag=${{ github.event.inputs.tag }}
+            --set ingress.hostname=${{ env.NAMESPACE }}
+
+      # Delete the chart (and namespace) if we passed the namespace check.
+      - name: delete helm deployment
+        if: (github.event.inputs.command == 'delete' && env.NS_CHECK)
+        run: |
+          helm uninstall -n ${{ env.NAMESPACE }} fusionauth --wait
+          kubectl delete namespace ${{ env.NAMESPACE }}
