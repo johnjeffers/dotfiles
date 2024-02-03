@@ -42,7 +42,7 @@ on:
           enter here will be prepended with "fa-pre-". This will also be used to create your
           host URL. For example, if you enter "test123", your namespace will be "fa-pre-test123",
           and your URL will be https://fa-pre-test123.dev.us-west-2.fusionauth.co. NOTE: Any
-          non-alphanumeric chars will be converted to dashes.)
+          non-alphanum chars will be converted to dashes.)
           NAMESPACE
 
 permissions:
