@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # export PYPI_URL.
 # This used to be an alias, but it made the shell take too long to start

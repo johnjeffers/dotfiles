@@ -1,10 +1,10 @@
-ansible
+# ansible
 black
-boto3
-cfn-flip
-cfn-lint
-elasticsearch
-kubernetes
+# boto3
+# cfn-flip
+# cfn-lint
+# elasticsearch
+# kubernetes
 pylint
 pyyaml
 requests

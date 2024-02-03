@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # Completely removes all containers, images, and builder cache files.
 docker-purge() {
@@ -8,6 +8,7 @@ docker-purge() {
     docker builder prune -f
     docker system prune -f
 }
+
 
 # Gets a list of tags from Docker Hub
 dockerhub-tags() {

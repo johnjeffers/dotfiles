@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-# shellcheck disable=2154
 
 # Parse the files in ~/.kube and select a kubeconfig to activate.
 kset() {
@@ -27,33 +26,6 @@ kunset() {
 }
 
 
-# Use EC2 connect to SSH to an EKS node.
-nodessh() {
-    if ! [[ $# -eq 2 ]]; then
-        echo "usage: ${funcstack} [aws-profile-name] [node-name]"
-        return
-    fi
-
-    aws ec2-instance-connect ssh \
-    --profile "${1}" \
-    --connection-type direct \
-    --instance-id "$(kubectl get no "${2}" -o jsonpath='{.spec.providerID}' | cut -d '/' -f 5)"
-}
-
-
-# Grep for nodes, show the header, sort by zone.
-nodegrep() {
-    if [[ $# -eq 0 ]]; then
-        echo "usage: ${funcstack} [pattern]"
-        return
-    fi
-
-    nodes="$(kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone)"
-    echo "${nodes}" | head -n1
-    echo "${nodes}" | grep -i "${1}" | sort -k7
-}
-
-
 # Deletes empty namespaces.
 # Requires one arg, which is the prefix start string.
 kns-cleanup() {
@@ -78,6 +50,33 @@ kns-cleanup() {
             fi
         done
     fi
+}
+
+
+# Grep for nodes, show the header, sort by zone.
+nodegrep() {
+    if [[ $# -eq 0 ]]; then
+        echo "usage: ${funcstack} [pattern]"
+        return
+    fi
+
+    nodes="$(kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone)"
+    echo "${nodes}" | head -n1
+    echo "${nodes}" | grep -i "${1}" | sort -k7
+}
+
+
+# Use EC2 connect to SSH to an EKS node.
+nodessh() {
+    if ! [[ $# -eq 2 ]]; then
+        echo "usage: ${funcstack} [aws-profile-name] [node-name]"
+        return
+    fi
+
+    aws ec2-instance-connect ssh \
+    --profile "${1}" \
+    --connection-type direct \
+    --instance-id "$(kubectl get no "${2}" -o jsonpath='{.spec.providerID}' | cut -d '/' -f 5)"
 }
 
 

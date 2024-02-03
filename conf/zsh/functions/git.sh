@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 # Does a git pull for every subdir in a directory.
 # Handy for making sure a bunch of repos are up-to-date with one command.
