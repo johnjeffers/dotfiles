@@ -19,7 +19,7 @@ on:
       replicas:
         required: true
         type: number
-        description: Number of pods to run. 1 is sufficient unless you are testing FusionAuth clusters.
+        description: Number of pods to run. 1 is sufficient unless you are testing FusionAuth clusters.<br>replicas
         default: 1
       repo:
         required: true
