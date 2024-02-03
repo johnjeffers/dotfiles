@@ -50,7 +50,7 @@ on:
           "fa-pre-test123", and your URL will be
           https://fa-pre-test123.dev.us-
           west-2.fusionauth.co. Any non-
-          lphanum chars will be converted to
+          alphanum chars will be converted to
           dashes.
           NAMESPACE
 
