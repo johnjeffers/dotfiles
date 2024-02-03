@@ -33,7 +33,7 @@ on:
       tag:
         required: true
         type: string
-        description: (The image tag to deploy.) IMAGE TAG
+        description: (The image tag to deploy. If you are deleting, you can enter any value.) IMAGE TAG
       namespace:
         required: true
         type: string
