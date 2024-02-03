@@ -49,8 +49,7 @@ on:
           enter "test123", your namespace will be
           "fa-pre-test123", and your URL will be
           https://fa-pre-test123.dev.us-
-          west-2.fusionauth.co. Any non-
-          alphanum chars will be converted to
+          west-2.fusionauth.co. Any non-alphanum chars will be converted to
           dashes.
           NAMESPACE
 
