@@ -13,6 +13,7 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 ZSH_THEME=""
 ZSH_DISABLE_COMPFIX=true
 export ZSH=$HOME/.oh-my-zsh
+export ZSH_COMPDUMP=$HOME/.cache/zsh/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}
 plugins=(docker git kubectl)
 source "$ZSH/oh-my-zsh.sh"
 
