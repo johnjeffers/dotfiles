@@ -19,31 +19,31 @@ on:
       replicas:
         required: true
         type: number
-        description: >
-          [Number of pods to run. 1 is sufficient unless you are testing FusionAuth clusters.]
-          replicas
+        description: |
+          (Number of pods to run. 1 is sufficient unless you are testing FusionAuth clusters.)
+          REPLICAS
         default: 1
       repo:
         required: true
         type: string
-        description: >
-          [Name of the repo to pull the image from. The default value is our ECR repo, and is usually the right choice.]
-          repo
+        description: |
+          (Name of the repo to pull the image from. The default value is our ECR repo, and is usually the right choice.)
+          IMAGE REPO
         default: 752443094709.dkr.ecr.us-west-2.amazonaws.com/fusionauth-int
       tag:
         required: true
         type: string
-        description: [The image tag to deploy.] tag
+        description: (The image tag to deploy.) IMAGE TAG
       namespace:
         required: true
         type: string
         description: >
-          [This is the namespace we'll deploy to. It will be automatically created if it doesn't exist.
-          Whatever you enter here will be prepended with "fa-pre-". This will also be used to create
-          your host URL. For example, if you enter "test123", your namespace will be "fa-pre-test123",
+          (Namespace we'll deploy to. It will be created if it doesn't exist. Whatever you
+          enter here will be prepended with "fa-pre-". This will also be used to create your
+          host URL. For example, if you enter "test123", your namespace will be "fa-pre-test123",
           and your host URL will be https://fa-pre-test123.dev.us-west-2.fusionauth.co. NOTE: Any
-          non-alphanumeric chars will be converted to dashes!]
-          namespace
+          non-alphanumeric chars will be converted to dashes.)
+          NAMESPACE
 
 permissions:
   id-token: write
