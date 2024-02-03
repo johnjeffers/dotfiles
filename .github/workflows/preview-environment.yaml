@@ -41,7 +41,7 @@ on:
           (Namespace we'll deploy to. It will be created if it doesn't exist. Whatever you
           enter here will be prepended with "fa-pre-". This will also be used to create your
           host URL. For example, if you enter "test123", your namespace will be "fa-pre-test123",
-          and your host URL will be https://fa-pre-test123.dev.us-west-2.fusionauth.co. NOTE: Any
+          and your URL will be https://fa-pre-test123.dev.us-west-2.fusionauth.co. NOTE: Any
           non-alphanumeric chars will be converted to dashes.)
           NAMESPACE
 
