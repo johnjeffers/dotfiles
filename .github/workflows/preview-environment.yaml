@@ -27,22 +27,31 @@ on:
         required: true
         type: string
         description: |
-          Name of the repo to pull the image from. The default value is our ECR repo, and is usually the right choice.
+          Name of the repo to pull the image from. The default value is our ECR repo, and
+          is usually the right choice.
           IMAGE REPO
         default: 752443094709.dkr.ecr.us-west-2.amazonaws.com/fusionauth-int
       tag:
         required: true
         type: string
-        description: The image tag to deploy. If you are deleting, you can enter any value. IMAGE TAG
+        description: |
+          The image tag to deploy. If you are deleting, you can enter any value.
+          IMAGE TAG
       namespace:
         required: true
         type: string
         description: >
-          Namespace we'll deploy to. It will be created if it doesn't exist. Whatever you
-          enter here will be prepended with "fa-pre-". This will also be used to create your
-          URL. For example, if you enter "test123", your namespace will be "fa-pre-test123",
-          and your URL will be https://fa-pre-test123.dev.us-west-2.fusionauth.co. NOTE: Any
-          non-alphanum chars will be converted to dashes.
+          Namespace we'll deploy to. It will be
+          created if it doesn't exist. Whatever
+          you enter here will be prepended with
+          "fa-pre-". This will also be used to
+          create your URL. For example, if you
+          enter "test123", your namespace will be
+          "fa-pre-test123", and your URL will be
+          https://fa-pre-test123.dev.us-
+          west-2.fusionauth.co. Any non-
+          lphanum chars will be converted to
+          dashes.
           NAMESPACE
 
 permissions:
