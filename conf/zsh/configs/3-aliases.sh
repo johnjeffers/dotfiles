@@ -4,7 +4,7 @@
 ### Aliases
 
 alias c="clear"
-alias swup='$HOME/git/personal/dotfiles/setup.sh'
+alias swup="~/git/personal/dotfiles/setup.sh"
 alias tf="terraform"
 alias watch="watch "
 
