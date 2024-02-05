@@ -1,0 +1,15 @@
+tap "buo/cask-upgrade"
+
+brew 'git'
+brew 'mas'
+brew 'starship'
+brew 'wget'
+brew 'zsh-autosuggestions'
+brew 'zsh-syntax-highlighting'
+
+cask '1password'
+cask 'firefox'
+cask 'iterm2'
+cask 'sublime-text'
+
+mas 'CopyClip', id: 1020812363

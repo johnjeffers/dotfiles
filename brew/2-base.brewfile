@@ -1,33 +1,19 @@
-tap "buo/cask-upgrade"
-
 brew 'bash'
-brew 'git'
-brew 'jq'
-brew 'mas'
-brew 'python@3.11'
-brew 'shellcheck'
-brew 'starship'
-brew 'telnet'
-brew 'the_silver_searcher'
-brew 'watch'
-brew 'wget'
-brew 'zsh-autosuggestions'
-brew 'zsh-syntax-highlighting'
-
-cask '1password'
 cask 'beyond-compare'
-cask 'firefox'
 cask 'google-chrome'
-cask 'iterm2'
+brew 'jq'
 cask 'logi-options-plus'
 cask 'openvpn-connect'
+brew 'python@3.11'
+brew 'shellcheck'
 cask 'signal'
 cask 'slack'
-cask 'sublime-text'
+brew 'telnet'
+brew 'the_silver_searcher'
 cask 'visual-studio-code'
+brew 'watch'
 cask 'zoom'
 
-mas 'CopyClip', id: 1020812363
 mas 'DaisyDisk', id: 411643860
 mas 'Pixelmator Pro', id: 1289583905
 

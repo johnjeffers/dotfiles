@@ -1,2 +1,2 @@
-Brewfile*.json
+**/*.lock.json
 dotfiles.db

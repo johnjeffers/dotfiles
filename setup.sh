@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1091
+
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -44,13 +46,14 @@ create_db() {
             my_email TEXT,
             work_email TEXT,
             company TEXT,
+            brew_base TEXT,
             brew_home TEXT,
             brew_music TEXT,
             brew_work TEXT,
             brew_java TEXT);"
     sqlite3 "${db}" "
-        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_home, brew_music, brew_work, brew_java)
-        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N', 'N', 'N');"
+        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_base, brew_home, brew_music, brew_work, brew_java)
+        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N', 'N', 'N', 'N');"
 }
 
 # Load user data from the DB
@@ -60,8 +63,9 @@ load_data() {
     MY_EMAIL="$(sqlite3 "${db}"   "SELECT my_email FROM userdata WHERE id = 1;")"
     WORK_EMAIL="$(sqlite3 "${db}" "SELECT work_email FROM userdata WHERE id = 1;")"
     COMPANY="$(sqlite3 "${db}"    "SELECT company FROM userdata WHERE id = 1;")"
+    BREW_BASE="$(sqlite3 "${db}"  "SELECT brew_base FROM userdata WHERE id = 1;")"
     BREW_HOME="$(sqlite3 "${db}"  "SELECT brew_home FROM userdata WHERE id = 1;")"
-    BREW_MUSIC="$(sqlite3 "${db}"  "SELECT brew_music FROM userdata WHERE id = 1;")"
+    BREW_MUSIC="$(sqlite3 "${db}" "SELECT brew_music FROM userdata WHERE id = 1;")"
     BREW_WORK="$(sqlite3 "${db}"  "SELECT brew_work FROM userdata WHERE id = 1;")"
     BREW_JAVA="$(sqlite3 "${db}"  "SELECT brew_java FROM userdata WHERE id = 1;")"
 }
@@ -90,20 +94,24 @@ update_data() {
     read -r -p "Company Name (${COMPANY}): " input
     COMPANY=$(echo "${input:-$COMPANY}" | awk '{print tolower($0)}')
 
-    info "\nDo you want to install the components in Brewfile.home?"
-    read -r -p "Install Brewfile.home (${BREW_HOME}): " input
+    info "\nDo you want to install the components in the base brewfile?"
+    read -r -p "Install base brewfile (${BREW_BASE}): " input
+    BREW_BASE=$(echo "${input:-$BREW_BASE}" | awk '{print toupper($0)}')
+
+    info "\nDo you want to install the components in the home brewfile?"
+    read -r -p "Install home brewfile (${BREW_HOME}): " input
     BREW_HOME=$(echo "${input:-$BREW_HOME}" | awk '{print toupper($0)}')
 
-    info "\nDo you want to install the components in Brewfile.music?"
-    read -r -p "Install Brewfile.music (${BREW_MUSIC}): " input
+    info "\nDo you want to install the components in the music brewfile?"
+    read -r -p "Install music brewfile (${BREW_MUSIC}): " input
     BREW_MUSIC=$(echo "${input:-$BREW_MUSIC}" | awk '{print toupper($0)}')
 
-    info "\nDo you want to install the components in Brewfile.work?"
-    read -r -p "Install Brewfile.work (${BREW_WORK}): " input
+    info "\nDo you want to install the components in the work brewfile?"
+    read -r -p "Install work brewfile (${BREW_WORK}): " input
     BREW_WORK=$(echo "${input:-$BREW_WORK}" | awk '{print toupper($0)}')
 
-    info "\nDo you want to install the components in Brewfile.java?"
-    read -r -p "Install Brewfile.java (${BREW_JAVA}): " input
+    info "\nDo you want to install the components in the java brewfile?"
+    read -r -p "Install java brewfile (${BREW_JAVA}): " input
     BREW_JAVA=$(echo "${input:-$BREW_JAVA}" | awk '{print toupper($0)}')
 
     # Update the DB with the data we just collected.
@@ -114,6 +122,7 @@ update_data() {
             my_email = '${MY_EMAIL}',
             work_email = '${WORK_EMAIL}',
             company = '${COMPANY}',
+            brew_base = '${BREW_BASE}',
             brew_home = '${BREW_HOME}',
             brew_music = '${BREW_MUSIC}',
             brew_work = '${BREW_WORK}',
@@ -128,10 +137,11 @@ show_data() {
     echo -e "${C_GRAY}Email:      ${C_YELLOW}${MY_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Work Email: ${C_YELLOW}${WORK_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Company:    ${C_YELLOW}${COMPANY}${C_RESET}"
-    echo -e "${C_GRAY}Install Brewfile.home: ${C_YELLOW}${BREW_HOME}${C_RESET}"
-    echo -e "${C_GRAY}Install Brewfile.music: ${C_YELLOW}${BREW_MUSIC}${C_RESET}"
-    echo -e "${C_GRAY}Install Brewfile.work: ${C_YELLOW}${BREW_WORK}${C_RESET}"
-    echo -e "${C_GRAY}Install Brewfile.java: ${C_YELLOW}${BREW_JAVA}${C_RESET}"
+    echo -e "${C_GRAY}Install base brewfile: ${C_YELLOW}${BREW_BASE}${C_RESET}"
+    echo -e "${C_GRAY}Install home brewfile: ${C_YELLOW}${BREW_HOME}${C_RESET}"
+    echo -e "${C_GRAY}Install music brewfile: ${C_YELLOW}${BREW_MUSIC}${C_RESET}"
+    echo -e "${C_GRAY}Install work brewfile: ${C_YELLOW}${BREW_WORK}${C_RESET}"
+    echo -e "${C_GRAY}Install java brewfile: ${C_YELLOW}${BREW_JAVA}${C_RESET}"
     echo -e "\n${C_GRAY}If this looks wrong, run ${C_YELLOW}setup.sh -u${C_GRAY} to update.${C_RESET}"
 }
 
@@ -200,44 +210,33 @@ do_starship_stuff() {
     success "Configured starship"
 }
 
-# do_omz_stuff() {
-#     local theme=${HOME}/.oh-my-zsh/themes/my.zsh-theme
-#     # Backup the existing theme if necessary.
-#     if file_exists "${theme}" && ! is_symlink "${theme}"; then
-#         backup_file "${theme}"
-#     fi
-#     # Create symlink to our theme.
-#     if file_missing "${theme}"; then
-#         info "Creating symlink for oh-my-zsh theme"
-#         ln -s -f "${my_dir}/conf/zsh/my.zsh-theme" "${theme}"
-#     fi
-
-#     success "Configured oh-my-zsh"
-# }
-
 do_brew_stuff() {
     local v=""
     if [[ ${verbose} = true ]]; then
         v="--verbose";
     fi
 
-    info "Installing Brewfile.base"
-    brew bundle "${v}" --file "${my_dir}/brew/Brewfile.base"
+    info "Installing minimal brewfile"
+    brew bundle "${v}" --file "${my_dir}/brew/1-minimal.brewfile"
+    if [[ "${BREW_BASE}" == 'Y' ]]; then
+        info "\nInstalling base brewfile"
+        brew bundle "${v}" --file "${my_dir}/brew/2-base.brewfile"
+    fi
     if [[ "${BREW_HOME}" == 'Y' ]]; then
-        info "\nInstalling Brewfile.home"
-        brew bundle "${v}" --file "${my_dir}/brew/Brewfile.home"
+        info "\nInstalling home brewfile"
+        brew bundle "${v}" --file "${my_dir}/brew/3-home.brewfile"
     fi
     if [[ "${BREW_MUSIC}" == 'Y' ]]; then
-        info "\nInstalling Brewfile.music"
-        brew bundle "${v}" --file "${my_dir}/brew/Brewfile.music"
+        info "\nInstalling music brewfile"
+        brew bundle "${v}" --file "${my_dir}/brew/4-music.brewfile"
     fi
     if [[ "${BREW_WORK}" == 'Y' ]]; then
-        info "\nInstalling Brewfile.work"
-        brew bundle "${v}" --file "${my_dir}/brew/Brewfile.work"
+        info "\nInstalling work brewfile"
+        brew bundle "${v}" --file "${my_dir}/brew/5-work.brewfile"
     fi
     if [[ "${BREW_JAVA}" == 'Y' ]]; then
-        info "\nInstalling Brewfile.java"
-        brew bundle "${v}" --file "${my_dir}/brew/Brewfile.java"
+        info "\nInstalling java brewfile"
+        brew bundle "${v}" --file "${my_dir}/brew/6-java.brewfile"
     fi
 
     info "\nUpdating brew casks"
@@ -320,7 +319,6 @@ do_python_stuff() {
         fi
         if dir_exists "${HOME}/venvs/python3"; then
             info "Updating python virtual env"
-            # shellcheck disable=SC1091
             source "${HOME}/venvs/python3/bin/activate"
             # I'm only installing public packages, so always use pypi.org for pip installs.
             # This overrides any local config that might be pointed at a private repo.
@@ -341,7 +339,6 @@ do_python_stuff() {
 }
 
 main() {
-    # shellcheck disable=SC1091
     source "${my_dir}/scripts/helpers.sh"
 
     # Path to the sqlite database that stores user data.
@@ -385,7 +382,6 @@ main() {
     do_bash_stuff
     do_zsh_stuff
     do_starship_stuff
-    # do_omz_stuff - removed, using starship instead of my OMZ theme
 
     # Install apps
     echo ""
