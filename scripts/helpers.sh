@@ -41,5 +41,5 @@ else
 	exit 1
 fi
 
-# Tests for the functions above. Leave this commented out unless you're testing.
-source "${my_dir}/scripts/tests.sh"
+# Tests for the functions above. If you uncomment this, it will run the tests and exit.
+# source "${my_dir}/scripts/tests.sh"
