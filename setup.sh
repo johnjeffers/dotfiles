@@ -117,16 +117,16 @@ update_data() {
     # Update the DB with the data we just collected.
     sqlite3 "${db}" "
         UPDATE userdata SET
-            repo_dir = '${REPO_DIR}',
-            my_name = '${MY_NAME}',
-            my_email = '${MY_EMAIL}',
+            repo_dir =   '${REPO_DIR}',
+            my_name =    '${MY_NAME}',
+            my_email =   '${MY_EMAIL}',
             work_email = '${WORK_EMAIL}',
-            company = '${COMPANY}',
-            brew_base = '${BREW_BASE}',
-            brew_home = '${BREW_HOME}',
+            company =    '${COMPANY}',
+            brew_base =  '${BREW_BASE}',
+            brew_home =  '${BREW_HOME}',
             brew_music = '${BREW_MUSIC}',
-            brew_work = '${BREW_WORK}',
-            brew_java = '${BREW_JAVA}'
+            brew_work =  '${BREW_WORK}',
+            brew_java =  '${BREW_JAVA}'
         WHERE id = 1;"
 }
 
@@ -137,12 +137,12 @@ show_data() {
     echo -e "${C_GRAY}Email:      ${C_YELLOW}${MY_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Work Email: ${C_YELLOW}${WORK_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Company:    ${C_YELLOW}${COMPANY}${C_RESET}"
-    echo -e "${C_GRAY}Install base brewfile: ${C_YELLOW}${BREW_BASE}${C_RESET}"
-    echo -e "${C_GRAY}Install home brewfile: ${C_YELLOW}${BREW_HOME}${C_RESET}"
+    echo -e "${C_GRAY}Install base brewfile:  ${C_YELLOW}${BREW_BASE}${C_RESET}"
+    echo -e "${C_GRAY}Install home brewfile:  ${C_YELLOW}${BREW_HOME}${C_RESET}"
     echo -e "${C_GRAY}Install music brewfile: ${C_YELLOW}${BREW_MUSIC}${C_RESET}"
-    echo -e "${C_GRAY}Install work brewfile: ${C_YELLOW}${BREW_WORK}${C_RESET}"
-    echo -e "${C_GRAY}Install java brewfile: ${C_YELLOW}${BREW_JAVA}${C_RESET}"
-    echo -e "\n${C_GRAY}If this looks wrong, run ${C_YELLOW}setup.sh -u${C_GRAY} to update.${C_RESET}"
+    echo -e "${C_GRAY}Install work brewfile:  ${C_YELLOW}${BREW_WORK}${C_RESET}"
+    echo -e "${C_GRAY}Install java brewfile:  ${C_YELLOW}${BREW_JAVA}${C_RESET}\n"
+    echo -e "${C_GRAY}If this looks wrong, run ${C_YELLOW}setup.sh -u${C_GRAY} to update.${C_RESET}"
 }
 
 do_bash_stuff() {
