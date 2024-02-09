@@ -19,6 +19,14 @@ help() {
     exit
 }
 
+bash_version_check() {
+    if ((BASH_VERSINFO[0] < 4)); then
+        echo -e "$(tput setaf 202)bash version ${BASH_VERSION} detected. You need bash version 4 or later.$(tput sgr0)\n"
+        echo -e "$(tput setaf 248)Run $(tput sgr0)brew install bash$(tput sgr0) $(tput setaf 248)and try again.$(tput sgr0)"
+        exit 1
+    fi
+}
+
 validate_prereqs() {
     # Make sure brew is installed.
     if command_missing brew; then
@@ -339,6 +347,7 @@ do_python_stuff() {
 }
 
 main() {
+    bash_version_check
     source "${my_dir}/scripts/helpers.sh"
 
     # Path to the sqlite database that stores user data.

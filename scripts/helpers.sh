@@ -30,16 +30,9 @@ file_exists()  { if   [[ -f "${1}" ]];  then return 0; else return 1; fi }
 file_missing() { if ! [[ -f "${1}" ]];  then return 0; else return 1; fi }
 is_symlink()   { if   [[ -L "${1}" ]];  then return 0; else return 1; fi }
 not_symlink()  { if ! [[ -L "${1}" ]];  then return 0; else return 1; fi }
-# Make sure we're on bash 4 or later.
-if [ "${BASH_VERSINFO:-0}" -ge 4 ]; then
-	var_set()      { if   [[ -v "${1}" ]];  then return 0; else return 1; fi }
-	var_unset()    { if ! [[ -v "${1}" ]];  then return 0; else return 1; fi }
-	var_empty()    { if   [[ -z "${!1}" ]]; then return 0; else return 1; fi }
-else
-	error "You need bash version 4 or later.\n"
-	info "'brew install bash' and try again."
-	exit 1
-fi
+var_set()      { if   [[ -v "${1}" ]];  then return 0; else return 1; fi }
+var_unset()    { if ! [[ -v "${1}" ]];  then return 0; else return 1; fi }
+var_empty()    { if   [[ -z "${!1}" ]]; then return 0; else return 1; fi }
 
 # Tests for the functions above. If you uncomment this, it will run the tests and exit.
 # source "${my_dir}/scripts/tests.sh"
