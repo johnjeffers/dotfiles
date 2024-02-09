@@ -37,9 +37,23 @@ sso_role_name = administrators
 region = us-west-2
 cli_pager =
 
+[profile fusionauth-logs-admin]
+sso_session = fusionauth
+sso_account_id = 654654465173
+sso_role_name = administrators
+region = us-west-2
+cli_pager =
+
 [profile fusionauth-prod-admin]
 sso_session = fusionauth
 sso_account_id = 121700706967
+sso_role_name = administrators
+region = us-west-2
+cli_pager =
+
+[profile fusionauth-security-admin]
+sso_session = fusionauth
+sso_account_id = 176970578561
 sso_role_name = administrators
 region = us-west-2
 cli_pager =
