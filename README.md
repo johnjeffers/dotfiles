@@ -1,6 +1,6 @@
 # dotfiles
 
-Just some stuff to save me setup time when configuring a new mac.
+Stuff to make it more convenient to configure and update my computers.
 
 > [!WARNING]
 > **This is written for my personal needs.** The software and config files it installs are unlikely to be exactly what you want or need. It might be a good place to get ideas for your own setup scripts, though.<br><br>**This has only been tested on MacOS.** Some of this might work on Linux or Windows, but I don't know.
