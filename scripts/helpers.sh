@@ -18,8 +18,27 @@ error()   { echo -e "${C_RED}${1}${C_RESET}" >&2; }
 success() { echo -e "${C_GREEN}${1}${C_RESET}"; }
 info()    { echo -e "${C_GRAY}${1}${C_RESET}"; }
 
-# Backup a file, use timestamp as extension
-backup_file() { mv "${1}" "${1}.$(date '+%Y%m%d%H%M%S')"; }
+# Archive a file, use timestamp as extension
+archive_file() {
+	archive="${1}.$(date '+%Y%m%d%H%M%S')"
+	info "Creating archive of ${1} to ${archive}"
+	mv "${1}" "${archive}"
+}
+
+create_directory() {
+    info "Creating ${1}"
+    mkdir -p "${1}"
+}
+
+create_softlink() {
+    info "Soft linking ${2} to ${1}"
+    ln -s -f "${1}" "${2}"
+}
+
+create_hardlink() {
+    info "Hard linking ${2} to ${1}"
+    ln -f "${1}" "${2}"
+}
 
 # Simple "does x exist/is x equal to" functions to use in boolean checks.
 command_exists()  { if   command -v "${1}" &> /dev/null; then return 0; else return 1; fi } 

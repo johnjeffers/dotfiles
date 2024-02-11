@@ -19,6 +19,8 @@ help() {
     exit
 }
 
+# We have to do this check before we source our helper functions,
+# so we need to use regular echo with color codes here.
 bash_version_check() {
     if ((BASH_VERSINFO[0] < 4)); then
         echo -e "$(tput setaf 202)bash version ${BASH_VERSION} detected. You need bash version 4 or later.$(tput sgr0)\n"
@@ -82,43 +84,45 @@ load_data() {
 update_data() {
     printf "\nPress enter to keep the current values.\n"
 
-    info "\nBase dir for your repos. Will be created in \$HOME if it doesn't exist."
+    info "\nDirectory for your git repos."
+    info "Will be created at ${HOME}."
     read -r -p "Repo Dir (${REPO_DIR}): " input
     REPO_DIR="${input:-$REPO_DIR}"
 
-    info "\nYour name is used in the global .gitconfig"
+    info "\nFull Name used in all .gitconfig files"
     read -r -p "Name (${MY_NAME}): " input
     MY_NAME="${input:-$MY_NAME}"
 
-    info "\nYour personal email used is in the global .gitconfig"
+    info "\nPersonal email address for the global .gitconfig"
     read -r -p "Email (${MY_EMAIL}): " input
     MY_EMAIL="${input:-$MY_EMAIL}"
 
-    info "\nYour work email is used in the .gitconfig for your work repos"
+    info "\nWork email address for the work-specific .gitconfig"
     read -r -p "Email (${WORK_EMAIL}): " input
     WORK_EMAIL="${input:-$WORK_EMAIL}"
 
-    info "\nThe company name will be used to create a subdir under ~/${REPO_DIR}"
+    info "\nCompany name for work repos"
+    info "We be created at ${HOME}/${REPO_DIR}"
     read -r -p "Company Name (${COMPANY}): " input
-    COMPANY=$(echo "${input:-$COMPANY}" | awk '{print tolower($0)}')
+    COMPANY="${input:-$COMPANY}"
 
-    info "\nDo you want to install the components in the base brewfile?"
-    read -r -p "Install base brewfile (${BREW_BASE}): " input
+    info "\nInstall the components in the base brewfile?"
+    read -r -p "Install base brewfile (${BREW_BASE}) " input
     BREW_BASE=$(echo "${input:-$BREW_BASE}" | awk '{print toupper($0)}')
 
-    info "\nDo you want to install the components in the home brewfile?"
+    info "\nInstall the components in the home brewfile?"
     read -r -p "Install home brewfile (${BREW_HOME}): " input
     BREW_HOME=$(echo "${input:-$BREW_HOME}" | awk '{print toupper($0)}')
 
-    info "\nDo you want to install the components in the music brewfile?"
+    info "\nInstall the components in the music brewfile?"
     read -r -p "Install music brewfile (${BREW_MUSIC}): " input
     BREW_MUSIC=$(echo "${input:-$BREW_MUSIC}" | awk '{print toupper($0)}')
 
-    info "\nDo you want to install the components in the work brewfile?"
+    info "\nInstall the components in the work brewfile?"
     read -r -p "Install work brewfile (${BREW_WORK}): " input
     BREW_WORK=$(echo "${input:-$BREW_WORK}" | awk '{print toupper($0)}')
 
-    info "\nDo you want to install the components in the java brewfile?"
+    info "\nInstall the components in the java brewfile?"
     read -r -p "Install java brewfile (${BREW_JAVA}): " input
     BREW_JAVA=$(echo "${input:-$BREW_JAVA}" | awk '{print toupper($0)}')
 
@@ -138,13 +142,14 @@ update_data() {
         WHERE id = 1;"
 }
 
+
 show_data() {
     echo -e "\n${C_GRAY}We will use the following data:${C_RESET}\n"
-    echo -e "${C_GRAY}Repo Dir:   ${C_YELLOW}${REPO_DIR}${C_RESET}"
-    echo -e "${C_GRAY}Name:       ${C_YELLOW}${MY_NAME}${C_RESET}"
-    echo -e "${C_GRAY}Email:      ${C_YELLOW}${MY_EMAIL}${C_RESET}"
-    echo -e "${C_GRAY}Work Email: ${C_YELLOW}${WORK_EMAIL}${C_RESET}"
-    echo -e "${C_GRAY}Company:    ${C_YELLOW}${COMPANY}${C_RESET}"
+    echo -e "${C_GRAY}Repo root dir:  ${C_YELLOW}${HOME}/${REPO_DIR}${C_RESET}"
+    echo -e "${C_GRAY}Work repo dir:  ${C_YELLOW}${HOME}/${REPO_DIR}/${COMPANY}${C_RESET}"
+    echo -e "${C_GRAY}Full name:      ${C_YELLOW}${MY_NAME}${C_RESET}"
+    echo -e "${C_GRAY}Personal email: ${C_YELLOW}${MY_EMAIL}${C_RESET}"
+    echo -e "${C_GRAY}Work Email:     ${C_YELLOW}${WORK_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Install base brewfile:  ${C_YELLOW}${BREW_BASE}${C_RESET}"
     echo -e "${C_GRAY}Install home brewfile:  ${C_YELLOW}${BREW_HOME}${C_RESET}"
     echo -e "${C_GRAY}Install music brewfile: ${C_YELLOW}${BREW_MUSIC}${C_RESET}"
@@ -153,48 +158,42 @@ show_data() {
     echo -e "${C_GRAY}If this looks wrong, run ${C_YELLOW}setup.sh -u${C_GRAY} to update.${C_RESET}"
 }
 
-do_bash_stuff() {
+
+setup_bash() {
     local bashrc=${HOME}/.bashrc
-    # Backup the existing .bashrc if necessary.
+
     if file_exists "${bashrc}" && not_symlink "${bashrc}"; then
-        backup_file "${bashrc}"
+        archive_file "${bashrc}"
     fi
-    # Create symlink to our .bashrc file.
     if file_missing "${bashrc}"; then
-        info "Creating symlink for ~/.bashrc"
-        ln -s -f "${my_dir}/conf/bash/.bashrc" "${bashrc}"
+        create_softlink "${my_dir}/conf/bash/.bashrc" "${bashrc}"
     fi
 
     success "Configured bash"
 }
 
-do_zsh_stuff() {
+
+setup_zsh() {
     local zshrc=${HOME}/.zshrc
-    # Backup the existing .zshrc if necessary.
     if file_exists "${zshrc}" && not_symlink "${zshrc}"; then
-        backup_file "${zshrc}"
+        archive_file "${zshrc}"
     fi
-    # Create symlink to our .zshrc file.
     if file_missing "${zshrc}"; then
-        info "Creating symlink for ~/.zshrc"
-        ln -s -f "${my_dir}/conf/zsh/.zshrc" "${zshrc}"
+        create_softlink "${my_dir}/conf/zsh/.zshrc" "${zshrc}"
     fi
 
     local zprofile=${HOME}/.zprofile
-    # Backup the existing .zprofile if necessary.
     if file_exists "${zprofile}" && not_symlink "${zprofile}"; then
-        backup_file "${zprofile}"
+        archive_file "${zprofile}"
     fi
-    # Create symlink to our .zprofile file.
     if file_missing "${zprofile}"; then
-        info "Creating symlink for ~/.zprofile"
-        ln -s -f "${my_dir}/conf/zsh/.zprofile" "${zprofile}"
+        create_softlink "${my_dir}/conf/zsh/.zprofile" "${zprofile}"
     fi
 
     success "Configured zsh"
 }
 
-do_starship_stuff() {
+setup_starship() {
     # Install fonts used by iTerm2/Starship.
     fonts="MonacoNerdFont-Regular.ttf MonacoNerdFontMono-Regular.ttf"
     for font in $fonts; do
@@ -207,18 +206,17 @@ do_starship_stuff() {
     local cfg=${HOME}/.config/starship.toml
     # Backup the existing config if necessary.
     if file_exists "${cfg}" && not_symlink "${cfg}"; then
-        backup_file "${cfg}"
+        archive_file "${cfg}"
     fi
     # Create symlink to our theme.
     if file_missing "${cfg}"; then
-        info "Creating symlink for starship config"
-        ln -s -f "${my_dir}/conf/starship/starship.toml" "${cfg}"
+        create_softlink "${my_dir}/conf/starship/starship.toml" "${cfg}"
     fi
 
     success "Configured starship"
 }
 
-do_brew_stuff() {
+run_brew() {
     local v=""
     if [[ ${verbose} = true ]]; then
         v="--verbose";
@@ -253,60 +251,54 @@ do_brew_stuff() {
     info "\nUpdating packages not in your Brewfiles..."
     brew upgrade
     success "Done updating packages"
-    info "\nCleaning up..."
+    info "\nRunning brew autoremove..."
     brew autoremove
+    info "Running brew cleanup..."
     brew cleanup
-    success "Done cleaning up"
+    success "Done with brew tasks"
 }
 
-do_aws_stuff() {
+setup_aws() {
     local awsdir=${HOME}/.aws
-    # Create ~/.aws if it doesn't exist.
+
     if dir_missing "${awsdir}"; then
-        info "Creating directory ${awsdir}"
-        mkdir -p "${awsdir}"
+        create_directory "${awsdir}"
     fi
 
     # Create hard link to our config.
     # Uses a hard link instead of a symlink so it can be used in a docker volume mount.
     local awscfg=${awsdir}/config
     if file_missing "${awscfg}"; then
-        info "Creating hard link for ~/.aws/config"
-        ln -f "${my_dir}/conf/aws/config" "${awscfg}"
+        create_hardlink "${my_dir}/conf/aws/config" "${awscfg}"
     fi
 
     success "Configured awscli"
 }
 
-do_git_stuff() {
-    local git_root=${HOME}/${REPO_DIR}
+setup_git() {
+    local git_root="${HOME}/${REPO_DIR}"
 
-    # Create the git repo directories if they don't exist.
-    local personal="${git_root}/personal"
-    if dir_missing "${personal}"; then
-        info "Creating ${personal}"
-        mkdir -p "${personal}"
-    fi
-    local public="${git_root}/public"
-    if dir_missing "${public}"; then
-        info "Creating ${public}"
-        mkdir -p "${public}"
-    fi
-    WORK_GIT="${git_root}/${COMPANY}"
-    if dir_missing "${WORK_GIT}"; then
-        info "Creating ${WORK_GIT}"
-        mkdir -p "${WORK_GIT}"
-    fi
+    # Create the git directories if they don't exist
+    local dirs=(
+        "${git_root}/personal"
+        "${git_root}/public"
+        "${git_root}/${COMPANY}"
+    )
+    for dir in "${dirs[@]}"; do
+        if dir_missing "${dir}"; then
+            create_directory "${dir}"
+        fi
+    done
 
     # Some vars need to be exported to work with envsubst.
     export MY_NAME MY_EMAIL WORK_EMAIL WORK_GIT
-    envsubst < "${my_dir}/conf/git/.gitconfig.global" > "${HOME}/.gitconfig"
-    envsubst < "${my_dir}/conf/git/.gitconfig.work" > "${WORK_GIT}/.gitconfig"
+    envsubst < "${my_dir}/conf/git/.gitconfig.global" > "${git_root}/.gitconfig"
+    envsubst < "${my_dir}/conf/git/.gitconfig.work" > "${git_root}/${COMPANY}/.gitconfig"
 
     success "Configured git"
 }
 
-do_iterm_stuff() {
+setup_iterm() {
     # Configure iTerm to use our preferences file.
     if dir_exists "/Applications/iTerm.app"; then
         defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$my_dir/conf/iterm"
@@ -317,12 +309,12 @@ do_iterm_stuff() {
     fi
 }
 
-do_python_stuff() {
+setup_python() {
     # Create a python3 venv
     if command_exists python3; then
         if dir_missing "${HOME}/venvs/python3"; then
             info "Creating python virtual env"
-            mkdir -p "${HOME}/venvs/python3"
+            create_directory "${HOME}/venvs/python3"
             python3 -m venv "${HOME}/venvs/python3"
         fi
         if dir_exists "${HOME}/venvs/python3"; then
@@ -388,19 +380,20 @@ main() {
 
     # Configure shells
     echo ""
-    do_bash_stuff
-    do_zsh_stuff
-    do_starship_stuff
+    setup_bash
+    setup_zsh
+    setup_starship
 
     # Install apps
     echo ""
-    do_brew_stuff
+    run_brew
+
     # Configure apps
     echo ""
-    do_aws_stuff
-    do_git_stuff
-    do_iterm_stuff
-    do_python_stuff
+    setup_aws
+    setup_git
+    setup_iterm
+    setup_python
 
     success "\nDone!"
 }
