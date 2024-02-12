@@ -67,14 +67,14 @@ If any of these files already exist, the script will make a backup.
 
 ### Other Configuration
 
-* Configure iTerm2 to use the preferences file in this repo
-* Create a virtual env for the python installed by brew
+* Configure iTerm2 to use the [preferences file](conf/iterm) in this repo
+* Create python venv, and run a `pip install` in that venv with the [requirements file](conf/python/requirements.txt).
 
 ### Install Software with Brew
 
-After config files are created, the script installs the software in the Brewfiles.
+After config files are created, the script installs the software in the [brewfiles](brew).
 
-The Brewfiles are split into `base`, `home`, `work`, and `music`. The `base` Brewfile is always installed, while the others are conditional based on answers to the setup script questions.
+The brewfiles are split into categories. The [minimal](brew/1-minimal.brewfile) brewfile is always installed, while the others are conditional based on answers to the setup script questions.
 
 ## Software Updates
 
