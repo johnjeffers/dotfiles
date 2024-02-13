@@ -59,11 +59,10 @@ create_db() {
             brew_base TEXT,
             brew_home TEXT,
             brew_music TEXT,
-            brew_work TEXT,
-            brew_java TEXT);"
+            brew_work TEXT);"
     sqlite3 "${db}" "
-        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_base, brew_home, brew_music, brew_work, brew_java)
-        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N', 'N', 'N', 'N');"
+        INSERT INTO userdata (id, repo_dir, my_name, my_email, work_email, company, brew_base, brew_home, brew_music, brew_work)
+        VALUES (1, 'git', 'My Name', 'my@email', 'work@email', 'company-name', 'N', 'N', 'N', 'N');"
 }
 
 # Load user data from the DB
@@ -77,7 +76,6 @@ load_data() {
     BREW_HOME="$(sqlite3 "${db}"  "SELECT brew_home FROM userdata WHERE id = 1;")"
     BREW_MUSIC="$(sqlite3 "${db}" "SELECT brew_music FROM userdata WHERE id = 1;")"
     BREW_WORK="$(sqlite3 "${db}"  "SELECT brew_work FROM userdata WHERE id = 1;")"
-    BREW_JAVA="$(sqlite3 "${db}"  "SELECT brew_java FROM userdata WHERE id = 1;")"
 }
 
 # Prompt to update user data.
@@ -101,9 +99,14 @@ update_data() {
     read -r -p "Email (${WORK_EMAIL}): " input
     WORK_EMAIL="${input:-$WORK_EMAIL}"
 
-    info "\nCompany name for work repos"
-    info "We be created at ${HOME}/${REPO_DIR}"
-    read -r -p "Company Name (${COMPANY}): " input
+    # $CURRENT_JORB has a very opinionated setup script, so let's not fight with them.
+    # info "\nCompany name for work repos"
+    # info "Will be created at ${HOME}/${REPO_DIR}"
+    # read -r -p "Company Name (${COMPANY}): " input
+    # COMPANY="${input:-$COMPANY}"
+    info "\nLocation for work .gitconfig"
+    info "Will be created at ${HOME}/${COMPANY}"
+    read -r -p "Work .gitconfig dir (${COMPANY}): " input
     COMPANY="${input:-$COMPANY}"
 
     info "\nInstall the components in the base brewfile?"
@@ -122,10 +125,6 @@ update_data() {
     read -r -p "Install work brewfile (${BREW_WORK}): " input
     BREW_WORK=$(echo "${input:-$BREW_WORK}" | awk '{print toupper($0)}')
 
-    info "\nInstall the components in the java brewfile?"
-    read -r -p "Install java brewfile (${BREW_JAVA}): " input
-    BREW_JAVA=$(echo "${input:-$BREW_JAVA}" | awk '{print toupper($0)}')
-
     # Update the DB with the data we just collected.
     sqlite3 "${db}" "
         UPDATE userdata SET
@@ -137,8 +136,7 @@ update_data() {
             brew_base =  '${BREW_BASE}',
             brew_home =  '${BREW_HOME}',
             brew_music = '${BREW_MUSIC}',
-            brew_work =  '${BREW_WORK}',
-            brew_java =  '${BREW_JAVA}'
+            brew_work =  '${BREW_WORK}'
         WHERE id = 1;"
 }
 
@@ -146,15 +144,16 @@ update_data() {
 show_data() {
     echo -e "\n${C_GRAY}We will use the following data:${C_RESET}\n"
     echo -e "${C_GRAY}Repo root dir:  ${C_YELLOW}${HOME}/${REPO_DIR}${C_RESET}"
-    echo -e "${C_GRAY}Work repo dir:  ${C_YELLOW}${HOME}/${REPO_DIR}/${COMPANY}${C_RESET}"
+    # $CURRENT_JORB has a very opinionated setup script, so let's not fight with them.
+    # echo -e "${C_GRAY}Work repo dir:  ${C_YELLOW}${HOME}/${REPO_DIR}/${COMPANY}${C_RESET}"
+    echo -e "${C_GRAY}Work repo dir:  ${C_YELLOW}${HOME}/${COMPANY}${C_RESET}"
     echo -e "${C_GRAY}Full name:      ${C_YELLOW}${MY_NAME}${C_RESET}"
     echo -e "${C_GRAY}Personal email: ${C_YELLOW}${MY_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Work Email:     ${C_YELLOW}${WORK_EMAIL}${C_RESET}"
     echo -e "${C_GRAY}Install base brewfile:  ${C_YELLOW}${BREW_BASE}${C_RESET}"
     echo -e "${C_GRAY}Install home brewfile:  ${C_YELLOW}${BREW_HOME}${C_RESET}"
     echo -e "${C_GRAY}Install music brewfile: ${C_YELLOW}${BREW_MUSIC}${C_RESET}"
-    echo -e "${C_GRAY}Install work brewfile:  ${C_YELLOW}${BREW_WORK}${C_RESET}"
-    echo -e "${C_GRAY}Install java brewfile:  ${C_YELLOW}${BREW_JAVA}${C_RESET}\n"
+    echo -e "${C_GRAY}Install work brewfile:  ${C_YELLOW}${BREW_WORK}${C_RESET}\n"
     echo -e "${C_GRAY}If this looks wrong, run ${C_YELLOW}setup.sh -u${C_GRAY} to update.${C_RESET}"
 }
 
@@ -240,10 +239,6 @@ run_brew() {
         info "\nInstalling work brewfile"
         brew bundle "${v}" --file "${my_dir}/brew/5-work.brewfile"
     fi
-    if [[ "${BREW_JAVA}" == 'Y' ]]; then
-        info "\nInstalling java brewfile"
-        brew bundle "${v}" --file "${my_dir}/brew/6-java.brewfile"
-    fi
 
     info "\nUpdating brew casks"
     brew cu --include-mas --cleanup
@@ -282,7 +277,8 @@ setup_git() {
     local dirs=(
         "${git_root}/personal"
         "${git_root}/public"
-        "${git_root}/${COMPANY}"
+        # $CURRENT_JORB has a very opinionated setup script, so let's not fight with them.
+        # "${git_root}/${COMPANY}"
     )
     for dir in "${dirs[@]}"; do
         if dir_missing "${dir}"; then
@@ -293,7 +289,9 @@ setup_git() {
     # Some vars need to be exported to work with envsubst.
     export MY_NAME MY_EMAIL WORK_EMAIL WORK_GIT
     envsubst < "${my_dir}/conf/git/.gitconfig.global" > "${git_root}/.gitconfig"
-    envsubst < "${my_dir}/conf/git/.gitconfig.work" > "${git_root}/${COMPANY}/.gitconfig"
+    # $CURRENT_JORB has a very opinionated setup script, so let's not fight with them.
+    # envsubst < "${my_dir}/conf/git/.gitconfig.work" > "${git_root}/${COMPANY}/.gitconfig"
+    envsubst < "${my_dir}/conf/git/.gitconfig.work" > "${HOME}/${COMPANY}/.gitconfig"
 
     success "Configured git"
 }
