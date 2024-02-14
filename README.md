@@ -23,13 +23,16 @@ Stuff to make it more convenient to configure and update my computers.
 
 ## Instructions
 
-Run `./setup.sh`
+The setup script reads a `.env` file to get its configuration data.
 
-On the initial run, you'll be asked some setup questions. The answers are saved in a sqlite database for future runs.
+Before you run the script:
+```
+cp env.template .env
+```
 
-💾 To update saved user data, run `./setup.sh -u`
+Edit `.env` with your personal info and script preferences.
 
-🗣️ To enable verbose mode, run `./setup.sh -v`
+Then, run `./setup.sh`
 
 ## How it Works
 
