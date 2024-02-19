@@ -1,0 +1,3 @@
+[user]
+    name = ${PUBLIC_NAME}
+    email = ${PUBLIC_EMAIL}

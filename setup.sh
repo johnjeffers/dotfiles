@@ -6,8 +6,8 @@ set -o nounset
 set -o pipefail
 
 # Get the path this script lives in so it'll work if called from another directory.
-my_dir=$(cd -- "$(dirname "$0")" >/dev/null 2>&1; pwd -P)
-cd "${my_dir}"
+MY_DIR=$(cd -- "$(dirname "$0")" >/dev/null 2>&1; pwd -P)
+cd "${MY_DIR}"
 
 help() {
     printf "usage: setup.sh [-hdv]\n\n"
@@ -54,7 +54,7 @@ setup_bash() {
         archive_file "${bashrc}"
     fi
     if file_missing "${bashrc}"; then
-        create_softlink "${my_dir}/conf/bash/.bashrc" "${bashrc}"
+        create_softlink "${MY_DIR}/conf/bash/.bashrc" "${bashrc}"
     fi
 
     success "Configured bash"
@@ -67,7 +67,7 @@ setup_zsh() {
         archive_file "${zshrc}"
     fi
     if file_missing "${zshrc}"; then
-        create_softlink "${my_dir}/conf/zsh/.zshrc" "${zshrc}"
+        create_softlink "${MY_DIR}/conf/zsh/.zshrc" "${zshrc}"
     fi
 
     local zprofile=${HOME}/.zprofile
@@ -75,7 +75,7 @@ setup_zsh() {
         archive_file "${zprofile}"
     fi
     if file_missing "${zprofile}"; then
-        create_softlink "${my_dir}/conf/zsh/.zprofile" "${zprofile}"
+        create_softlink "${MY_DIR}/conf/zsh/.zprofile" "${zprofile}"
     fi
 
     success "Configured zsh"
@@ -88,7 +88,7 @@ setup_starship() {
     for font in $fonts; do
         if file_missing "${HOME}/Library/Fonts/${font}"; then
             info "Installing font ${font}..."
-            cp "${my_dir}/fonts/${font}" "${HOME}/Library/Fonts"
+            cp "${MY_DIR}/fonts/${font}" "${HOME}/Library/Fonts"
         fi
     done
 
@@ -99,7 +99,7 @@ setup_starship() {
     fi
     # Create symlink to our theme.
     if file_missing "${cfg}"; then
-        create_softlink "${my_dir}/conf/starship/starship.toml" "${cfg}"
+        create_softlink "${MY_DIR}/conf/starship/starship.toml" "${cfg}"
     fi
 
     success "Configured starship"
@@ -111,22 +111,22 @@ run_brew() {
     if [[ ${verbose} = true ]]; then v="--verbose"; fi
 
     info "\nInstalling minimal brewfile"
-    brew bundle "${v}" --file "${my_dir}/brew/minimal.brewfile"
+    brew bundle "${v}" --file "${MY_DIR}/brew/minimal.brewfile"
     if "${BREW_BASE}"; then
         info "\nInstalling base brewfile"
-        brew bundle "${v}" --file "${my_dir}/brew/base.brewfile"
+        brew bundle "${v}" --file "${MY_DIR}/brew/base.brewfile"
     fi
     if "${BREW_HOME}"; then
         info "\nInstalling home brewfile"
-        brew bundle "${v}" --file "${my_dir}/brew/home.brewfile"
+        brew bundle "${v}" --file "${MY_DIR}/brew/home.brewfile"
     fi
     if "${BREW_MUSIC}"; then
         info "\nInstalling music brewfile"
-        brew bundle "${v}" --file "${my_dir}/brew/music.brewfile"
+        brew bundle "${v}" --file "${MY_DIR}/brew/music.brewfile"
     fi
     if "${BREW_WORK}"; then
         info "\nInstalling work brewfile"
-        brew bundle "${v}" --file "${my_dir}/brew/work.brewfile"
+        brew bundle "${v}" --file "${MY_DIR}/brew/work.brewfile"
     fi
 
     info "\nUpdating brew casks"
@@ -154,7 +154,7 @@ setup_ssh() {
         archive_file "${config}"
     fi
     if file_missing "${config}"; then
-        create_softlink "${my_dir}/conf/ssh/config" "${config}"
+        create_softlink "${MY_DIR}/conf/ssh/config" "${config}"
     fi
 
     success "Configured ssh"
@@ -172,7 +172,7 @@ setup_aws() {
     # Uses a hard link instead of a symlink so it can be used in a docker volume mount.
     local awscfg=${awsdir}/config
     if file_missing "${awscfg}"; then
-        create_hardlink "${my_dir}/conf/aws/config" "${awscfg}"
+        create_hardlink "${MY_DIR}/conf/aws/config" "${awscfg}"
     fi
 
     success "Configured awscli"
@@ -180,14 +180,12 @@ setup_aws() {
 
 
 setup_git() {
-    local git_root="${HOME}/${REPO_DIR}"
-
     # Create the git directories if they don't exist
+    # Strips quotes in case ~ is being used instead of $HOME
     local dirs=(
-        "${git_root}/personal"
-        "${git_root}/public"
-        # $CURRENT_JORB has a very opinionated setup script, so let's not fight with them.
-        # "${git_root}/${COMPANY}"
+        "${MY_REPOS//\"/}"
+        "${PUBLIC_REPOS//\"/}"
+        "${WORK_REPOS//\"/}"
     )
     for dir in "${dirs[@]}"; do
         if dir_missing "${dir}"; then
@@ -196,11 +194,10 @@ setup_git() {
     done
 
     # Some vars need to be exported to work with envsubst.
-    export MY_NAME MY_EMAIL WORK_EMAIL WORK_GIT
-    envsubst < "${my_dir}/conf/git/.gitconfig.global" > "${git_root}/.gitconfig"
-    # $CURRENT_JORB has a very opinionated setup script, so let's not fight with them.
-    # envsubst < "${my_dir}/conf/git/.gitconfig.work" > "${git_root}/${COMPANY}/.gitconfig"
-    envsubst < "${my_dir}/conf/git/.gitconfig.work" > "${HOME}/${COMPANY}/.gitconfig"
+    export MY_NAME MY_EMAIL WORK_REPOS WORK_NAME WORK_EMAIL PUBLIC_REPOS PUBLIC_NAME PUBLIC_EMAIL
+    envsubst < "${MY_DIR}/conf/git/.gitconfig.global" > "${HOME}/.gitconfig"
+    envsubst < "${MY_DIR}/conf/git/.gitconfig.public" > "${PUBLIC_REPOS}/.gitconfig"
+    envsubst < "${MY_DIR}/conf/git/.gitconfig.work" > "${WORK_REPOS}/.gitconfig"
 
     success "Configured git"
 }
@@ -209,7 +206,7 @@ setup_git() {
 setup_iterm() {
     # Configure iTerm to use our preferences file.
     if dir_exists "/Applications/iTerm.app"; then
-        defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$my_dir/conf/iterm"
+        defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$MY_DIR/conf/iterm"
         defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
         success "Configured iterm"
     else
@@ -231,11 +228,11 @@ setup_python() {
             # This overrides any local config that might be pointed at a private repo.
             if [[ "${verbose}" = true ]]; then
                 pip install -U --index-url https://pypi.org/simple pip
-                pip install -U --index-url https://pypi.org/simple -r "${my_dir}/conf/python/requirements.txt"
+                pip install -U --index-url https://pypi.org/simple -r "${MY_DIR}/conf/python/requirements.txt"
             else
                 # Pipe pip to grep to suppress output if there are no updates.
                 pip install -U --index-url https://pypi.org/simple pip | { grep -v 'Requirement already satisfied' || true; }
-                pip install -U --index-url https://pypi.org/simple -r "${my_dir}/conf/python/requirements.txt" | { grep -v 'Requirement already satisfied' || true; }
+                pip install -U --index-url https://pypi.org/simple -r "${MY_DIR}/conf/python/requirements.txt" | { grep -v 'Requirement already satisfied' || true; }
             fi
             deactivate
         fi
@@ -248,7 +245,7 @@ setup_python() {
 
 main() {
     bash_version_check
-    source "${my_dir}/scripts/helpers.sh"
+    source "${MY_DIR}/scripts/helpers.sh"
     
     verbose=false  # verbosity
     debug=false    # set -xv
@@ -265,8 +262,8 @@ main() {
     if [[ "${debug}" = true ]]; then set -xv; fi
 
     # Make sure the .env file exists
-    if file_exists "${my_dir}/.env"; then
-        source "${my_dir}/.env"
+    if file_exists "${MY_DIR}/.env"; then
+        source "${MY_DIR}/.env"
     else
         error "Missing .env file!\n"
         info "Run 'cp .env.template .env'"

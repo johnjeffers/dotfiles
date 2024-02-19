@@ -5,5 +5,7 @@
     autoSetupRemote = true
 [fetch]
     prune = true
-[includeIf "gitdir/i:${WORK_GIT}/**"]
-    path = ${WORK_GIT}/.gitconfig
+[includeIf "gitdir/i:${PUBLIC_REPOS}/**"]
+    path = ${PUBLIC_REPOS}/.gitconfig
+[includeIf "gitdir/i:${WORK_REPOS}/**"]
+    path = ${WORK_REPOS}/.gitconfig

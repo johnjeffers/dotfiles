@@ -54,4 +54,4 @@ var_unset()    { if ! [[ -v "${1}" ]];  then return 0; else return 1; fi }
 var_empty()    { if   [[ -z "${!1}" ]]; then return 0; else return 1; fi }
 
 # Tests for the functions above. If you uncomment this, it will run the tests and exit.
-# source "${my_dir}/scripts/tests.sh"
+# source "${MY_DIR}/scripts/tests.sh"
