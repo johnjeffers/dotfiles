@@ -183,9 +183,9 @@ setup_git() {
     # Create the git directories if they don't exist
     # Strips quotes in case ~ is being used instead of $HOME
     local dirs=(
-        "${MY_REPOS//\"/}"
-        "${PUBLIC_REPOS//\"/}"
-        "${WORK_REPOS//\"/}"
+        "${MY_REPOS}"
+        "${PUBLIC_REPOS}"
+        "${WORK_REPOS}"
     )
     for dir in "${dirs[@]}"; do
         if dir_missing "${dir}"; then
