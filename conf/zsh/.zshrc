@@ -22,6 +22,6 @@ for f in "${MY_DIR}"/functions/*.sh; do source "${f}"; done
 # BINDIR="/opt/fusionauth/bin"
 export PATH=$PATH:/opt/homebrew/bin
 export PATH=$PATH:/opt/fusionauth/bin
-export JAVA_HOME=/Users/john/dev/java/current17
+export JAVA_HOME=/opt/fusionauth/apps/java/current17
 eval "$(rbenv init - zsh)"
 alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
