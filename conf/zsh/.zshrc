@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 # shellcheck disable=1090,1091
 
-### This file does nothing except source files that actually contain configs.
-
 # Get the target path of the .zshrc symlink.
 MY_DIR="$(dirname "$(readlink -f "${HOME}/.zshrc")")"
 
@@ -20,8 +18,9 @@ for f in "${MY_DIR}"/functions/*.sh; do source "${f}"; done
 # REPODIR="${HOME}/git/inversoft"
 # INSTDIR="/opt/fusionauth/apps"
 # BINDIR="/opt/fusionauth/bin"
-export PATH=$PATH:/opt/homebrew/bin
-export PATH=$PATH:/opt/fusionauth/bin
-export JAVA_HOME=/opt/fusionauth/apps/java/current17
-eval "$(rbenv init - zsh)"
-alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
+if [[ -d "/opt/fusionauth" ]]; then
+  export PATH=$PATH:/opt/fusionauth/bin
+  export JAVA_HOME=/opt/fusionauth/apps/java/current17
+  alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
+  eval "$(rbenv init - zsh)"
+fi
