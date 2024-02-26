@@ -1,7 +1,8 @@
 # cask 'discord'
+cask 'openvpn-connect'
 cask 'royal-tsx'
 cask 'superduper'
-# cask 'transmit'
+cask 'transmit'
 
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
