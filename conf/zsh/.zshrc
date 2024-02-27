@@ -20,6 +20,7 @@ for f in "${MY_DIR}"/functions/*.sh; do source "${f}"; done
 # BINDIR="/opt/fusionauth/bin"
 if [[ -d "/opt/fusionauth" ]]; then
   export PATH=$PATH:/opt/fusionauth/bin
+  export PATH=$PATH:/Users/john/git/inversoft/libraries/inversoft-scripts/src/main/ruby
   export JAVA_HOME=/opt/fusionauth/apps/java/current17
   alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
   eval "$(rbenv init - zsh)"
