@@ -93,9 +93,9 @@ setup_starship() {
     done
 
     local cfg=${HOME}/.config/starship.toml
+    mkdir -p "${HOME}/.config"
     # Backup the existing config if necessary.
     if file_exists "${cfg}" && not_symlink "${cfg}"; then
-        mkdir -p "${HOME}/.config"
         archive_file "${cfg}"
     fi
     # Create symlink to our theme.
