@@ -11,10 +11,6 @@ Stuff to make it more convenient to configure and update my computers.
     ```
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     ```
-1. Install git.
-    ```
-    brew install git
-    ```
 1. Install [oh-my-zsh](http://ohmyz.sh).
     ```
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
