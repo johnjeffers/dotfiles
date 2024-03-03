@@ -2,13 +2,13 @@
 # shellcheck disable=1090,1091
 
 # Get the target path of the .zshrc symlink.
-MY_DIR="$(dirname "$(readlink -f "${HOME}/.zshrc")")"
+MYDIR="$(dirname "$(readlink -f "${HOME}/.zshrc")")"
 
 # Source the configs.
-for f in "${MY_DIR}"/configs/*.sh; do source "${f}"; done
+for f in "${MYDIR}"/configs/*.sh; do source "${f}"; done
 
 # Source the functions.
-for f in "${MY_DIR}"/functions/*.sh; do source "${f}"; done
+for f in "${MYDIR}"/functions/*.sh; do source "${f}"; done
 
 # Added by fusionauth-developer setup script
 #
