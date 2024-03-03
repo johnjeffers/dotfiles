@@ -10,11 +10,11 @@ MYDIR=$(cd -- "$(dirname "$0")" >/dev/null 2>&1; pwd -P)
 cd "${MYDIR}"
 
 function main() {
-  source "${MYDIR}/scripts/globals.sh"
-  source "${MYDIR}/scripts/bootstrap.sh"
-  source "${MYDIR}/scripts/helpers.sh"
-  source "${MYDIR}/scripts/argparse.sh"
-  
+  source "${MYDIR}/setup/core/globals.sh"
+  source "${MYDIR}/setup/core/bootstrap.sh"
+  source "${MYDIR}/setup/core/helpers.sh"
+  source "${MYDIR}/setup/core/argparse.sh"
+
   argparse "$@"
 
   if [[ "${DEBUG}" = true ]]; then set -xv; fi
@@ -31,7 +31,7 @@ function main() {
 
   # Make sure all modules in the list are valid.
   for module in "${MODULES[@]}"; do
-    if file_missing "${MYDIR}/modules/${module}.sh"; then
+    if file_missing "${MYDIR}/setup/modules/${module}.sh"; then
       fail "Module '${module}' does not exist."
     fi
   done
@@ -40,9 +40,14 @@ function main() {
   for module in "${MODULES[@]}"; do
     echo ""
     attn "Running ${module} setup..."
-    source "${MYDIR}/modules/${module}.sh"
+    source "${MYDIR}/setup/modules/${module}.sh"
     setup_"${module}"
   done
+
+  # Create FLAGFILE if it doesn't exist.
+  if file_missing "${FLAGFILE}"; then
+    touch "${FLAGFILE}"
+  fi
 
   success "\nDone!"
 }

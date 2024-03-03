@@ -13,12 +13,6 @@ fi
 
 # TODO - handle installing brew and ohmyzsh
 
-# if command_missing brew; then
-#     error "\nCannot find brew!"
-#     info "https://brew.sh for install instructions.\n"
-#     exit 1
-# fi
-
 # # Make sure oh-my-zsh is installed.
 # if dir_missing "${HOME}/.oh-my-zsh"; then
 #     error "\nCannot find oh-my-zsh!"

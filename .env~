@@ -2,22 +2,24 @@
 # Don't quote these values if you're using ~ for home dir expansion!
 MY_REPOS=~/git/personal
 PUBLIC_REPOS=~/git/public
-WORK_REPOS=~/mycompany
+WORK_REPOS=~/git/inversoft
 
 # Git - default global config
-MY_NAME=""
-MY_EMAIL=""
+MY_NAME="John Jeffers"
+MY_EMAIL="john@jeffers.cc"
 
 # Git - public config
-PUBLIC_NAME=""
-PUBLIC_EMAIL=""
+PUBLIC_NAME="John Jeffers"
+PUBLIC_EMAIL="john@jeffers.cc"
+
+TEST=test123
 
 # Git - work config
-WORK_NAME=""
-WORK_EMAIL=""
+WORK_NAME="John Jeffers"
+WORK_EMAIL="john.jeffers@fusionauth.io"
 
 # Install these brewfiles?
-BREW_BASE=false
+BREW_BASE=true
 BREW_HOME=false
-BREW_MUSIC=false
-BREW_WORK=false
+BREW_MUSIC=fale
+BREW_WORK=true

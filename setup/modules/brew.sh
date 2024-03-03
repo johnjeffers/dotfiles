@@ -28,19 +28,14 @@ setup_brew() {
 
 function install_brew() {
   info "Installing brew"
-  nolog "You may be asked for your password"
   if ! /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
     fail "Unable to install brew"
   fi
   success "brew installed successfully"
 
-  case "${ARCH}" in
-    amd64) BREWDIR="/usr/local";;
-    arm64) BREWDIR="/opt/homebrew";;
-  esac
-
+  # Set up the shell init files and reload so brew is available for next steps.
   shell_init profile "eval \"\$(${BREWDIR}/bin/brew shellenv)\""
-  reload_shell  
+  reload_shell
 }
 
 
