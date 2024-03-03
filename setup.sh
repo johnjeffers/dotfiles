@@ -48,8 +48,7 @@ validate_prereqs() {
 
 
 setup_bash() {
-    local bashrc=${HOME}/.bashrc
-
+    local bashrc="${HOME}/.bashrc"
     if file_exists "${bashrc}" && not_symlink "${bashrc}"; then
         archive_file "${bashrc}"
     fi
@@ -57,12 +56,20 @@ setup_bash() {
         create_softlink "${MY_DIR}/conf/bash/.bashrc" "${bashrc}"
     fi
 
+    local bashprofile="${HOME}/.bash_profile"
+    if file_exists "${bashprofile}" && not_symlink "${bashprofile}"; then
+        archive_file "${bashprofile}"
+    fi
+    if file_missing "${bashprofile}"; then
+        create_softlink "${MY_DIR}/conf/bash/.bash_profile" "${bashprofile}"
+    fi
+
     success "Configured bash"
 }
 
 
 setup_zsh() {
-    local zshrc=${HOME}/.zshrc
+    local zshrc="${HOME}/.zshrc"
     if file_exists "${zshrc}" && not_symlink "${zshrc}"; then
         archive_file "${zshrc}"
     fi
@@ -70,7 +77,7 @@ setup_zsh() {
         create_softlink "${MY_DIR}/conf/zsh/.zshrc" "${zshrc}"
     fi
 
-    local zprofile=${HOME}/.zprofile
+    local zprofile="${HOME}/.zprofile"
     if file_exists "${zprofile}" && not_symlink "${zprofile}"; then
         archive_file "${zprofile}"
     fi

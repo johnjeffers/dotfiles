@@ -1,6 +1,6 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
-# Set up the shell for brew.
+# Set up the shell for brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Added by fusionauth-developer setup script
