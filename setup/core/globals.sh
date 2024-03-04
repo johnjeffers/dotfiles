@@ -22,7 +22,7 @@ BREWDIR="/opt/homebrew"
 MODULES=(
   # prereqs
   brew
-  # ohmyzsh
+  ohmyzsh
   # OS stuff
   # oneshot  # only run once
   hosts    # only run once
