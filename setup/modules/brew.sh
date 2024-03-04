@@ -7,9 +7,6 @@ setup_brew() {
     install_brew
   fi
 
-  set_brew_vars
-  source "${MYDIR}/.env"
-  
   install_brewfiles
 
   info "\nUpdating brew casks"
@@ -40,43 +37,6 @@ function install_brew() {
   # Set up the shell init files and reload so brew is available for next steps.
   shell_init profile "eval \"\$(${BREWDIR}/bin/brew shellenv)\""
   reload_shell
-}
-
-
-function set_brew_vars() {
-  local value=false
-  local varname=""
-  
-  # Loop thru the brewfiles.
-  brewfiles=("base" "home" "music" "work")
-  for brewfile in "${brewfiles[@]}"; do
-    # Generate the var name.
-    varname="$(echo "BREW_$brewfile" | tr '[:lower:]' '[:upper:]')"
-
-    # Check if the var exists.
-    if declare -p "${varname}" &>/dev/null; then
-      # If FLAGFILE is missing, then prompt for all the responses.
-      if file_missing "${FLAGFILE}"; then
-        # If the var exits, check to see if it's set to true.
-        case "${!varname}" in
-          true)
-            # If the var is set to true, make that the default response.
-            read -r -p "${RESET}Install ${brewfile}.brewfile (yes) (${YELLOW}Y${RESET}/n) " value
-            case ${value} in y|Y|"") value=true;;  *) value=false;; esac;;
-          *)
-            # If the var is set to aything else, make false the default response.
-            read -r -p "${RESET}Install ${brewfile}.brewfile (no) (y/${YELLOW}N${RESET}) " value
-            case ${value} in n|N|"") value=false;; *) value=true;; esac;;
-        esac
-        set_env "${varname}" "${value}"
-      fi
-    else
-      # If the var does not exist, make false the default response.
-      read -r -p "${RESET}Install ${brewfile}.brewfile (unset) (y/${YELLOW}N${RESET}) " value
-      case ${value} in n|N|"") value=false;; *) value=true;; esac
-      set_env "${varname}" "${value}"
-    fi
-  done
 }
 
 

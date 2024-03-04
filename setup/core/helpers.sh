@@ -130,10 +130,23 @@ function reload_shell() {
 }
 
 
+# Updates the values in the .env file.
+function update_env_file() {
+  echo -e "\n${GRAY}${2}: ${YELLOW}${!1}${RESET}"
+  read -r -p "Enter new value or leave blank to keep it: " value
+  if [[ "${value}" == "" ]]; then value="${!1}"; fi
+  # If the string has whitespace, quote it.
+  if [[ "${value}" = *[[:space:]]* ]]; then
+    set_env_var "${1}" "\"${value}\""
+  else
+    set_env_var "${1}" "${value}"
+  fi
+}
+
 # Set an env var in the .env file
 # Usage:
 #   set_env [varname] [value]
-function set_env() {
+function set_env_var() {
   local varname="${1}"
   local value="${2}"
   local envfile="${MYDIR}/.env"
@@ -150,7 +163,8 @@ function set_env() {
       return
     else
       echo "Updating ${RESET}${varname}=${value}${GRAY} in .env"
-      sed -i~ "/^${varname}=/s/=.*/=${value}/" "${envfile}"
+      # sed -i~ "/^${varname}=/s/=.*/=${value}/" "${envfile}"
+      sed -i '' -e "s|${varname}=.*|${varname}=${value}|g" "${envfile}"
     fi
   # If the var doesn't exist, create it.
   else

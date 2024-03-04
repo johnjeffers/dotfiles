@@ -9,25 +9,13 @@ set -o pipefail
 MYDIR=$(cd -- "$(dirname "$0")" >/dev/null 2>&1; pwd -P)
 cd "${MYDIR}"
 
-function main() {
-  source "${MYDIR}/setup/core/globals.sh"
-  source "${MYDIR}/setup/core/bootstrap.sh"
-  source "${MYDIR}/setup/core/helpers.sh"
-  source "${MYDIR}/setup/core/argparse.sh"
+# bootstrap.sh sources the other core scripts.
+source "${MYDIR}/setup/core/bootstrap.sh"
 
+function main() {
   argparse "$@"
 
   if [[ "${DEBUG}" = true ]]; then set -xv; fi
-
-  # Make sure the .env file exists
-  if file_exists "${MYDIR}/.env"; then
-    source "${MYDIR}/.env"
-  else
-    error "Missing .env file!\n"
-    info "Run 'cp .env.template .env'"
-    info "Edit .env to fill in your details and preferences."
-    exit 1
-  fi
 
   # Make sure all modules in the list are valid.
   for module in "${MODULES[@]}"; do
