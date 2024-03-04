@@ -5,30 +5,17 @@ Stuff to make it more convenient to configure and update my computers.
 > [!WARNING]
 > **This is written for my personal needs.** The software and config files it installs are unlikely to be exactly what you want or need. It might be a good place to get ideas for your own setup scripts, though.<br><br>**This has only been tested on MacOS.** Some of this might work on Linux or Windows, but I don't know.
 
-## Prerequisites
+## How to Use This Repo
 
-1. Install [brew](https://brew.sh).
-    ```
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    ```
-1. Install [oh-my-zsh](http://ohmyz.sh).
-    ```
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    ```
-1. Log in to the Mac App Store. This is required because some software is installed with [brew mas](https://formulae.brew.sh/formula/mas).
-
-## Instructions
-
-The setup script reads a `.env` file to get its configuration data.
-
-Before you run the script:
-```
-cp env.template .env
-```
-
-Edit `.env` with your personal info and script preferences.
-
-Then, run `./setup.sh`
+1. Install Xcode Command Line Tools. This installs `git`
+   ```sh
+   xcode-select --install
+   ```
+1. Clone this repo
+   ```sh
+   git clone https://github.com/johnjeffers/dotfiles.git
+   ```
+1. `cd` into the directory where you cloned the repo and run `./setup.sh --all`
 
 ## How it Works
 
