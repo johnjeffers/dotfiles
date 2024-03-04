@@ -23,7 +23,7 @@ The script installs and configures software automatically, so I don't have to do
 
 ### Git Configuration
 
-The script creates directories and `.gitconfig` files under `$HOME` that will look something like this:
+By default, the script creates directories and `.gitconfig` files under `$HOME` that will look something like this:
 
 ```
 $HOME
@@ -31,13 +31,14 @@ $HOME
 └─ git
    ├─ personal/
    ├─ public/
+      └─ .gitconfig  <-- public-specific .gitconfig
    └─ company-name/
       └─ .gitconfig  <-- work-specific .gitconfig
 ```
 
-The global `.gitconfig` uses my personal email.
+Each `.gitconfig` is configured with name and email, so you can use different personas for personal, public, and work repos as necessary.
 
-The work-specific `.gitconfig` uses my work email, so commits to repos in that directory do not use my personal email.
+The actual directory locations can be overridden, and the script will prompt you to confirm or change those locations on its initial run.
 
 ### Dotfile Symlinks
 
@@ -46,6 +47,7 @@ The script will create symlinks to dotfiles that configure various programs. Cur
 * `~/.aws/config`
 * `~/.config/starship.toml`
 * `~/.bashrc`
+* `~/.bash_profile`
 * `~/.zprofile`
 * `~/.zshrc`
 
@@ -53,6 +55,7 @@ If any of these files already exist, the script will make a backup.
 
 ### Other Configuration
 
+* Configure AWS CLI
 * Configure iTerm2 to use the [preferences file](conf/iterm) in this repo
 * Create python venv, and run a `pip install` in that venv with the [requirements file](conf/python/requirements.txt).
 
