@@ -1,19 +1,15 @@
 #!/usr/bin/env bash
 # shellcheck disable=1091,2154
 
-# NOTE: Some of this stuff requires bash 4.2 or greater, which means
-# it won't work with the bash that ships with MacOS. Install a newer
-# bash with `brew install bash`.
-
 # Simple "does x exist/is x equal to" functions to use in boolean checks.
-function command_exists()  { if   command -v "${1}" &> /dev/null; then return 0; else return 1; fi } 
-function command_missing() { if ! command -v "${1}" &> /dev/null; then return 0; else return 1; fi } 
-function dir_exists()      { if   [[ -d "${1}" ]];  then return 0; else return 1; fi }
-function dir_missing()     { if ! [[ -d "${1}" ]];  then return 0; else return 1; fi }
-function file_exists()     { if   [[ -f "${1}" ]];  then return 0; else return 1; fi }
-function file_missing()    { if ! [[ -f "${1}" ]];  then return 0; else return 1; fi }
-function is_symlink()      { if   [[ -L "${1}" ]];  then return 0; else return 1; fi }
-function not_symlink()     { if ! [[ -L "${1}" ]];  then return 0; else return 1; fi }
+function command_exists()  { if command -v "${1}" &> /dev/null; then return 0; else return 1; fi } 
+function command_missing() { if command -v "${1}" &> /dev/null; then return 1; else return 0; fi } 
+function dir_exists()      { if [[ -d "${1}" ]]; then return 0; else return 1; fi }
+function dir_missing()     { if [[ -d "${1}" ]]; then return 1; else return 0; fi }
+function file_exists()     { if [[ -f "${1}" ]]; then return 0; else return 1; fi }
+function file_missing()    { if [[ -f "${1}" ]]; then return 1; else return 0; fi }
+function is_symlink()      { if [[ -L "${1}" ]]; then return 0; else return 1; fi }
+function not_symlink()     { if [[ -L "${1}" ]]; then return 1; else return 0; fi }
 # Tests for the functions above. If you uncomment this, it will run the tests and exit.
 # source "${MYDIR}/scripts/tests.sh"
 
@@ -72,7 +68,7 @@ function create_hardlink() {
 }
 
 
-# Add a init_cmd to bash and $SH_NAME init files if it doesn't already exist.
+# Add a init_cmd to bash and zsh init files if it doesn't already exist.
 #
 # Usage:
 #   shell_init [initrc|profile] [init_cmd to add]
@@ -81,28 +77,28 @@ function shell_init() {
   local init_cmd="${2}"
   local contents
 
-  # Are we handling init (rc) or profile (pr)?
+  # Are we handling initrc or profile?
   local bashfile=""
-  local shellfile=""
+  local zshfile=""
   case "${init_type}" in
     initrc)
       bashfile="${HOME}/.bashrc"
-      shellfile="${HOME}/.zshrc";;
+      zshfile="${HOME}/.zshrc";;
     profile)
       bashfile="${HOME}/.bash_profile"
-      shellfile="${HOME}/.zprofile";;
-    *) fail "Invalid init file init_type [rc|pr]";;
+      zshfile="${HOME}/.zprofile";;
+    *) fail "Invalid init_type [rc|pr]";;
   esac
 
   contents="
 # Added by dotfiles setup script
 ${init_cmd}"
 
-  # Wtite to zsh init files.
-  if ! grep "${init_cmd}" "${shellfile}" >/dev/null 2>&1; then
-    touch "${shellfile}"  # Create the file if it doesn't exist.
-    echo -e "${contents}" >> "${shellfile}"
-    info "Added init_cmd to ${shellfile}"
+  # Write to zsh init files.
+  if ! grep "${init_cmd}" "${zshfile}" >/dev/null 2>&1; then
+    touch "${zshfile}"  # Create the file if it doesn't exist.
+    echo -e "${contents}" >> "${zshfile}"
+    info "Added init_cmd to ${zshfile}"
     info "${RESET}${init_cmd}"
   fi
   # Write to bash init files.
@@ -127,6 +123,8 @@ function reload_shell() {
 
 
 # Updates the values in the .env file.
+# Usage:
+#   update_env_file [varname] [description text]
 function update_env_file() {
   echo -e "\n${GRAY}${2}: ${YELLOW}${!1}${RESET}"
   read -r -p "Enter new value or leave blank to keep it: " value
