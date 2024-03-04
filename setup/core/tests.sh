@@ -34,15 +34,6 @@ if is_symlink  "${link1}"; then echo "${link1}: ${GREEN}is_symlink true${RESET}"
 if not_symlink "${link1}"; then echo "${link1}: ${RED}not_symlink true${RESET}";   else echo "${link1}: ${GREEN}not_symlink false${RESET}"; fi
 if is_symlink  "${link2}"; then echo "${link2}: ${RED}is_symlink true${RESET}";    else echo "${link2}: ${GREEN}is_symlink false${RESET}"; fi
 if not_symlink "${link2}"; then echo "${link2}: ${GREEN}not_symlink true${RESET}"; else echo "${link2}: ${RED}not_symlink false${RESET}"; fi
-echo -e "\nVariable Tests\n"
-if var_set   var1; then echo "var1 = ${var1}: ${GREEN}var_set true${RESET}";   else echo "var1 = ${var1}: ${RED}var_set false${RESET}"; fi
-if var_unset var1; then echo "var1 = ${var1}: ${RED}var_unset true${RESET}";   else echo "var1 = ${var1}: ${GREEN}var_unset false${RESET}"; fi
-if var_empty var1; then echo "var1 = ${var1}: ${RED}var_empty true${RESET}";   else echo "var1 = ${var1}: ${GREEN}var_empty false${RESET}"; fi
-if var_set   var2; then echo "var2: ${GREEN}var_set true${RESET}";             else echo "var2: ${RED}var_set false${RESET}"; fi
-if var_unset var2; then echo "var2: ${RED}var_unset true${RESET}";             else echo "var2: ${GREEN}var_unset false${RESET}"; fi
-if var_empty var2; then echo "var2: ${GREEN}var_empty true${RESET}";           else echo "var2: ${RED}var_empty false${RESET}"; fi
-if var_set   var3; then echo "var3: ${RED}var_set true${RESET}";               else echo "var3: ${GREEN}var_set false${RESET}"; fi
-if var_unset var3; then echo "var3: ${GREEN}var_unset true${RESET}";           else echo "var3: ${RED}var_unset false${RESET}"; fi
 
 # Exit after running the tests.
 exit 0

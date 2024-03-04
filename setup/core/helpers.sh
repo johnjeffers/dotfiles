@@ -14,9 +14,6 @@ function file_exists()     { if   [[ -f "${1}" ]];  then return 0; else return 1
 function file_missing()    { if ! [[ -f "${1}" ]];  then return 0; else return 1; fi }
 function is_symlink()      { if   [[ -L "${1}" ]];  then return 0; else return 1; fi }
 function not_symlink()     { if ! [[ -L "${1}" ]];  then return 0; else return 1; fi }
-function var_set()         { if   [[ -v "${1}" ]];  then return 0; else return 1; fi }
-function var_unset()       { if ! [[ -v "${1}" ]];  then return 0; else return 1; fi }
-function var_empty()       { if   [[ -z "${!1}" ]]; then return 0; else return 1; fi }
 # Tests for the functions above. If you uncomment this, it will run the tests and exit.
 # source "${MYDIR}/scripts/tests.sh"
 
