@@ -15,7 +15,7 @@ Stuff to make it more convenient to configure and update my computers.
    ```sh
    git clone https://github.com/johnjeffers/dotfiles.git
    ```
-1. `cd` into the directory where you cloned the repo and run `./setup.sh`
+1. `cd` into the directory where you cloned the repo and run `./setup.sh --all`
 
 ## How it Works
 
