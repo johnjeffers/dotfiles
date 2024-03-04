@@ -87,10 +87,10 @@ function shell_init() {
   case "${init_type}" in
     initrc)
       bashfile="${HOME}/.bashrc"
-      shellfile="${SH_INITRC}";;
+      shellfile="${HOME}/.zshrc";;
     profile)
       bashfile="${HOME}/.bash_profile"
-      shellfile="${SH_PROFILE}";;
+      shellfile="${HOME}/.zprofile";;
     *) fail "Invalid init file init_type [rc|pr]";;
   esac
 
