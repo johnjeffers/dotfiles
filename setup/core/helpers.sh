@@ -98,20 +98,19 @@ function shell_init() {
 # Added by dotfiles setup script
 ${init_cmd}"
 
+  # Wtite to zsh init files.
   if ! grep "${init_cmd}" "${shellfile}" >/dev/null 2>&1; then
     touch "${shellfile}"  # Create the file if it doesn't exist.
     echo -e "${contents}" >> "${shellfile}"
     info "Added init_cmd to ${shellfile}"
     info "${RESET}${init_cmd}"
   fi
-  # If the user's default shell isn't bash, then also write the init_cmd to the equivalent bash file.
-  if [[ "${SH_NAME}" != "bash" ]]; then
-    if ! grep "${init_cmd}" "${bashfile}" >/dev/null 2>&1; then
-      touch "${bashfile}" # Create the file if it doesn't exist
-      echo -e "${contents}" >> "${bashfile}"
-      info "Added init_cmd to ${bashfile}"
-      info "${RESET}${init_cmd}"
-    fi
+  # Write to bash init files.
+  if ! grep "${init_cmd}" "${bashfile}" >/dev/null 2>&1; then
+    touch "${bashfile}" # Create the file if it doesn't exist
+    echo -e "${contents}" >> "${bashfile}"
+    info "Added init_cmd to ${bashfile}"
+    info "${RESET}${init_cmd}"
   fi
 }
 
