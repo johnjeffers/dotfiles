@@ -27,7 +27,7 @@ BREWDIR="/opt/homebrew"
 MODULES=(
   # prereqs
   brew
-  ohmyzsh
+  # ohmyzsh
   # OS stuff
   # oneshot  # only run once
   hosts    # only run once
@@ -65,9 +65,3 @@ PUBLIC_EMAIL=""
 # Git - work config
 WORK_NAME=""
 WORK_EMAIL=""
-
-# Use brewfiles? Ignored if RUN_BREW=false
-BREW_BASE=false
-BREW_HOME=false
-BREW_MUSIC=false
-BREW_WORK=false
