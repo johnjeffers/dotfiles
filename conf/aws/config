@@ -7,6 +7,9 @@ sso_start_url = https://fusionauth.awsapps.com/start
 sso_region = us-west-2
 sso_registration_scopes = sso:account:access
 
+
+# FUSIONAUTH NON-ADMIN PROFILES
+
 [profile fusionauth-dev]
 sso_session = fusionauth
 sso_account_id = 172023253951
@@ -28,7 +31,8 @@ sso_role_name = engineering
 region = us-west-2
 cli_pager =
 
-# ADMIN PROFILES
+
+# FUSIONAUTH ADMIN PROFILES
 
 [profile fusionauth-dev-admin]
 sso_session = fusionauth
@@ -77,4 +81,21 @@ sso_session = fusionauth
 sso_account_id = 011271748719
 sso_role_name = administrators
 region = us-west-2
+cli_pager =
+
+
+# CLEANSPEAK PROFILES
+
+[profile cleanspeak-old-admin]
+sso_session = fusionauth
+sso_account_id = 176408745696
+sso_role_name = cleanspeak-admins
+region = us-east-1
+cli_pager =
+
+[profile cleanspeak-prod-admin]
+sso_session = fusionauth
+sso_account_id = 159885613662
+sso_role_name = cleanspeak-admins
+region = us-east-1
 cli_pager =
