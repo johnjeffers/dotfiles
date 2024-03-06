@@ -8,7 +8,21 @@ sso_region = us-west-2
 sso_registration_scopes = sso:account:access
 
 
-# FUSIONAUTH NON-ADMIN PROFILES
+# NON-ADMIN PROFILES
+
+[profile cleanspeak-old]
+sso_session = fusionauth
+sso_account_id = 176408745696
+sso_role_name = engineering
+region = us-west-2
+cli_pager =
+
+[profile cleanspeak-prod]
+sso_session = fusionauth
+sso_account_id = 159885613662
+sso_role_name = engineering
+region = us-west-2
+cli_pager =
 
 [profile fusionauth-dev]
 sso_session = fusionauth
@@ -32,7 +46,21 @@ region = us-west-2
 cli_pager =
 
 
-# FUSIONAUTH ADMIN PROFILES
+# ADMIN PROFILES
+
+[profile cleanspeak-old-admin]
+sso_session = fusionauth
+sso_account_id = 176408745696
+sso_role_name = administrators
+region = us-west-2
+cli_pager =
+
+[profile cleanspeak-prod-admin]
+sso_session = fusionauth
+sso_account_id = 159885613662
+sso_role_name = administrators
+region = us-west-2
+cli_pager =
 
 [profile fusionauth-dev-admin]
 sso_session = fusionauth
@@ -48,23 +76,16 @@ sso_role_name = administrators
 region = us-west-2
 cli_pager =
 
+[profile fusionauth-marketplace-admin]
+sso_session = fusionauth
+sso_account_id = 360593151876
+sso_role_name = administrators
+region = us-west-2
+cli_pager =
+
 [profile fusionauth-prod-admin]
 sso_session = fusionauth
 sso_account_id = 121700706967
-sso_role_name = administrators
-region = us-west-2
-cli_pager =
-
-[profile fusionauth-security-admin]
-sso_session = fusionauth
-sso_account_id = 176970578561
-sso_role_name = administrators
-region = us-west-2
-cli_pager =
-
-[profile fusionauth-svc-admin]
-sso_session = fusionauth
-sso_account_id = 752443094709
 sso_role_name = administrators
 region = us-west-2
 cli_pager =
@@ -83,19 +104,16 @@ sso_role_name = administrators
 region = us-west-2
 cli_pager =
 
-
-# CLEANSPEAK PROFILES
-
-[profile cleanspeak-old-admin]
+[profile fusionauth-security-admin]
 sso_session = fusionauth
-sso_account_id = 176408745696
-sso_role_name = cleanspeak-admins
-region = us-east-1
+sso_account_id = 176970578561
+sso_role_name = administrators
+region = us-west-2
 cli_pager =
 
-[profile cleanspeak-prod-admin]
+[profile fusionauth-svc-admin]
 sso_session = fusionauth
-sso_account_id = 159885613662
-sso_role_name = cleanspeak-admins
-region = us-east-1
+sso_account_id = 752443094709
+sso_role_name = administrators
+region = us-west-2
 cli_pager =
