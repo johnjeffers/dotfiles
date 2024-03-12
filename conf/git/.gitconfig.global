@@ -1,11 +1,23 @@
 [user]
-    name = ${MY_NAME}
-    email = ${MY_EMAIL}
-[push]
-    autoSetupRemote = true
+	name = ${MY_NAME}
+	email = ${MY_EMAIL}
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGkuI4RGPXNVPURPmGyTqRcwpxCC084aegpbkkJdfcr/
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[commit]
+	gpgsign = true
+
 [fetch]
-    prune = true
+	prune = true
+[push]
+	autoSetupRemote = true
+
 [includeIf "gitdir/i:${PUBLIC_REPOS}/**"]
-    path = ${PUBLIC_REPOS}/.gitconfig
+	path = ${PUBLIC_REPOS}/.gitconfig
 [includeIf "gitdir/i:${WORK_REPOS}/**"]
-    path = ${WORK_REPOS}/.gitconfig
+	path = ${WORK_REPOS}/.gitconfig
+
+[alias]
+	prettylog = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
