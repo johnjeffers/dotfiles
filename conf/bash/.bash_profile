@@ -5,7 +5,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Added by fusionauth-developer setup script
 if [[ -d "$HOME/.pyenv" ]]; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
+  export PATH=$PATH:/opt/fusionauth/bin
+  export JAVA_HOME=/opt/fusionauth/apps/java/current17
+  eval "$(rbenv init - zsh)"
+  export PATH=$PATH:/Users/john/git/inversoft/libraries/inversoft-scripts/src/main/ruby
 fi
