@@ -8,3 +8,5 @@ eval "$(starship init bash)"
 
 alias gam="/Users/john/bin/gam/gam"
 alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
+alias ssologin='aws sso login --profile ${SSO_PROFILE:-fusionauth-dev}'
+alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-dev} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'
