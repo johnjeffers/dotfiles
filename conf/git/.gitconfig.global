@@ -2,7 +2,6 @@
 	name = ${MY_NAME}
 	email = ${MY_EMAIL}
 	signingkey = ~/.ssh/id_ed25519.pub
-	# signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGkuI4RGPXNVPURPmGyTqRcwpxCC084aegpbkkJdfcr/
 [gpg]
 	format = ssh
 [commit]
@@ -17,6 +16,3 @@
 	path = ${PUBLIC_REPOS}/.gitconfig
 [includeIf "gitdir/i:${WORK_REPOS}/**"]
 	path = ${WORK_REPOS}/.gitconfig
-
-[alias]
-	prettylog = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
