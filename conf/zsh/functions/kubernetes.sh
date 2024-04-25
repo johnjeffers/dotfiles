@@ -91,3 +91,27 @@ nodeview() {
 
     AWS_PROFILE="fusionauth-${1}-admin" eks-node-viewer --kubeconfig "${HOME}/.kube/fusionauth-${1}-${2}" --extra-labels node-group-name --resources cpu,memory
 }
+
+
+# SSM login to EKS node.
+nodessm() {
+    if ! [[ $# -eq 1 ]]; then
+        echo "usage: ${funcstack} [ip]"
+        return
+    fi
+
+    local nodeip; nodeip="${1//./-}"
+    local profile; profile="$(kubectl config view -o jsonpath='{.users[0].user.exec.env[].value}')"
+    local region; region="$(kubectl config view -o jsonpath='{.users[0].name}' | cut -d ':' -f 4,4)"
+
+    # Node name is different in us-east-1.
+    local node
+    if [[ "${region}" == "us-east-1" ]]; then
+        node="ip-${nodeip}.ec2.internal"
+    else
+        node="ip-${nodeip}.${region}.compute.internal"
+    fi
+    local target; target="$(kubectl get no "${node}" -o jsonpath='{.spec.providerID}' | cut -d '/' -f 5)"
+
+    aws ssm start-session --profile "${profile}" --region "${region}" --target "${target}"
+}
