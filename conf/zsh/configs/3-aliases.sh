@@ -6,6 +6,7 @@
 alias c="clear"
 alias swup="~/git/personal/dotfiles/setup.sh"
 alias tf="terraform"
+alias tfclean="rm .terraform.lock.hcl && rm -rf .terraform"
 alias watch="watch "
 
 # k8s aliases

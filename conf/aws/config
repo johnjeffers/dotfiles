@@ -48,6 +48,13 @@ cli_pager =
 
 # ADMIN PROFILES
 
+[profile cleanspeak-dev-admin]
+sso_session = fusionauth
+sso_account_id = 339712923528
+sso_role_name = administrators
+region = us-west-2
+cli_pager =
+
 [profile cleanspeak-old-admin]
 sso_session = fusionauth
 sso_account_id = 176408745696
