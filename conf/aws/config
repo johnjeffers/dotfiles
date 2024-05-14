@@ -10,6 +10,13 @@ sso_registration_scopes = sso:account:access
 
 # NON-ADMIN PROFILES
 
+[profile cleanspeak-dev]
+sso_session = fusionauth
+sso_account_id = 339712923528
+sso_role_name = engineering
+region = us-west-2
+cli_pager =
+
 [profile cleanspeak-old]
 sso_session = fusionauth
 sso_account_id = 176408745696
