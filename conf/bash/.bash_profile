@@ -8,7 +8,6 @@ export PATH=$PATH:/opt/fusionauth/bin
 export PATH=$PATH:/Users/john/git/inversoft/libraries/inversoft-scripts/src/main/ruby
 export JAVA_HOME=/opt/fusionauth/apps/java/current17
 eval "$(rbenv init - zsh)"
+[[ -f "$HOME/.aws/aws.sh" ]] && source "$HOME/.aws/aws.sh"
 
 alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
-alias ssologin='aws sso login --profile ${SSO_PROFILE:-fusionauth-dev}'
-alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-dev} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'

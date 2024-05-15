@@ -21,14 +21,14 @@ cli_pager =
 sso_session = fusionauth
 sso_account_id = 176408745696
 sso_role_name = engineering
-region = us-west-2
+region = us-east-1
 cli_pager =
 
 [profile cleanspeak-prod]
 sso_session = fusionauth
 sso_account_id = 159885613662
 sso_role_name = engineering
-region = us-west-2
+region = us-east-1
 cli_pager =
 
 [profile fusionauth-dev]
