@@ -16,3 +16,6 @@
 	path = ${PUBLIC_REPOS}/.gitconfig
 [includeIf "gitdir/i:${WORK_REPOS}/**"]
 	path = ${WORK_REPOS}/.gitconfig
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
