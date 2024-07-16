@@ -4,7 +4,7 @@
 kset() {
     files=()
     PS3="Select kubeconfig: "
-    while IFS=' ' read -r line; do files+=("$line"); done < <(find "${HOME}/.kube" -maxdepth 1 -type f -exec basename {} \; | sort)
+    while IFS=' ' read -r line; do files+=("$line"); done < <(find "${HOME}/.kube" -maxdepth 1 -type f -exec basename {} \; | sort | grep -v config)
     select file in "${files[@]}"; do
         [ "$file" ] &&
         {
