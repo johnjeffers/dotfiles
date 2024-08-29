@@ -7,7 +7,7 @@ brew 'watch'
 
 cask 'beyond-compare'
 cask 'google-chrome'
-cask 'logi-options-plus'
+cask 'logi-options+'
 cask 'signal'
 cask 'slack'
 cask 'visual-studio-code'
