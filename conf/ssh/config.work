@@ -1,0 +1,9 @@
+Include ~/.orbstack/ssh/config
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentitiesOnly yes  # don't use ssh agent
+  IdentityFile ~/.ssh/id_ed25519
+Host *fusionauth.io *fusionauth.dev
+  ProxyCommand bash -c "$HOME/.aws/ssm-ssh.sh %h"

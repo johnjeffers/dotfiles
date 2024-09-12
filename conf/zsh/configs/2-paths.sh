@@ -12,6 +12,3 @@ path+=("$HOME/go/bin")
 
 # Python
 path+=("$HOME/venvs/python3/bin")
-
-# Postgres
-path+=("/opt/homebrew/opt/postgresql@15/bin")

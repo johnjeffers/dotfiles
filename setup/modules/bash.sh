@@ -7,7 +7,7 @@ function setup_bash() {
     archive_file "${bashrc}"
   fi
   # Add .bashrc symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/bash/.bashrc" "${bashrc}"
+  create_softlink "${MYDIR}/conf/bash/.bashrc.${LOCALE}" "${bashrc}"
 
   local bashprf="${HOME}/.bash_profile"
   # If .bash_profile already exists, back it up
@@ -15,7 +15,7 @@ function setup_bash() {
     archive_file "${bashprf}"
   fi
   # Add .bash_profile symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/bash/.bash_profile" "${bashprf}"
+  create_softlink "${MYDIR}/conf/bash/.bash_profile.${LOCALE}" "${bashprf}"
 
   success "Configured bash"
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# shellcheck disable=1090,1091
+# shellcheck disable=1090
 
 # Get the target path of the .zshrc symlink.
 MYDIR="$(dirname "$(readlink -f "${HOME}/.zshrc")")"

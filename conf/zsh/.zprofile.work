@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
+# shellcheck disable=1090
 
-# Set up the shell for brew
+# Set up the shell for brew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # fusionauth-developer setup script stuff
@@ -11,3 +12,5 @@ eval "$(rbenv init - zsh)"
 [[ -f "$HOME/.aws/aws.sh" ]] && source "$HOME/.aws/aws.sh"
 
 alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
+
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :

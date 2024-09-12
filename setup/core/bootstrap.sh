@@ -10,6 +10,11 @@ if file_exists "${MYDIR}/.env"; then
   source "${MYDIR}/.env"
 fi
 
+# Set locale
+if [[ "${BREW_WORK}" == "true" ]]; then
+  LOCALE="work"
+fi
+
 # If FLAGFILE or .env is missing, then ask to (re)set all the env vars
 if file_missing "${FLAGFILE}" || file_missing "$MYDIR/.env"; then
   update_env_file "MY_NAME"      "Your full name for global gitconfig"

@@ -7,7 +7,7 @@ function setup_zsh() {
     archive_file "${zshrc}"
   fi
   # Add .zshrc symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/zsh/.zshrc" "${zshrc}"
+  create_softlink "${MYDIR}/conf/zsh/.zshrc.${LOCALE}" "${zshrc}"
 
   local zprofile="${HOME}/.zprofile"
   # If .zprofile already exists, back it up
@@ -15,7 +15,7 @@ function setup_zsh() {
     archive_file "${zprofile}"
   fi
   # Add .zprofile symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/zsh/.zprofile" "${zprofile}"
+  create_softlink "${MYDIR}/conf/zsh/.zprofile.${LOCALE}" "${zprofile}"
 
   success "Configured zsh"
 }

@@ -13,7 +13,7 @@ function setup_ssh() {
     archive_file "${config}"
   fi
   if file_missing "${config}"; then
-    create_softlink "${MYDIR}/conf/ssh/config" "${config}"
+    create_softlink "${MYDIR}/conf/ssh/config.${LOCALE}" "${config}"
   fi
 
   success "Configured ssh"

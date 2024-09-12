@@ -59,3 +59,7 @@ BREW_BASE=false
 BREW_HOME=false
 BREW_MUSIC=false
 BREW_WORK=false
+
+# Locale is used in a few modules to handle differences between
+# home and work configs. It may be overwritten in bootstrap.sh.
+LOCALE="default"
