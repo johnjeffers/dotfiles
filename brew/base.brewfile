@@ -10,6 +10,7 @@ cask 'google-chrome'
 cask 'logi-options+'
 cask 'signal'
 cask 'slack'
+cask 'sublime-merge'
 cask 'visual-studio-code'
 cask 'zoom'
 

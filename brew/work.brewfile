@@ -1,8 +1,10 @@
 tap "aws/tap"
 tap "hashicorp/tap"
 
+brew 'act'
 brew 'awscli'
 brew 'eks-node-viewer'
+brew 'gh'
 # brew 'go'
 # brew 'goreleaser'
 brew 'helm'
@@ -10,8 +12,7 @@ brew 'hey'
 brew 'httpie'
 brew 'kubectx'
 brew 'kubernetes-cli'
-# brew 'postgresql@15'
-# brew 'redis'
+brew 'postgresql@15'
 brew 'stern'
 brew 'hashicorp/tap/terraform'
 brew 'tig'
@@ -19,8 +20,9 @@ brew 'trivy'
 # brew 'velero'
 
 cask 'azure-data-studio'
-# cask 'coscreen'
+cask 'coscreen'
 # cask 'docker'
 cask 'infra'
+cask 'orbstack'
 
-vscode "golang.go"
+# vscode "golang.go"
