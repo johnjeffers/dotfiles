@@ -26,6 +26,45 @@ kunset() {
 }
 
 
+kimage() {
+    if [[ $# -ne 3 ]]; then
+        echo -e "Get image in use across multiple clusters.\n"
+        echo "usage: ${funcstack} [deployment|daemonset|statefulset] [namespace] [name]"
+        return
+    fi
+
+    configs=(
+    "fusionauth-dev-us-west-2"
+    "fusionauth-prod-af-south-1"
+    "fusionauth-prod-ap-southeast-1"
+    "fusionauth-prod-ap-southeast-2"
+    "fusionauth-prod-ca-central-1"
+    "fusionauth-prod-eu-central-1"
+    "fusionauth-prod-eu-north-1"
+    "fusionauth-prod-eu-west-1"
+    "fusionauth-prod-eu-west-2"
+    "fusionauth-prod-eu-west-3"
+    "fusionauth-prod-us-east-1"
+    "fusionauth-prod-us-east-2"
+    "fusionauth-prod-us-west-1"
+    "fusionauth-prod-us-west-2"
+    "fusionauth-svc-us-west-2"
+    )
+
+    KIND="$1" # deployment|statefulset|daemonset
+    NAMESPACE="$2"
+    NAME="$3"
+
+    for config in "${configs[@]}"; do
+        echo "$config:"
+        KUBECONFIG=~/.kube/"$config" kubectl get -n "$NAMESPACE" "$KIND" "$NAME" \
+          -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+         echo ""
+         echo ""
+    done
+}
+
+
 # Deletes empty namespaces.
 # Requires one arg, which is the prefix start string.
 kns-cleanup() {
