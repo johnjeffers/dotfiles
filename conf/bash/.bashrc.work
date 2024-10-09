@@ -6,4 +6,4 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 
 eval "$(starship init bash)"
 
-alias gam="/Users/john/bin/gam/gam"
+alias gam="/Users/john/bin/gam7/gam"

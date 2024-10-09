@@ -27,3 +27,10 @@
 #   echo "Connecting to instance-id ${id} in region ${region}"
 #   aws ssm start-session --region "${region}" --target "${id}"
 # }
+
+function watch-ec2-state() {
+	NAME="${1}"
+	PROFILE=${2:-"fusionauth-prod"}
+	REGION=${3:-"us-east-1"}
+	watch "aws ec2 describe-instances --profile "${PROFILE}" --region "${REGION}" --filters 'Name=tag:Name,Values="${NAME}.*"' --query 'Reservations[*].Instances[*].State.Name' --output=text"
+}
