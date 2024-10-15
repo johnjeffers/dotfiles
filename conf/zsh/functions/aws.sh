@@ -29,8 +29,8 @@
 # }
 
 function watch-ec2-state() {
-	NAME="${1}"
-	PROFILE=${2:-"fusionauth-prod"}
-	REGION=${3:-"us-east-1"}
-	watch "aws ec2 describe-instances --profile "${PROFILE}" --region "${REGION}" --filters 'Name=tag:Name,Values="${NAME}.*"' --query 'Reservations[*].Instances[*].State.Name' --output=text"
+  NAME="${1}"
+  PROFILE=${2:-"fusionauth-prod"}
+  REGION=${3:-"us-east-1"}
+  watch "aws ec2 describe-instances --profile "${PROFILE}" --region "${REGION}" --filters 'Name=tag:Name,Values="${NAME}.*"' --query 'Reservations[*].Instances[*].State.Name' --output=text"
 }
