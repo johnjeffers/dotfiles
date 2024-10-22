@@ -2,7 +2,7 @@
 
 # Does a git pull for every subdir in a directory.
 # Handy for making sure a bunch of repos are up-to-date with one command.
-git-pull-dirs() {
+function git-pull-dirs() {
   startdir=$(pwd)
 
   # Find any directory that contains a .git directory.
@@ -31,4 +31,18 @@ git-pull-dirs() {
   done
 
   cd "$startdir" || return
+}
+
+GIT_HASH="%C(always,yellow)%h%C(always,reset)"
+GIT_REL_TIME="%C(always,green)%ar%C(always,reset)"
+GIT_AUTHOR="%C(always,bold blue)%an%C(always,reset)"
+GIT_REFS="%C(always,red)%d%C(always,reset)"
+GIT_SUBJECT="%s"
+
+GIT_LOG_FORMAT="$GIT_HASH $GIT_REL_TIME{$GIT_AUTHOR{$GIT_REFS $GIT_SUBJECT"
+
+function git-pretty-log() {
+  git log --graph --pretty="tformat:$GIT_LOG_FORMAT" $* |
+    column -t -s '{' |
+    less -XRS --quit-if-one-screen
 }

@@ -1,5 +1,53 @@
 #!/usr/bin/env bash
 
+function watch-ec2-status() {
+  if [[ $# -eq 0 ]]; then
+    echo "instance name is required"
+    exit 1
+  fi
+  NAME="${1}"
+  PROFILE=${2:-"fusionauth-prod"}
+  REGION=${3:-"us-east-1"}
+  watch "aws ec2 describe-instances \
+    --profile "${PROFILE}" \
+    --region "${REGION}" \
+    --filters 'Name=tag:Name,Values="${NAME}.*"' \
+    --query 'Reservations[*].Instances[*].State.Name' \
+    --output=text"
+}
+
+function watch-rds-status() {
+  if [[ $# -eq 0 ]]; then
+    echo "db instance name is required"
+    exit 1
+  fi
+  NAME="${1}"
+  PROFILE=${2:-"fusionauth-prod"}
+  REGION=${3:-"us-east-1"}
+  watch "aws rds describe-db-instances \
+    --profile "${PROFILE}" \
+    --region "${REGION}" \
+    --db-instance-identifier "${NAME}" \
+    --query 'DBInstances[*].DBInstanceStatus' \
+    --output=text"
+}
+
+function watch-rds-snapshot-status() {
+  if [[ $# -eq 0 ]]; then
+    echo "snapshot name is required"
+    exit 1
+  fi
+  NAME="${1}"
+  PROFILE=${2:-"fusionauth-prod"}
+  REGION=${3:-"us-east-1"}
+  watch "aws rds describe-db-snapshots \
+    --profile "${PROFILE}" \
+    --region "${REGION}" \
+    --db-snapshot-identifier "${NAME}" \
+    --query 'DBSnapshots[*].PercentProgress' \
+    --output=text"
+}
+
 # function ssm-login() {
 #   if [[ "$#" -ne 1 ]]; then
 #     echo "Usage: ssm-login [hostname]"
@@ -27,10 +75,3 @@
 #   echo "Connecting to instance-id ${id} in region ${region}"
 #   aws ssm start-session --region "${region}" --target "${id}"
 # }
-
-function watch-ec2-state() {
-  NAME="${1}"
-  PROFILE=${2:-"fusionauth-prod"}
-  REGION=${3:-"us-east-1"}
-  watch "aws ec2 describe-instances --profile "${PROFILE}" --region "${REGION}" --filters 'Name=tag:Name,Values="${NAME}.*"' --query 'Reservations[*].Instances[*].State.Name' --output=text"
-}

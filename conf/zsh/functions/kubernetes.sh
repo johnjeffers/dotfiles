@@ -1,5 +1,25 @@
 #!/usr/bin/env zsh
 
+CLUSTERS=(
+  "cleanspeak-dev-us-west-2"
+  "cleanspeak-prod-us-east-1"
+  "fusionauth-dev-us-west-2"
+  "fusionauth-prod-af-south-1"
+  "fusionauth-prod-ap-northeast-2"
+  "fusionauth-prod-ap-southeast-1"
+  "fusionauth-prod-ap-southeast-2"
+  "fusionauth-prod-ca-central-1"
+  "fusionauth-prod-eu-central-1"
+  "fusionauth-prod-eu-north-1"
+  "fusionauth-prod-eu-west-1"
+  "fusionauth-prod-eu-west-2"
+  "fusionauth-prod-eu-west-3"
+  "fusionauth-prod-us-east-1"
+  "fusionauth-prod-us-east-2"
+  "fusionauth-prod-us-west-2"
+  "fusionauth-svc-us-west-2"
+)
+
 # Parse the files in ~/.kube and select a kubeconfig to activate.
 kset() {
   files=()
@@ -35,33 +55,13 @@ kimage() {
     return
   fi
 
-  configs=(
-    "cleanspeak-dev-us-west-2"
-    "cleanspeak-prod-us-east-1"
-    "fusionauth-dev-us-west-2"
-    "fusionauth-prod-af-south-1"
-    "fusionauth-prod-ap-southeast-1"
-    "fusionauth-prod-ap-southeast-2"
-    "fusionauth-prod-ca-central-1"
-    "fusionauth-prod-eu-central-1"
-    "fusionauth-prod-eu-north-1"
-    "fusionauth-prod-eu-west-1"
-    "fusionauth-prod-eu-west-2"
-    "fusionauth-prod-eu-west-3"
-    "fusionauth-prod-us-east-1"
-    "fusionauth-prod-us-east-2"
-    "fusionauth-prod-us-west-1"
-    "fusionauth-prod-us-west-2"
-    "fusionauth-svc-us-west-2"
-  )
-
   KIND="$1" # deployment|statefulset|daemonset
   NAMESPACE="$2"
   NAME="$3"
 
-  for config in "${configs[@]}"; do
-    echo "$config:"
-    KUBECONFIG=~/.kube/"$config" kubectl get -n "$NAMESPACE" "$KIND" "$NAME" \
+  for cluster in "${CLUSTERS[@]}"; do
+    echo "$cluster:"
+    KUBECONFIG=~/.kube/"$cluster" kubectl get -n "$NAMESPACE" "$KIND" "$NAME" \
       -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
     echo ""
     echo ""
@@ -128,7 +128,10 @@ nodeview() {
     return
   fi
 
-  AWS_PROFILE="fusionauth-${1}-admin" eks-node-viewer --kubeconfig "${HOME}/.kube/fusionauth-${1}-${2}" --extra-labels node-group-name --resources cpu,memory
+  AWS_PROFILE="fusionauth-${1}-admin" eks-node-viewer \
+    --kubeconfig "${HOME}/.kube/fusionauth-${1}-${2}" \
+    --extra-labels node-group-name \
+    --resources cpu,memory
 }
 
 # SSM login to EKS node.
