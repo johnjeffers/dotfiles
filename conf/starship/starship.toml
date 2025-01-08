@@ -46,6 +46,7 @@ format = '[$indicator]($style)'
 style = 'bg:base-bg fg:warn'
 zsh_indicator = ''
 bash_indicator = 'bash '
+fish_indicator = 'fish '
 
 [username]
 format = '[$user ]($style)'

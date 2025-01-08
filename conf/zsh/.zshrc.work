@@ -11,3 +11,4 @@ for f in "${MYDIR}"/configs/*.sh; do source "${f}"; done
 for f in "${MYDIR}"/functions/*.sh; do source "${f}"; done
 
 alias gam="/Users/john/bin/gam7/gam"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
