@@ -9,6 +9,17 @@ get_configs() {
   done < <(find "${HOME}/.kube" -maxdepth 1 -type f -exec basename {} \; | sort | grep -v config)
 }
 
+# Wrapper around k9s. Makes all the kubeconfig files available.
+k9start() {
+  get_configs
+  all_configs=""
+  for config in "${CONFIGS[@]}"; do
+    all_configs+=$(echo -n "~/.kube/$config:")
+  done
+  # In this case we do want ~/.kube/config
+  eval "KUBECONFIG=${all_configs}~/.kube/config k9s --logoless $@"
+}
+
 # Parse the files in ~/.kube and select a kubeconfig to activate.
 kset() {
   PS3="Select kubeconfig: "
