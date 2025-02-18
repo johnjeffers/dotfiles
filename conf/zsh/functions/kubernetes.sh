@@ -1,38 +1,23 @@
 #!/usr/bin/env zsh
 
-CLUSTERS=(
-  "cleanspeak-dev-us-west-2"
-  "cleanspeak-prod-us-east-1"
-  "fusionauth-dev-us-west-2"
-  "fusionauth-prod-af-south-1"
-  "fusionauth-prod-ap-northeast-2"
-  "fusionauth-prod-ap-southeast-1"
-  "fusionauth-prod-ap-southeast-2"
-  "fusionauth-prod-ca-central-1"
-  "fusionauth-prod-eu-central-1"
-  "fusionauth-prod-eu-north-1"
-  "fusionauth-prod-eu-west-1"
-  "fusionauth-prod-eu-west-2"
-  "fusionauth-prod-eu-west-3"
-  "fusionauth-prod-us-east-1"
-  "fusionauth-prod-us-east-2"
-  "fusionauth-prod-us-west-2"
-  "fusionauth-svc-us-west-2"
-)
+get_configs() {
+  # Make sure the array is empty before we do anything else.
+  unset CONFIGS
+  # Read the files in ~/.kube (ignore 'config')
+  while IFS=' ' read -r line; do
+    CONFIGS+=("$line")
+  done < <(find "${HOME}/.kube" -maxdepth 1 -type f -exec basename {} \; | sort | grep -v config)
+}
 
 # Parse the files in ~/.kube and select a kubeconfig to activate.
 kset() {
-  files=()
   PS3="Select kubeconfig: "
 
-  while IFS=' ' read -r line; do
-    files+=("$line")
-  done < <(find "${HOME}/.kube" -maxdepth 1 -type f -exec basename {} \; | sort | grep -v config)
-
-  select file in "${files[@]}"; do
-    [ "$file" ] &&
+  get_configs
+  select config in "${CONFIGS[@]}"; do
+    [ "$config" ] &&
       {
-        KUBECONFIG="${HOME}/.kube/${file}"
+        KUBECONFIG="${HOME}/.kube/${config}"
         export KUBECONFIG
         break
       }
@@ -59,9 +44,10 @@ kimage() {
   NAMESPACE="$2"
   NAME="$3"
 
-  for cluster in "${CLUSTERS[@]}"; do
-    echo "$cluster:"
-    KUBECONFIG=~/.kube/"$cluster" kubectl get -n "$NAMESPACE" "$KIND" "$NAME" \
+  get_configs
+  for config in "${CONFIGS[@]}"; do
+    echo "$config:"
+    KUBECONFIG=~/.kube/"$config" kubectl get -n "$NAMESPACE" "$KIND" "$NAME" \
       -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
     echo ""
     echo ""
