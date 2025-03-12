@@ -23,3 +23,6 @@ alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 alias gam="/Users/john/bin/gam7/gam"
+
+# tfswitch
+export PATH="$PATH:/Users/john/bin"

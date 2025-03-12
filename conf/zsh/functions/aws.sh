@@ -48,6 +48,19 @@ function watch-rds-snapshot-status() {
     --output=text"
 }
 
+function ecs-exec() {
+
+  AWS_PROFILE="${1:-fusionauth-prod-admin}"
+  REGION="${2:-us-east-1}"
+  TASK_ARN=$(aws --profile $AWS_PROFILE --region $REGION ecs list-tasks --cluster edge-tls --query "taskArns[0]" --output text)
+
+  echo "profile: $AWS_PROFILE"
+  echo "region:  $REGION"
+  echo "task:    $TASK_ARN"
+
+  aws ecs execute-command --profile $AWS_PROFILE --region $REGION --cluster edge-tls --container caddy --interactive --task $TASK_ARN --command /bin/sh
+}
+
 # function ssm-login() {
 #   if [[ "$#" -ne 1 ]]; then
 #     echo "Usage: ssm-login [hostname]"
