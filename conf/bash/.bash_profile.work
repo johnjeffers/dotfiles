@@ -10,7 +10,7 @@ export PATH=/Users/john/dev/bin:$PATH
 eval "$(rbenv init - zsh)"
 export PATH=$PATH:/Users/john/git/inversoft/libraries/inversoft-scripts/src/main/ruby
 # java
-export JAVA_HOME=/Users/john/dev/java/current17
+export JAVA_HOME=/Users/john/dev/java/current21
 # python
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
