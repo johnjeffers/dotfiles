@@ -3,4 +3,7 @@ cask 'presonus-universal-control'
 cask 'reaper'
 cask 'waves-central'
 
+# Removed until this is fixed:
+# https://github.com/mas-cli/mas/issues/728
+#
 # mas 'Logic Pro', id: 634148309
