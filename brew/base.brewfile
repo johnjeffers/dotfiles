@@ -14,8 +14,8 @@ cask 'sublime-merge'
 cask 'visual-studio-code'
 cask 'zoom'
 
-mas 'DaisyDisk', id: 411643860
-mas 'Pixelmator Pro', id: 1289583905
+# mas 'DaisyDisk', id: 411643860
+# mas 'Pixelmator Pro', id: 1289583905
 
 vscode "bierner.markdown-preview-github-styles"
 vscode "monokai.theme-monokai-pro-vscode"
