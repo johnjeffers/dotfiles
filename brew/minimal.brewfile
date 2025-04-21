@@ -12,7 +12,4 @@ cask 'firefox'
 cask 'iterm2'
 cask 'sublime-text'
 
-# Removed until this is fixed:
-# https://github.com/mas-cli/mas/issues/728
-#
-# mas 'CopyClip', id: 1020812363
+mas 'CopyClip', id: 1020812363
