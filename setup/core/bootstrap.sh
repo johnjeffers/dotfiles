@@ -28,6 +28,5 @@ if file_missing "${FLAGFILE}" || file_missing "$MYDIR/.env"; then
   update_env_file "WORK_REPOS"   "Location of work repos"
   update_env_file "BREW_BASE"    "Install brewfile.base?"
   update_env_file "BREW_HOME"    "Install brewfile.home?"
-  update_env_file "BREW_MUSIC"   "Install brewfile.music?"
   update_env_file "BREW_WORK"    "Install brewfile.work?"
 fi
