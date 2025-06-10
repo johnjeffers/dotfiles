@@ -47,6 +47,7 @@ style = 'bg:base-bg fg:warn'
 zsh_indicator = ''
 bash_indicator = 'bash '
 fish_indicator = 'fish '
+nu_indicator = 'nu '
 
 [username]
 format = '[$user ]($style)'

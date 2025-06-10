@@ -4,6 +4,9 @@
 # MacOS warns you if you're using bash. Turn that off.
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
+# Starship
 eval "$(starship init bash)"
 
-alias gam="/Users/john/bin/gam7/gam"
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/john/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

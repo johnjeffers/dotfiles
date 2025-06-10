@@ -91,6 +91,13 @@ kns-cleanup() {
   fi
 }
 
+
+# Clean up pods in bad state
+ksanitize() {
+  kubectl get pods --all-namespaces | grep -E 'ContainerStatusUnknown|Error|Failed' | awk '{print $2 " --namespace=" $1}' | xargs kubectl delete pod
+}
+
+
 # Grep for nodes, show the header, sort by zone.
 nodegrep() {
   if [[ $# -eq 0 ]]; then

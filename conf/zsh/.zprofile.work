@@ -1,28 +1,32 @@
 #!/usr/bin/env zsh
 # shellcheck disable=1090
+# shellcheck disable=1091
 
 # Set up the shell for brew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # fusionauth-developer setup script stuff
 export PATH=/Users/john/dev/bin:$PATH
+alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
+
 # ruby
-eval "$(rbenv init - zsh)"
 export PATH=$PATH:/Users/john/git/inversoft/libraries/inversoft-scripts/src/main/ruby
+eval "$(rbenv init - zsh)"
+
 # java
 export JAVA_HOME=/Users/john/dev/java/current21
+
 # python
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-alias devsetup="/Users/john/git/inversoft/fusionauth/fusionauth-developer/setup.sh"
-
+# custom AWS stuff
 [[ -f "$HOME/.aws/aws.sh" ]] && source "$HOME/.aws/aws.sh"
 
+# orbstack
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
-alias gam="/Users/john/bin/gam7/gam"
-
-# tfswitch
-export PATH="$PATH:/Users/john/bin"
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/john/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
