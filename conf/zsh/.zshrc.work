@@ -10,8 +10,5 @@ for f in "${MYDIR}"/configs/*.sh; do source "${f}"; done
 # Source the functions.
 for f in "${MYDIR}"/functions/*.sh; do source "${f}"; done
 
-# gam
-alias gam="/Users/john/bin/gam7/gam"
-
 # postgres
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"

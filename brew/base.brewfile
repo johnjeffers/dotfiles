@@ -6,23 +6,23 @@ brew 'the_silver_searcher'
 brew 'watch'
 
 cask 'beyond-compare'
-cask 'google-chrome'
+# cask 'google-chrome'
 cask 'logi-options+'
 cask 'signal'
-cask 'slack'
+# cask 'slack'  # installed by kandji
 cask 'sublime-merge'
-cask 'visual-studio-code'
+# cask 'visual-studio-code'  # installed by kandji
 cask 'zoom'
 
-mas 'DaisyDisk', id: 411643860
+# mas 'DaisyDisk', id: 411643860
 mas 'Pixelmator Pro', id: 1289583905
 
-vscode "bierner.markdown-preview-github-styles"
-vscode "monokai.theme-monokai-pro-vscode"
-vscode "ms-azuretools.vscode-docker"
-vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
-vscode "ms-vscode-remote.remote-containers"
-vscode "ms-vscode.makefile-tools"
-vscode "timonwong.shellcheck"
-vscode "twixes.pypi-assistant"
+# vscode "bierner.markdown-preview-github-styles"
+# vscode "monokai.theme-monokai-pro-vscode"
+# vscode "ms-azuretools.vscode-docker"
+# vscode "ms-python.python"
+# vscode "ms-python.vscode-pylance"
+# vscode "ms-vscode-remote.remote-containers"
+# vscode "ms-vscode.makefile-tools"
+# vscode "timonwong.shellcheck"
+# vscode "twixes.pypi-assistant"

@@ -2,4 +2,4 @@
 cask 'openvpn-connect'
 cask 'royal-tsx'
 cask 'superduper'
-cask 'transmit'
+# cask 'transmit'

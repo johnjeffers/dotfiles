@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
-# shellcheck disable=1090
-# shellcheck disable=1091
+# shellcheck disable=1090,1091
 
 # Set up the shell for brew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -26,7 +25,3 @@ eval "$(pyenv init -)"
 
 # orbstack
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/john/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

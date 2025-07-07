@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=1090
-# shellcheck disable=1091
+# shellcheck disable=1090,1091
 
 # Set up the shell for brew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
