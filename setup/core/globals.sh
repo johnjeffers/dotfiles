@@ -36,6 +36,7 @@ MODULES=(
   aws
   iterm
   python
+  sublime
 )
 
 ### Defaults for vars that will be set in .env
