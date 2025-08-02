@@ -92,9 +92,26 @@ kns-cleanup() {
 }
 
 
-# Clean up pods in bad state
-ksanitize() {
-  kubectl get pods --all-namespaces | grep -E 'ContainerStatusUnknown|Error|Failed' | awk '{print $2 " --namespace=" $1}' | xargs kubectl delete pod
+kcleanup() {
+  local mode="$1"
+  local filter
+
+  if [[ "$mode" != "failed" && "$mode" != "restarted" ]]; then
+    echo "Usage: $0 <failed|restarted>"
+    return 1
+  fi
+
+  if [[ "$mode" == "failed" ]]; then
+    filter="grep -v 'fa-' | grep -E 'ContainerStatusUnknown|Error|Failed'"
+  else
+    filter="grep -v 'fa-' | grep -E '\([0-9]+(d[0-9]+h|[mh]) ago\)'"
+  fi
+
+  kubectl get pods --all-namespaces | \
+    eval "$filter" | \
+    awk '{print $1, $2}' | \
+    # xargs -n 2 sh -c 'echo - Deleting "$0"/"$1 ..." && kubectl delete pod --namespace "$0" "$1" > /dev/null 2>&1'
+    xargs -n 2 sh -c 'echo - Deleting "$0"/"$1 ..."'
 }
 
 

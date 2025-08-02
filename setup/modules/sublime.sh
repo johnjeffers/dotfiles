@@ -34,6 +34,7 @@ function install_packages() {
   "bootstrapped": true,
   "in_process_packages": [],
   "installed_packages": [
+    "Dockerfile Syntax Highlighting",
     "Formatter",
     "Git",
     "MarkdownPreview",

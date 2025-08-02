@@ -1,5 +1,37 @@
 #!/usr/bin/env bash
 
+function terminate-instance-by-ip() {
+  local profile="$1"
+  local ip="$2"
+  local id=""
+
+  if [[ -z "$profile" ]]; then
+    echo "Usage: terminate-instance-by-ip <aws-profile> <ip-addr>"
+    return 1
+  fi
+
+  if [[ -z "$ip" ]]; then
+    echo "Usage: terminate-instance-by-ip <aws-profile> <ip-addr>"
+    return 1
+  fi
+
+  id=$(aws ec2 describe-instances \
+    --profile "$profile" \
+    --filters "Name=private-ip-address,Values=$ip" \
+    --query "Reservations[*].Instances[*].InstanceId" \
+    --output text)
+
+  if [[ -z "$id" ]]; then
+    echo "Can't find instance with IP $ip"
+    return 1
+  fi
+
+  echo "Terminating $id ($ip)"
+  aws ec2 terminate-instances \
+    --profile "$profile" \
+    --instance-ids "$id"
+}
+
 function watch-ec2-status() {
   if [[ $# -eq 0 ]]; then
     echo "instance name is required"

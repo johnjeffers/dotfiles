@@ -6,6 +6,8 @@
 	<false/>
 	<key>AlternateMouseScroll</key>
 	<true/>
+	<key>ClickToSelectCommand</key>
+	<false/>
 	<key>Default Bookmark Guid</key>
 	<string>F96AC564-C2CC-4751-B1BC-62AAB8C0B592</string>
 	<key>DimBackgroundWindows</key>
