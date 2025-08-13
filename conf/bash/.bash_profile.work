@@ -24,7 +24,3 @@ eval "$(pyenv init -)"
 [[ -f "$HOME/.aws/aws.sh" ]] && source "$HOME/.aws/aws.sh"
 
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/john/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

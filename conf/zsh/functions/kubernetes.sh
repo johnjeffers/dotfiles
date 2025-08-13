@@ -102,16 +102,21 @@ kcleanup() {
   fi
 
   if [[ "$mode" == "failed" ]]; then
-    filter="grep -v 'fa-' | grep -E 'ContainerStatusUnknown|Error|Failed'"
+    filter="ContainerStatusUnknown|Error|Failed"
   else
-    filter="grep -v 'fa-' | grep -E '\([0-9]+(d[0-9]+h|[mh]) ago\)'"
+    filter="ago)"
   fi
 
-  kubectl get pods --all-namespaces | \
-    eval "$filter" | \
-    awk '{print $1, $2}' | \
-    # xargs -n 2 sh -c 'echo - Deleting "$0"/"$1 ..." && kubectl delete pod --namespace "$0" "$1" > /dev/null 2>&1'
-    xargs -n 2 sh -c 'echo - Deleting "$0"/"$1 ..."'
+  local namespaces=(
+    "grafana-net"
+    "kube-system"
+  )
+
+  for namespace in "${namespaces[@]}"; do
+    echo -e "\ncleaning namespace: $namespace"
+    kubectl get pods --namespace "$namespace" | grep -E "$filter" | awk '{print $1, $2}' | \
+      xargs -n 2 sh -c 'echo - Deleting '"$namespace"'/$0 ... && kubectl delete pod --namespace '"$namespace"' $0 > /dev/null 2>&1'
+  done
 }
 
 
