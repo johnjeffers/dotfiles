@@ -1,22 +1,17 @@
 #!/usr/bin/env bash
 
-function terminate-instance-by-ip() {
+function ec2-terminate-by-ip() {
   local profile="$1"
-  local ip="$2"
+  local region="$2"
+  local ip="$3"
   local id=""
 
-  if [[ -z "$profile" ]]; then
-    echo "Usage: terminate-instance-by-ip <aws-profile> <ip-addr>"
+  if [[ -z "$profile" || -z "$region" || -z "$ip" ]]; then
+    echo "Usage: $0 [aws-profile] [aws-region] [ip-addr]"
     return 1
   fi
 
-  if [[ -z "$ip" ]]; then
-    echo "Usage: terminate-instance-by-ip <aws-profile> <ip-addr>"
-    return 1
-  fi
-
-  id=$(aws ec2 describe-instances \
-    --profile "$profile" \
+  id=$(aws ec2 describe-instances --profile "$profile" --region "$region" \
     --filters "Name=private-ip-address,Values=$ip" \
     --query "Reservations[*].Instances[*].InstanceId" \
     --output text)
@@ -27,70 +22,78 @@ function terminate-instance-by-ip() {
   fi
 
   echo "Terminating $id ($ip)"
-  aws ec2 terminate-instances \
-    --profile "$profile" \
-    --instance-ids "$id"
+  aws ec2 terminate-instances --profile "$profile" --region "$region" --instance-ids "$id"
 }
 
+
 function watch-ec2-status() {
-  if [[ $# -eq 0 ]]; then
-    echo "instance name is required"
-    exit 1
+  local profile="$1"
+  local region="$2"
+  local name="$3"
+
+  if [[ -z "$profile" || -z "$region" ]]; then
+    echo "Usage: $0 [aws-profile] [aws-region] [instance-name]"
+    return 1
   fi
-  NAME="${1}"
-  PROFILE=${2:-"fusionauth-prod"}
-  REGION=${3:-"us-east-1"}
-  watch "aws ec2 describe-instances \
-    --profile "${PROFILE}" \
-    --region "${REGION}" \
-    --filters 'Name=tag:Name,Values="${NAME}.*"' \
+
+  watch "aws ec2 describe-instances --profile $profile --region $region \
+    --filters 'Name=tag:Name,Values=$name' \
     --query 'Reservations[*].Instances[*].State.Name' \
     --output=text"
 }
 
+
 function watch-rds-status() {
-  if [[ $# -eq 0 ]]; then
-    echo "db instance name is required"
-    exit 1
+  local profile="$1"
+  local region="$2"
+  local name="$3"
+
+  if [[ -z "$profile" || -z "$region" ]]; then
+    echo "Usage: $0 [aws-profile] [aws-region] [instance-name]"
+    return 1
   fi
-  NAME="${1}"
-  PROFILE=${2:-"fusionauth-prod"}
-  REGION=${3:-"us-east-1"}
-  watch "aws rds describe-db-instances \
-    --profile "${PROFILE}" \
-    --region "${REGION}" \
-    --db-instance-identifier "${NAME}" \
+
+  watch "aws rds describe-db-instances --profile $profile --region $region \
+    --db-instance-identifier ${NAME} \
     --query 'DBInstances[*].DBInstanceStatus' \
     --output=text"
 }
 
+
 function watch-rds-snapshot-status() {
-  if [[ $# -eq 0 ]]; then
-    echo "snapshot name is required"
-    exit 1
+  local profile="$1"
+  local region="$2"
+  local name="$3"
+
+  if [[ -z "$profile" || -z "$region" ]]; then
+    echo "Usage: $0 [aws-profile] [aws-region] [snapshot-name]"
+    return 1
   fi
-  NAME="${1}"
-  PROFILE=${2:-"fusionauth-prod"}
-  REGION=${3:-"us-east-1"}
-  watch "aws rds describe-db-snapshots \
-    --profile "${PROFILE}" \
-    --region "${REGION}" \
-    --db-snapshot-identifier "${NAME}" \
+
+  watch "aws rds describe-db-instances --profile $profile --region $region \
+    --db-snapshot-identifier ${NAME} \
     --query 'DBSnapshots[*].PercentProgress' \
     --output=text"
 }
 
+
 function ecs-exec() {
+  local profile="${1:-fusionauth-prod-admin}"
+  local region="${2:-us-east-1}"
+  local task_arn
 
-  AWS_PROFILE="${1:-fusionauth-prod-admin}"
-  REGION="${2:-us-east-1}"
-  TASK_ARN=$(aws --profile $AWS_PROFILE --region $REGION ecs list-tasks --cluster edge-tls --query "taskArns[0]" --output text)
+  if [[ -z "$profile" || -z "$region" ]]; then
+    echo "Usage: $0 [aws-profile] [aws-region]"
+    return 1
+  fi
 
-  echo "profile: $AWS_PROFILE"
-  echo "region:  $REGION"
-  echo "task:    $TASK_ARN"
+  task_arn=$(aws --profile "$profile" --region "$region" ecs list-tasks --cluster edge-tls --query "taskArns[0]" --output text)
 
-  aws ecs execute-command --profile $AWS_PROFILE --region $REGION --cluster edge-tls --container caddy --interactive --task $TASK_ARN --command /bin/sh
+  echo "profile: $profile"
+  echo "region:  $region"
+  echo "task:    $task_arn"
+
+  aws ecs execute-command --profile "$profile" --region "$region" --cluster edge-tls --container caddy --interactive --task "$task_arn" --command /bin/sh
 }
 
 # function ssm-login() {
