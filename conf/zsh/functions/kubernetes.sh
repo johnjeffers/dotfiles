@@ -109,6 +109,7 @@ kcleanup() {
 
   local namespaces=(
     "grafana-net"
+    "groundcover"
     "kube-system"
   )
 
