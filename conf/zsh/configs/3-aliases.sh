@@ -12,7 +12,7 @@ alias watch='watch '
 # k8s aliases
 alias kgn='kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone | sort -k6'
 alias kns='kubens'
-alias wkgn='watch "kubectl get nodes -L node-group-name -L topology.kubernetes.io/zone | sort -k6"'
+alias wkgn='watch "kubectl get nodes --sort-by=.metadata.creationTimestamp -l eks.amazonaws.com/compute-type!=fargate --no-headers -L node-group-name -L topology.kubernetes.io/zone | tail -r"'
 alias wkgpa='watch "kubectl get po --all-namespaces | grep -v '\''Completed'\'' | grep -vE '\''1/1|2/2|3/3|4/4|5/5|6/6'\''"'
 
 # AWS aliases
