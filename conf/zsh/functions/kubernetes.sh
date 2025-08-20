@@ -92,6 +92,49 @@ kns-cleanup() {
 }
 
 
+# Set do-not-evict annotation on all gha-runners
+kprotect-runner-nodes() {
+  echo "Finding nodes running pods with names containing '-runner-'..."
+
+  nodes=$(kubectl get pods --all-namespaces -o json \
+    | jq -r '.items[] | select(.metadata.name | test("-runner-")) | .spec.nodeName' \
+    | sort -u)
+
+  if [ -z "$nodes" ]; then
+    echo "No nodes found"
+    return 0
+  fi
+
+  echo "Setting annotation 'karpenter.sh/do-not-evict=true'"
+  echo "$nodes" | while IFS= read -r node; do
+    echo -e "\n- $node"
+    kubectl annotate node "$node" karpenter.sh/do-not-evict=true --overwrite || {
+      echo "⚠️ failed to annotate $node"
+    }
+  done
+}
+
+
+kunprotect-runner-nodes() {
+  local nodes
+  nodes=$(kubectl get nodes -o json \
+    | jq -r '.items[] | select(.metadata.annotations["karpenter.sh/do-not-evict"] == "true") | .metadata.name')
+
+  if [[ -z "$nodes" ]]; then
+    echo "No nodes found"
+    return 0
+  fi
+
+  echo "Removing annotation 'karpenter.sh/do-not-evict'"
+  echo "$nodes" | while IFS= read -r node; do
+    echo -e "\n- $node"
+    kubectl annotate node "$node" karpenter.sh/do-not-evict- --overwrite || {
+      echo "⚠️ failed to remove annotation from $node"
+    }
+  done
+}
+
+
 kcleanup() {
   local mode="$1"
   local filter
