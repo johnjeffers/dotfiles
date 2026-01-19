@@ -16,6 +16,7 @@ export PATH=$PATH:$HOME/go/bin
 alias c="clear"
 alias l="ls -lah"
 alias watch="watch "
+alias vi="vim"
 
 # git aliases
 alias gaa="git add ."
@@ -38,7 +39,7 @@ alias kgp="kubectl get pods"
 alias kgpa="kubectl get pods -A"
 alias kgs="kubectl get svc"
 alias kgsa="kubectl get svc -A"
-alias kns='kubens'
+alias kns='kubectl ns'
 alias wkgn='watch "kubectl get nodes --sort-by=.metadata.creationTimestamp -l eks.amazonaws.com/compute-type!=fargate --no-headers -L node-group-name -L topology.kubernetes.io/zone | tail -r"'
 alias wkgpa='watch "kubectl get po --all-namespaces | grep -v '\''Completed'\'' | grep -vE '\''1/1|2/2|3/3|4/4|5/5|6/6'\''"'
 
@@ -50,3 +51,16 @@ alias tfclean="rm -rf .terraform .terraform.lock.hcl"
 alias ssologin='aws sso login --profile ${SSO_PROFILE:-fusionauth-svc-admin}'
 alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-svc-admin} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'
 
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.cargo/env"
+
+# kubectl completion
+source <(kubectl completion bash)
+# support completion when using the `k` alias
+complete -o default -F __start_kubectl k
+
+# krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
