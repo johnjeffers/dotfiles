@@ -7,6 +7,9 @@ alias c='clear'
 alias swup='~/git/personal/dotfiles/setup.sh'
 alias tf='terraform'
 alias tfclean='rm .terraform.lock.hcl && rm -rf .terraform'
+tfunlock() {
+  aws s3api delete-object --profile fusionauth-svc-admin --region us-west-2 --bucket "fusionauth-svc-terraform-state" --key "$1"
+}
 alias watch='watch '
 
 # k8s aliases

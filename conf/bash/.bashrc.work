@@ -6,3 +6,6 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # Starship
 eval "$(starship init bash)"
+
+# Rust
+. "$HOME/.cargo/env"

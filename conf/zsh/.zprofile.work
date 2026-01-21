@@ -9,8 +9,8 @@ export PATH=/Users/john/dev/bin:$PATH
 alias devsetup="/Volumes/git/inversoft/fusionauth-eng/fusionauth-developer/setup.sh"
 
 # ruby
-export PATH=$PATH:/Volumes/git/inversoft/libraries/inversoft-scripts/src/main/ruby
-eval "$(rbenv init - zsh)"
+# export PATH=$PATH:/Volumes/git/inversoft/libraries/inversoft-scripts/src/main/ruby
+# eval "$(rbenv init - zsh)"
 
 # java
 export JAVA_HOME=/Users/john/dev/java/current21
