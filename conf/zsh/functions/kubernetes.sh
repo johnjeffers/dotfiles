@@ -22,21 +22,28 @@ k9start() {
 
 # Parse the files in ~/.kube and select a kubeconfig to activate.
 kset() {
-  PS3="Select kubeconfig: "
-
   get_configs
-  select config in "${CONFIGS[@]}"; do
-    [ "$config" ] &&
-      {
-        KUBECONFIG="${HOME}/.kube/${config}"
-        export KUBECONFIG
-        break
-      }
-    {
-      echo "Invalid option!"
-      break
-    }
-  done
+
+  if [[ $# -ge 1 ]]; then
+    local n="$1"
+  else
+    local i=1
+    for config in "${CONFIGS[@]}"; do
+      echo "$i) $config"
+      ((i++))
+    done
+    echo ""
+    echo -n "Select kubeconfig: "
+    read -r n
+  fi
+
+  if [[ "$n" -ge 1 && "$n" -le ${#CONFIGS[@]} ]] 2>/dev/null; then
+    KUBECONFIG="${HOME}/.kube/${CONFIGS[$n]}"
+    export KUBECONFIG
+    echo "Switched to ${CONFIGS[$n]}"
+  else
+    echo "Invalid option."
+  fi
 }
 
 # Unset the KUBECONFIG env var.
