@@ -27,11 +27,12 @@ kset() {
   if [[ $# -ge 1 ]]; then
     local n="$1"
   else
-    local i=1
-    for config in "${CONFIGS[@]}"; do
-      echo "$i) $config"
-      ((i++))
+    local items=()
+    local i
+    for i in {1..${#CONFIGS[@]}}; do
+      items+=("$i) ${CONFIGS[$i]}")
     done
+    print -c -- "${items[@]}"
     echo ""
     echo -n "Select kubeconfig: "
     read -r n
