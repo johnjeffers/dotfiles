@@ -20,5 +20,5 @@ alias wkgpa='watch "kubectl get po --all-namespaces | grep -v '\''Completed'\'' 
 
 # AWS aliases
 alias ssologin='aws sso login --profile ${SSO_PROFILE:-fusionauth-dev}'
-alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-dev} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'
+alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-svc-admin} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'
 # alias npmlogin='aws codeartifact login --profile $SSO_PROFILE --tool npm --repository npm --domain fusionauth-svc --domain-owner 752443094709'
