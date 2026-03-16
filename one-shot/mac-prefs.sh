@@ -106,6 +106,11 @@ defaults write com.apple.finder ShowRecentTags -bool false
 /usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 64" ~/Library/Preferences/com.apple.finder.plist
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 64" ~/Library/Preferences/com.apple.finder.plist
 
+### Terminal
+###########################################################
+# Support touch id for sudo.
+echo "auth sufficient pam_tid.so" | sudo tee /etc/pam.d/sudo_local >/dev/null
+
 # ### Restart things that need to be restarted.
 # ###########################################################
 killall Finder
