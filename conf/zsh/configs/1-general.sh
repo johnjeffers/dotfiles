@@ -11,7 +11,7 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 ### oh-my-zsh - https://ohmyz.sh/
 # Theme is disabled because I switched to Starship.
 ZSH_THEME=""
-ZSH_DISABLE_COMPFIX=true
+export ZSH_DISABLE_COMPFIX=true
 export ZSH=$HOME/.oh-my-zsh
 export ZSH_COMPDUMP=$HOME/.cache/.zcompdump
 plugins=(docker git kubectl)

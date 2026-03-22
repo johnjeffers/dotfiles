@@ -16,10 +16,20 @@ export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 # opencode
 export PATH=/Users/john/.opencode/bin:$PATH
 
-# nvm
+# lazy load nvm so shell startup doesn't take forever
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+_lazy_load_nvm() {
+  unset -f nvm node npm npx corepack
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  "$@"
+}
+nvm()      { _lazy_load_nvm nvm "$@"; }
+node()     { _lazy_load_nvm node "$@"; }
+npm()      { _lazy_load_nvm npm "$@"; }
+npx()      { _lazy_load_nvm npx "$@"; }
+corepack() { _lazy_load_nvm corepack "$@"; }
+
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
