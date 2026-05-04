@@ -16,9 +16,9 @@ alias devsetup="/Volumes/git/inversoft/fusionauth-eng/fusionauth-developer/setup
 export JAVA_HOME=/Users/john/dev/java/current21
 
 # python
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
 # custom AWS stuff
 [[ -f "$HOME/.aws/aws.sh" ]] && source "$HOME/.aws/aws.sh"

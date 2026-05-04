@@ -222,9 +222,9 @@ nodessm() {
   local nodeip
   nodeip="${1//./-}"
   local profile
-  profile="$(kubectl config view -o jsonpath='{.users[0].user.exec.env[].value}')"
+  profile="$(kubectl config view --minify -o jsonpath='{.users[0].user.exec.env[].value}')"
   local region
-  region="$(kubectl config view -o jsonpath='{.users[0].name}' | cut -d ':' -f 4,4)"
+  region="$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' | awk -F. '{print $(NF-3)}')"
 
   # Node name is different in us-east-1.
   local node
