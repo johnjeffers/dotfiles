@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 
 function setup_zsh() {
-  local zshrc="${HOME}/.zshrc"
-  # If .zshrc already exists, back it up
-  if file_exists "${zshrc}" && not_symlink "${zshrc}"; then
-    archive_file "${zshrc}"
-  fi
-  # Add .zshrc symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/zsh/.zshrc.${LOCALE}" "${zshrc}"
+  link_with_backup "${MYDIR}/conf/zsh/.zshrc"    "${HOME}/.zshrc"
+  link_with_backup "${MYDIR}/conf/zsh/.zprofile" "${HOME}/.zprofile"
 
-  local zprofile="${HOME}/.zprofile"
-  # If .zprofile already exists, back it up
-  if file_exists "${zprofile}" && not_symlink "${zprofile}"; then
-    archive_file "${zprofile}"
+  # On work machines, layer the work-only overlay on top via the .local hook
+  # in each base file.
+  if [[ "${BREW_WORK}" == "true" ]]; then
+    link_with_backup "${MYDIR}/conf/zsh/.zshrc.work"    "${HOME}/.zshrc.local"
+    link_with_backup "${MYDIR}/conf/zsh/.zprofile.work" "${HOME}/.zprofile.local"
   fi
-  # Add .zprofile symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/zsh/.zprofile.${LOCALE}" "${zprofile}"
 
   success "Configured zsh"
 }

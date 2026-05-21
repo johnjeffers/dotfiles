@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 
 function setup_bash() {
-  local bashrc="${HOME}/.bashrc"
-  # If .bashrc already exists, back it up
-  if file_exists "${bashrc}" && not_symlink "${bashrc}"; then
-    archive_file "${bashrc}"
-  fi
-  # Add .bashrc symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/bash/.bashrc.${LOCALE}" "${bashrc}"
+  link_with_backup "${MYDIR}/conf/bash/.bashrc"       "${HOME}/.bashrc"
+  link_with_backup "${MYDIR}/conf/bash/.bash_profile" "${HOME}/.bash_profile"
 
-  local bashprf="${HOME}/.bash_profile"
-  # If .bash_profile already exists, back it up
-  if file_exists "${bashprf}" && not_symlink "${bashprf}"; then
-    archive_file "${bashprf}"
+  # On work machines, layer the work-only overlay on top via the .local hook
+  # in each base file.
+  if [[ "${BREW_WORK}" == "true" ]]; then
+    link_with_backup "${MYDIR}/conf/bash/.bashrc.work"       "${HOME}/.bashrc.local"
+    link_with_backup "${MYDIR}/conf/bash/.bash_profile.work" "${HOME}/.bash_profile.local"
   fi
-  # Add .bash_profile symlink if it doesn't exist
-  create_softlink "${MYDIR}/conf/bash/.bash_profile.${LOCALE}" "${bashprf}"
 
   success "Configured bash"
 }

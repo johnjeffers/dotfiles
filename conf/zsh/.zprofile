@@ -3,3 +3,6 @@
 
 # Set up the shell for brew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# shellcheck disable=1091
+[ -f "${HOME}/.zprofile.local" ] && source "${HOME}/.zprofile.local"

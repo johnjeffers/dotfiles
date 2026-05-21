@@ -9,3 +9,6 @@ for f in "${MYDIR}"/configs/*.sh; do source "${f}"; done
 
 # Source the functions.
 for f in "${MYDIR}"/functions/*.sh; do source "${f}"; done
+
+# shellcheck disable=1091
+[ -f "${HOME}/.zshrc.local" ] && source "${HOME}/.zshrc.local"

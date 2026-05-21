@@ -5,3 +5,6 @@
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 eval "$(starship init bash)"
+
+# shellcheck disable=1090,1091
+[ -f "${HOME}/.bashrc.local" ] && source "${HOME}/.bashrc.local"

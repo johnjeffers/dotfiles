@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
-# I don't use bash much, but if I need to, let's have a nice looking prompt.
-
-# MacOS warns you if you're using bash. Turn that off.
-export BASH_SILENCE_DEPRECATION_WARNING=1
-
-# Starship
-eval "$(starship init bash)"
+# Sourced from .bashrc on work machines via the ~/.bashrc.local symlink.
 
 # Rust
 . "$HOME/.cargo/env"

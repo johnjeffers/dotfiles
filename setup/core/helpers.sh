@@ -44,6 +44,19 @@ function create_directory() {
 }
 
 
+# Symlink src -> dest, archiving any existing real file at dest first.
+# Usage:
+#   link_with_backup [src] [dest]
+function link_with_backup() {
+  local src="${1}"
+  local dest="${2}"
+  if file_exists "${dest}" && not_symlink "${dest}"; then
+    archive_file "${dest}"
+  fi
+  create_softlink "${src}" "${dest}"
+}
+
+
 # Create symlink if it doesn't already exist.
 function create_softlink() {
   v_info "Checking if symlink ${RESET}${2}${GRAY} exists..."

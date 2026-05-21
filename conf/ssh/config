@@ -1,0 +1,9 @@
+# Glob pattern (trailing *) makes OpenSSH silently skip the include when no
+# matching file exists, so this base config works on machines without an overlay.
+Include ~/.ssh/config.local*
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentitiesOnly yes  # don't use ssh agent
+  IdentityFile ~/.ssh/id_ed25519
