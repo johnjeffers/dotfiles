@@ -21,7 +21,7 @@ function install_package_control() {
   if file_missing "$SUBL_PATH/Installed Packages/Package Control.sublime-package"; then
     info "Installing Package Control"
     create_directory "$SUBL_PATH/Installed Packages/"
-    curl -o "$SUBL_PATH/Installed Packages/Package Control.sublime-package" https://packagecontrol.io/Package%20Control.sublime-package
+    curl -fsSL -o "$SUBL_PATH/Installed Packages/Package Control.sublime-package" https://packagecontrol.io/Package%20Control.sublime-package
     success "Package Control installed successfully"
   fi
 }
@@ -85,6 +85,7 @@ EOF
 
 function configure_package_settings() {
   info "Configuring packages"
+  local python_venv="${HOME}/venvs/python3/bin/"
 
   # Monokai Pro
   info "- Monokai Pro"
@@ -106,7 +107,7 @@ EOF
 {
   "paths": {
     "osx": [
-      "/Users/john/venvs/python3/bin/",
+      "$python_venv",
     ]
   },
   "linters": {

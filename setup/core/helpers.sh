@@ -26,6 +26,7 @@ function v_info()  { if [[ "${VERBOSE}" == true ]]; then echo -e "${GRAY}${1}${R
 
 # Archive a file, use timestamp as extension
 function archive_file() {
+  local archive=""
   archive="${1}.$(date '+%Y%m%d%H%M%S')"
   info "Creating archive of ${1} to ${archive}"
   mv "${1}" "${archive}"
@@ -63,7 +64,7 @@ function create_softlink() {
   local dest="${2}"
   local current_target=""
 
-  v_info "Checking if symlink ${RESET}${2}${GRAY} exists..."
+  v_info "Checking if symlink ${RESET}${dest}${GRAY} exists..."
 
   if is_symlink "${dest}"; then
     current_target="$(readlink "${dest}")"
@@ -86,12 +87,24 @@ function create_softlink() {
 
 # Create hardlink if it doesn't already exist.
 function create_hardlink() {
+  local src="${1}"
+  local dest="${2}"
+
   v_info "Checking if hardlink ${RESET}${2}${GRAY} exists..."
-  if file_missing "${2}"; then
-    info "Hard linking ${RESET}${2} -> ${1}${GRAY}"
-    ln -f "${1}" "${2}"
+  if [[ -e "${dest}" ]]; then
+    if [[ "${src}" -ef "${dest}" ]]; then
+      v_info "Hardlink ${RESET}${dest}${GRAY} already exists"
+      return
+    fi
+
+    archive_file "${dest}"
+  fi
+
+  if [[ ! -e "${dest}" ]]; then
+    info "Hard linking ${RESET}${dest} -> ${src}${GRAY}"
+    ln -f "${src}" "${dest}"
   else
-    v_info "Hardlink ${RESET}${2}${GRAY} already exists"
+    v_info "${RESET}${dest}${GRAY} already exists"
   fi
 }
 
