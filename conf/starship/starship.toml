@@ -23,22 +23,19 @@ $character
 palette = 'blues'
 
 [palettes.blues]
-warn    = '214'
+warn = '214'
 base-fg = '#e0e1dd'
 base-bg = '#2f2f42'
-dir-bg  = '#12293f'
-git-bg  = '#273654'
-aws-bg  = '#33465c'
-k8s-bg  = '#4f637d'
+dir-bg = '#12293f'
+git-bg = '#273654'
+aws-bg = '#33465c'
+k8s-bg = '#4f637d'
 
 
 ### Line 1 configs
 
 [os]
-disabled = false
-style = 'bg:base-bg fg:base-fg'
-[os.symbols]
-Macos = ' '
+disabled = true
 
 [shell]
 disabled = false
@@ -75,19 +72,19 @@ symbol = '[](bg:git-bg fg:base-fg)'
 
 [git_status]
 format = '[$ahead_behind $stashed$staged$modified$renamed$deleted$untracked$conflicted]($style)'
-style ='bg:git-bg fg:base-fg'
+style = 'bg:git-bg fg:base-fg'
 # $ahead_behind status
 up_to_date = '[•](bg:git-bg fg:base-fg)'
-ahead      = '[󰶼](bg:git-bg fg:warn)'
-behind     = '[󰶹](bg:git-bg fg:warn)'
-diverged   = '[✘](bg:git-bg fg:warn)'
+ahead = '[󰶼](bg:git-bg fg:warn)'
+behind = '[󰶹](bg:git-bg fg:warn)'
+diverged = '[✘](bg:git-bg fg:warn)'
 # other status
-stashed    = '[*$count ](bg:git-bg base-fg)'
-staged     = '[s$count ](bg:git-bg base-fg)'
-modified   = '[m$count ](bg:git-bg warn)'
-renamed    = '[r$count ](bg:git-bg warn)'
-deleted    = '[d$count ](bg:git-bg warn)'
-untracked  = '[u$count ](bg:git-bg warn)'
+stashed = '[*$count ](bg:git-bg base-fg)'
+staged = '[s$count ](bg:git-bg base-fg)'
+modified = '[m$count ](bg:git-bg warn)'
+renamed = '[r$count ](bg:git-bg warn)'
+deleted = '[d$count ](bg:git-bg warn)'
+untracked = '[u$count ](bg:git-bg warn)'
 conflicted = '[=$count ](bg:git-bg warn)'
 
 [aws]
