@@ -71,7 +71,7 @@ style = 'bg:git-bg fg:base-fg'
 symbol = '[](bg:git-bg fg:base-fg)'
 
 [git_status]
-format = '[$ahead_behind $stashed$staged$modified$renamed$deleted$untracked$conflicted]($style)'
+format = '[$ahead_behind $stashed$staged$modified$renamed$deleted$untracked$conflicted$typechanged]($style)'
 style = 'bg:git-bg fg:base-fg'
 # $ahead_behind status
 up_to_date = '[•](bg:git-bg fg:base-fg)'
@@ -79,18 +79,20 @@ ahead = '[󰶼](bg:git-bg fg:warn)'
 behind = '[󰶹](bg:git-bg fg:warn)'
 diverged = '[✘](bg:git-bg fg:warn)'
 # other status
-stashed = '[*$count ](bg:git-bg base-fg)'
-staged = '[s$count ](bg:git-bg base-fg)'
-modified = '[m$count ](bg:git-bg warn)'
-renamed = '[r$count ](bg:git-bg warn)'
-deleted = '[d$count ](bg:git-bg warn)'
-untracked = '[u$count ](bg:git-bg warn)'
-conflicted = '[=$count ](bg:git-bg warn)'
+stashed = '[*$count ](bg:git-bg fg:base-fg)'
+staged = '[s$count ](bg:git-bg fg:base-fg)'
+modified = '[m$count ](bg:git-bg fg:warn)'
+renamed = '[r$count ](bg:git-bg fg:warn)'
+deleted = '[d$count ](bg:git-bg fg:warn)'
+untracked = '[u$count ](bg:git-bg fg:warn)'
+conflicted = '[=$count ](bg:git-bg fg:warn)'
+typechanged = '[t$count ](bg:git-bg fg:warn)'
 
 [aws]
-format = '[$symbol($profile)/($region) ]($style)'
+format = '[$symbol($profile)(/$region) ]($style)'
 style = 'bg:aws-bg fg:base-fg'
 symbol = '[   ](bg:aws-bg fg:base-fg)'
+force_display = true
 [aws.profile_aliases]
 fusionauth-dev = 'dev'
 fusionauth-dev-admin = 'dev-admin'
