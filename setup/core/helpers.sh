@@ -11,7 +11,7 @@ function file_missing()    { if [[ -f "${1}" ]]; then return 1; else return 0; f
 function is_symlink()      { if [[ -L "${1}" ]]; then return 0; else return 1; fi }
 function not_symlink()     { if [[ -L "${1}" ]]; then return 1; else return 0; fi }
 # Tests for the functions above. If you uncomment this, it will run the tests and exit.
-# source "${MYDIR}/scripts/tests.sh"
+# source "${MYDIR}/setup/core/tests.sh"
 
 
 # Output functions

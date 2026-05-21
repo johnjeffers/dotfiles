@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# shellcheck disable=1091
+# shellcheck disable=1091,2034
 
 source "${MYDIR}/setup/core/globals.sh"
 source "${MYDIR}/setup/core/helpers.sh"
