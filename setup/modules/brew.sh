@@ -41,15 +41,15 @@ function install_brew() {
 
 
 function install_brewfiles() {
-  local v=""      # verbosity
+  local v=()        # verbosity
   local varname=""  # check to see if we want to apply the brewfile
 
   # Set the --verbose flag if VERBOSE=true
-  if [[ "${VERBOSE}" = true ]]; then v="--verbose"; fi
+  if [[ "${VERBOSE}" = true ]]; then v=(--verbose); fi
 
   # Always install the minimal.brewfile
   info "\nInstalling minimal brewfile"
-  brew bundle "${v}" --file "${MYDIR}/brew/minimal.brewfile"
+  brew bundle "${v[@]}" --file "${MYDIR}/brew/minimal.brewfile"
 
   # Loop through the remaining brewfiles.
   brewfiles=("base" "home" "music" "work")
@@ -58,7 +58,7 @@ function install_brewfiles() {
     varname="$(echo "BREW_$brewfile" | tr '[:lower:]' '[:upper:]')"
     if [[ "${!varname}" == true ]]; then
       info "\nInstalling ${brewfile} brewfile"
-      brew bundle "${v}" --file "${MYDIR}/brew/${brewfile}.brewfile"
+      brew bundle "${v[@]}" --file "${MYDIR}/brew/${brewfile}.brewfile"
   fi
   done
 }
