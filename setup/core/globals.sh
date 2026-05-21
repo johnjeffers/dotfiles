@@ -33,7 +33,6 @@ MODULES=(
   # app configs
   ssh
   git
-  aws
   iterm
   python
   sublime

@@ -44,7 +44,6 @@ The actual directory locations can be overridden, and the script will prompt you
 
 The script will create symlinks to dotfiles that configure various programs. Currently, this includes:
 
-* `~/.aws/config`
 * `~/.config/starship.toml`
 * `~/.bashrc`
 * `~/.bash_profile`
@@ -55,7 +54,6 @@ If any of these files already exist, the script will make a backup.
 
 ### Other Configuration
 
-* Configure AWS CLI
 * Configure iTerm2 to use the [preferences file](conf/iterm) in this repo
 * Install Python command-line tools with `uv` from the [tools file](conf/python/tools.txt).
 

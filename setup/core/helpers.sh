@@ -85,30 +85,6 @@ function create_softlink() {
 }
 
 
-# Create hardlink if it doesn't already exist.
-function create_hardlink() {
-  local src="${1}"
-  local dest="${2}"
-
-  v_info "Checking if hardlink ${RESET}${2}${GRAY} exists..."
-  if [[ -e "${dest}" ]]; then
-    if [[ "${src}" -ef "${dest}" ]]; then
-      v_info "Hardlink ${RESET}${dest}${GRAY} already exists"
-      return
-    fi
-
-    archive_file "${dest}"
-  fi
-
-  if [[ ! -e "${dest}" ]]; then
-    info "Hard linking ${RESET}${dest} -> ${src}${GRAY}"
-    ln -f "${src}" "${dest}"
-  else
-    v_info "${RESET}${dest}${GRAY} already exists"
-  fi
-}
-
-
 # Add a init_cmd to bash and zsh init files if it doesn't already exist.
 #
 # Usage:
