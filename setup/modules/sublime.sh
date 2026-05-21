@@ -85,7 +85,7 @@ EOF
 
 function configure_package_settings() {
   info "Configuring packages"
-  local python_venv="${HOME}/venvs/python3/bin/"
+  local python_tools="${HOME}/.local/bin/"
 
   # Monokai Pro
   info "- Monokai Pro"
@@ -107,7 +107,7 @@ EOF
 {
   "paths": {
     "osx": [
-      "$python_venv",
+      "$python_tools",
     ]
   },
   "linters": {

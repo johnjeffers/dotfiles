@@ -57,7 +57,7 @@ If any of these files already exist, the script will make a backup.
 
 * Configure AWS CLI
 * Configure iTerm2 to use the [preferences file](conf/iterm) in this repo
-* Create python venv, and run a `pip install` in that venv with the [requirements file](conf/python/requirements.txt).
+* Install Python command-line tools with `uv` from the [tools file](conf/python/tools.txt).
 
 ### Install Software with Brew
 
