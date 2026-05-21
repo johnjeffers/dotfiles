@@ -10,8 +10,12 @@ if file_exists "${MYDIR}/.env"; then
   source "${MYDIR}/.env"
 fi
 
-# If FLAGFILE or .env is missing, then ask to (re)set all the env vars
-if file_missing "${FLAGFILE}" || file_missing "$MYDIR/.env"; then
+function setup_env_file() {
+  # If FLAGFILE or .env is missing, then ask to (re)set all the env vars.
+  if file_exists "${FLAGFILE}" && file_exists "${MYDIR}/.env"; then
+    return
+  fi
+
   update_env_file "MY_NAME"      "Your full name for global gitconfig"
   update_env_file "MY_EMAIL"     "Your email addr for global gitconfig"
   update_env_file "MY_REPOS"     "Location of personal repos"
@@ -24,4 +28,7 @@ if file_missing "${FLAGFILE}" || file_missing "$MYDIR/.env"; then
   update_env_file "BREW_BASE"    "Install brewfile.base?"
   update_env_file "BREW_HOME"    "Install brewfile.home?"
   update_env_file "BREW_WORK"    "Install brewfile.work?"
-fi
+
+  # Use the values just written above for this same setup run.
+  source "${MYDIR}/.env"
+}

@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 function setup_sublime() {
-  if dir_missing "/Applications/Sublime Text.app" ]; then
+  if dir_missing "/Applications/Sublime Text.app"; then
     error "Sublime Text is not installed"
+    return
   fi
 
-  SUBL_PATH="$HOME/Library/Application Support/Sublime Text"
+  local SUBL_PATH="$HOME/Library/Application Support/Sublime Text"
 
   install_package_control
   install_packages

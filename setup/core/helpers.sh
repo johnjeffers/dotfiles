@@ -59,12 +59,27 @@ function link_with_backup() {
 
 # Create symlink if it doesn't already exist.
 function create_softlink() {
+  local src="${1}"
+  local dest="${2}"
+  local current_target=""
+
   v_info "Checking if symlink ${RESET}${2}${GRAY} exists..."
-  if file_missing "${2}"; then
-    info "Soft linking ${RESET}${2} -> ${1}${GRAY}"
-    ln -s -f "${1}" "${2}"
+
+  if is_symlink "${dest}"; then
+    current_target="$(readlink "${dest}")"
+    if [[ "${current_target}" == "${src}" ]]; then
+      v_info "Symlink ${RESET}${dest}${GRAY} already exists"
+      return
+    fi
+
+    info "Replacing symlink ${RESET}${dest} -> ${src}${GRAY}"
+    unlink "${dest}"
+    ln -s "${src}" "${dest}"
+  elif [[ ! -e "${dest}" ]]; then
+    info "Soft linking ${RESET}${dest} -> ${src}${GRAY}"
+    ln -s "${src}" "${dest}"
   else
-    v_info "Symlink ${RESET}${2}${GRAY} already exists"
+    v_info "${RESET}${dest}${GRAY} already exists"
   fi
 }
 

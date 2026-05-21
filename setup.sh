@@ -2,6 +2,7 @@
 # shellcheck disable=1090,1091,2153
 
 set -o errexit
+set -o errtrace
 set -o nounset
 set -o pipefail
 
@@ -14,6 +15,7 @@ source "${MYDIR}/setup/core/bootstrap.sh"
 
 function main() {
   argparse "$@"
+  setup_env_file
 
   if [[ "${DEBUG}" = true ]]; then set -xv; fi
 

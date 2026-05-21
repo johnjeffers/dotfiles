@@ -52,7 +52,7 @@ function install_brewfiles() {
   brew bundle "${v[@]}" --file "${MYDIR}/brew/minimal.brewfile"
 
   # Loop through the remaining brewfiles.
-  brewfiles=("base" "home" "music" "work")
+  brewfiles=("base" "home" "work")
   for brewfile in "${brewfiles[@]}"; do
     # Install the brewfile only if BREW_[brewfile] is set
     varname="$(echo "BREW_$brewfile" | tr '[:lower:]' '[:upper:]')"
