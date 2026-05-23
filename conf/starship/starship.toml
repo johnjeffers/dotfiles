@@ -12,7 +12,7 @@ $git_status\
 [](bg:aws-bg fg:git-bg)\
 $aws\
 [](bg:k8s-bg fg:aws-bg)\
-$kubernetes\
+${custom.kubernetes}\
 $terraform\
 $python\
 [](fg:k8s-bg)
@@ -25,6 +25,7 @@ palette = 'blues'
 [palettes.blues]
 warn = '214'
 base-fg = '#e0e1dd'
+dim-fg = '#a0a1a7'
 base-bg = '#2f2f42'
 dir-bg = '#12293f'
 git-bg = '#273654'
@@ -89,9 +90,10 @@ conflicted = '[=$count ](bg:git-bg fg:warn)'
 typechanged = '[t$count ](bg:git-bg fg:warn)'
 
 [aws]
-format = '[$symbol($profile)(/$region) ]($style)'
+format = '[$symbol($profile)(/$region) ]($style)([$duration ](bg:aws-bg fg:dim-fg))'
 style = 'bg:aws-bg fg:base-fg'
 symbol = '[   ](bg:aws-bg fg:base-fg)'
+expiration_symbol = 'creds expired'
 force_display = false
 [aws.profile_aliases]
 fusionauth-dev = 'dev'
@@ -99,20 +101,30 @@ fusionauth-dev-admin = 'dev-admin'
 fusionauth-prod = 'prod'
 fusionauth-prod-admin = 'prod-admin'
 fusionauth-svc-admin = 'svc-admin'
+[aws.region_aliases]
+af-south-1 = 'afs1'
+ap-northeast-2 = 'apn2'
+ap-southeast-1 = 'aps1'
+ap-southeast-2 = 'aps2'
+ca-central-1 = 'cac1'
+eu-central-1 = 'euc1'
+eu-north-1 = 'eun1'
+eu-west-1 = 'euw1'
+eu-west-2 = 'euw2'
+eu-west-3 = 'euw3'
+us-east-1 = 'use1'
+us-east-2 = 'use2'
+us-west-2 = 'usw2'
 
 [kubernetes]
-disabled = false
-format = '[$symbol$context:$namespace ]($style)'
-style = 'bg:k8s-bg fg:base-fg'
-symbol = '[ ⎈ ](bg:k8s-bg fg:base-fg)'
-# docker-desktop = 'docker'
-[[kubernetes.contexts]]
-context_pattern = 'docker-desktop'
-context_alias = 'local'
-[[kubernetes.contexts]]
-context_pattern = '.*prod.*'
-style = 'bg:k8s-bg fg:warn'
-symbol = '[ ⎈ ](bg:k8s-bg fg:warn)'
+disabled = true
+
+[custom.kubernetes]
+when = 'test -r "${KUBECONFIG:-$HOME/.kube/config}"'
+command = 'bash /Volumes/git/personal/dotfiles/conf/starship/kubeconfig-parse.sh'
+format = '$output'
+shell = ['bash']
+unsafe_no_escape = true
 
 [terraform]
 format = '[$symbol$workspace ]($style)'
