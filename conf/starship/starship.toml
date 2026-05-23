@@ -92,7 +92,7 @@ typechanged = '[t$count ](bg:git-bg fg:warn)'
 format = '[$symbol($profile)(/$region) ]($style)'
 style = 'bg:aws-bg fg:base-fg'
 symbol = '[   ](bg:aws-bg fg:base-fg)'
-force_display = true
+force_display = false
 [aws.profile_aliases]
 fusionauth-dev = 'dev'
 fusionauth-dev-admin = 'dev-admin'
