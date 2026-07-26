@@ -22,3 +22,7 @@ alias wkgpa='watch "kubectl get po --all-namespaces | grep -v '\''Completed'\'' 
 alias ssologin='aws sso login --profile ${SSO_PROFILE:-fusionauth-dev}'
 alias ecrlogin='aws ecr get-login-password --profile ${SSO_PROFILE:-fusionauth-svc-admin} | docker login --username AWS --password-stdin 752443094709.dkr.ecr.us-west-2.amazonaws.com'
 # alias npmlogin='aws codeartifact login --profile $SSO_PROFILE --tool npm --repository npm --domain fusionauth-svc --domain-owner 752443094709'
+
+# git aliases
+# Cleans up local git branches that have been removed from the remote, excluding the main branch.
+alias git-branch-cleanup='git fetch --prune && git branch -vv | awk '\''/: gone]/{print $1}'\'' | grep -v '\''^main$'\'' | xargs git branch -D'

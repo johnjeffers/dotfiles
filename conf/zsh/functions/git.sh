@@ -46,8 +46,3 @@ function git-pretty-log() {
     column -t -s '{' |
     less -XRS --quit-if-one-screen
 }
-
-# Deletes all local merged branches
-function git-delete-merged-branches() {
-  git branch --merged | grep -v \* | xargs git branch -D
-}

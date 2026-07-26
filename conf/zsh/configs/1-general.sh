@@ -20,6 +20,9 @@ source "$ZSH/oh-my-zsh.sh"
 ### Starship - https://starship.rs
 eval "$(starship init zsh)"
 
+### fzf
+eval "$(fzf --zsh)"
+
 ### zsh plugins
 # zsh-autosuggestions - https://github.com/zsh-users/zsh-autosuggestions
 source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
