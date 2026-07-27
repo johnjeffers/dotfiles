@@ -1,5 +1,5 @@
 # cask 'discord'
-cask 'openvpn-connect'
-cask 'royal-tsx'
+# cask 'openvpn-connect'
+# cask 'royal-tsx'
 cask 'superduper'
 # cask 'transmit'

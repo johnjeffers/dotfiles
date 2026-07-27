@@ -9,20 +9,10 @@ cask 'beyond-compare'
 # cask 'google-chrome'
 cask 'logi-options+'
 cask 'signal'
-# cask 'slack'  # installed by kandji
+# cask 'slack'
 cask 'sublime-merge'
-# cask 'visual-studio-code'  # installed by kandji
+# cask 'visual-studio-code'
 cask 'zoom'
 
 # mas 'DaisyDisk', id: 411643860
 mas 'Pixelmator Pro', id: 1289583905
-
-# vscode "bierner.markdown-preview-github-styles"
-# vscode "monokai.theme-monokai-pro-vscode"
-# vscode "ms-azuretools.vscode-docker"
-# vscode "ms-python.python"
-# vscode "ms-python.vscode-pylance"
-# vscode "ms-vscode-remote.remote-containers"
-# vscode "ms-vscode.makefile-tools"
-# vscode "timonwong.shellcheck"
-# vscode "twixes.pypi-assistant"
