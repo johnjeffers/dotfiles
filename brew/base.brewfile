@@ -1,12 +1,11 @@
 brew 'bash'
 brew 'jq'
+brew 'rg'
 brew 'shellcheck'
 brew 'telnet'
-brew 'the_silver_searcher'
 brew 'watch'
 
 cask 'beyond-compare'
-# cask 'google-chrome'
 cask 'logi-options+'
 cask 'signal'
 # cask 'slack'
