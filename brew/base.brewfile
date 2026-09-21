@@ -1,4 +1,5 @@
 brew 'bash'
+brew 'fzf'
 brew 'jq'
 brew 'rg'
 brew 'shellcheck'

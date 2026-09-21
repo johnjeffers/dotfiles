@@ -3,6 +3,7 @@ tap "buo/cask-upgrade"
 brew 'git'
 brew 'gettext'
 brew 'mas'
+brew 'mise'
 brew 'starship'
 brew 'uv'
 brew 'wget'
