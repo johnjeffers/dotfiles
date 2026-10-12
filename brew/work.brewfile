@@ -1,17 +1,17 @@
 tap "aws/tap"
-tap "hashicorp/tap"
+# tap "hashicorp/tap"
 
 brew 'act'
 brew 'awscli'
 brew 'aws/tap/eks-node-viewer'
 brew 'gh'
-brew 'helm'
+# brew 'helm'
 brew 'hey'
 brew 'httpie'
 brew 'kubectx'
 brew 'kubernetes-cli'
-brew 'stern'
-brew 'hashicorp/tap/terraform'
-brew 'trivy'
+# brew 'stern'
+# brew 'hashicorp/tap/terraform'
+# brew 'trivy'
 
 cask 'orbstack'
